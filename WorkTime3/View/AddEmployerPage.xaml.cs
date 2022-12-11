@@ -6,4 +6,22 @@ public partial class AddEmployerPage : ContentPage
     {
         InitializeComponent();
     }
+
+    //protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
+    //{
+    //    base.OnNavigatingFrom(args);
+    //    Title = String.Empty;
+    //}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Title = "Add Employer";
+    }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        Title = String.Empty;
+    }
+
 }

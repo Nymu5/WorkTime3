@@ -6,4 +6,16 @@ public partial class EmployerPage : ContentPage
     {
         InitializeComponent();
     }
+
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Title = "Employers";
+    }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        Title = String.Empty;
+    }
 }

@@ -6,4 +6,16 @@ public partial class SettingsPage : ContentPage
     {
         InitializeComponent();
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Title = "Settings";
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        Title = String.Empty;
+    }
 }

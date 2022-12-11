@@ -1,10 +1,14 @@
-﻿namespace WorkTime3;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public partial class MainPage : ContentPage
+namespace WorkTime3.View;
+
+public partial class AddTimePage : ContentPage
 {
-    private int count;
-
-    public MainPage()
+    public AddTimePage()
     {
         InitializeComponent();
     }
@@ -12,7 +16,7 @@ public partial class MainPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Title = "Home";
+        Title = "Add Time";
     }
 
     protected override void OnDisappearing()
