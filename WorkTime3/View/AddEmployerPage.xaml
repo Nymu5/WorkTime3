@@ -10,15 +10,14 @@
         <controller:AddEmployerController />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="Fill" Margin="10">
+        <StackLayout Orientation="Vertical" HorizontalOptions="Fill" VerticalOptions="FillAndExpand" Margin="10">
             <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Name" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
             <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Employer #" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Description" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
             <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Salary" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
             <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Address Line 1" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
             <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Address Line 2" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-            <controls:BorderedEditor ControlTemplate="{StaticResource BorderedEditorTemplate}" EditorLabel="Address Line 2" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-            <Editor />
-        </VerticalStackLayout>
+            <controls:BorderedEditor VerticalOptions="FillAndExpand" ControlTemplate="{StaticResource BorderedEditorTemplate}" EditorLabel="Description" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+        </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>

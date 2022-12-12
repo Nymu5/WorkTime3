@@ -23,5 +23,4 @@ public partial class AddEmployerPage : ContentPage
         base.OnDisappearing();
         Title = String.Empty;
     }
-
 }

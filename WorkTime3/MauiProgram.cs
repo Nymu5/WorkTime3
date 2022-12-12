@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Handlers;
 using WorkTime3.Controller;
 using WorkTime3.Core;
+using WorkTime3.Resources.Templates;
 using WorkTime3.View;
 
 namespace WorkTime3;
