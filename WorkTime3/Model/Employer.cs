@@ -42,8 +42,44 @@ public class Employer : ControllerBase
         set => SetProperty(ref _name, value);
     }
     private long _employerNb;
+
+    public long EmployerNb
+    {
+        get => _employerNb;
+        set => SetProperty(ref _employerNb, value);
+    }
     private string _description;
+
+    public string Description
+    {
+        get => _description;
+        set => SetProperty(ref _description, value);
+    }
     private float _salary;
+
+    public float Salary
+    {
+        get => _salary;
+        set => SetProperty(ref _salary, value); 
+    }
     private string _addressLine1;
+
+    public string AddressLine1
+    {
+        get => _addressLine1;
+        set => SetProperty(ref _addressLine1, value);
+    }
     private string _addressLine2;
+
+    public string AddressLine2
+    {
+        get => _addressLine2;
+        set => SetProperty(ref _addressLine2, value);
+    }
+
+    public static string getUUID()
+    {
+        Guid myuuid = Guid.NewGuid();
+        return myuuid.ToString();
+    }
 }

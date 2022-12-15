@@ -40,6 +40,14 @@
                 HorizontalOptions="Center" />
 
             <Entry HorizontalOptions="Fill" Text="{Binding Txt}" />
+            <Grid BackgroundColor="Blue" Margin="10,0,10,0">
+                <StackLayout Orientation="Vertical" BackgroundColor="Red" Margin="0,2,0,2">
+                    <Label Text="Name" FontAttributes="Bold" FontSize="Header" />
+                    <Label Text="Id" />
+                </StackLayout>
+            </Grid>
+            
+            
 
         </VerticalStackLayout>
     </ScrollView>

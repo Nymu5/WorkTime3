@@ -1,25 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace WorkTime3.View;
 
-public partial class EmployerPage : ContentPage
+public partial class DetailEmployerPage : ContentPage
 {
-    public EmployerPage()
+    public DetailEmployerPage()
     {
         InitializeComponent();
     }
-
-
+    
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Title = "Employers";
+        Title = "Details";
     }
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
         Title = String.Empty;
-    }
-
-    void RefreshView_Refreshing(System.Object sender, System.EventArgs e)
-    {
     }
 }

@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controller="clr-namespace:WorkTime3.Controller"
-             x:Class="WorkTime3.View.EmployerPage"
+             xmlns:model="clr-namespace:WorkTime3.Model"
+             x:Class="WorkTime3.View.EmployerPage"            
              Title="Employer">
     <ContentPage.BindingContext>
         <controller:EmployerController />
@@ -11,6 +12,33 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="plus_icon.png" Command="{Binding CreateEmployer}" />
     </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
+        <Grid>
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+                <ContentView>
+                    <CollectionView SelectionMode="Single"
+                                    SelectionChangedCommand="{Binding SelectionChangedCommand}"
+                                    ItemsSource="{Binding Employers}" SelectedItem="{Binding SelectedEmployer}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Name}"
+                                           FontAttributes="Bold"
+                                           FontSize="Medium"
+                                           Margin="10,2,10,2"/>
+                                    <Label Grid.Row="1"
+                                           Text="{Binding Id}"
+                                           FontAttributes="Italic"
+                                           VerticalOptions="End"
+                                           Margin="10,0,10,2"/>
+                                    <Border BackgroundColor="Gray" HeightRequest="2" />
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ContentView>
+            </RefreshView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -14,4 +14,7 @@ public partial class BorderedEditor : ContentView
     
     [AutoBindable(DefaultValue = "Colors.LightGray")]
     private readonly Color _borderColor;
+    
+    [AutoBindable(PropertyName = "EntryText", DefaultBindingMode = nameof(BindingMode.TwoWay))]
+    private readonly string _entryText; 
 }

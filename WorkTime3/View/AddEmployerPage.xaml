@@ -9,14 +9,17 @@
     <ContentPage.BindingContext>
         <controller:AddEmployerController />
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveEmployerCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" HorizontalOptions="Fill" VerticalOptions="FillAndExpand" Margin="10">
-            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Name" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Employer #" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Salary" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Address Line 1" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryLabel="Address Line 2" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-            <controls:BorderedEditor VerticalOptions="FillAndExpand" ControlTemplate="{StaticResource BorderedEditorTemplate}" EditorLabel="Description" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryText="{Binding Name}" EntryLabel="Name" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryText="{Binding EmployerNb}" EntryLabel="Employer #" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryText="{Binding Salary}" EntryLabel="Salary" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryText="{Binding AddressLine1}" EntryLabel="Address Line 1" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+            <controls:BorderedEntry ControlTemplate="{StaticResource BorderedEntryTemplate}" EntryText="{Binding AddressLine2}" EntryLabel="Address Line 2" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+            <controls:BorderedEditor VerticalOptions="FillAndExpand" ControlTemplate="{StaticResource BorderedEditorTemplate}" EntryText="{Binding Description}" EditorLabel="Description" BorderColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
         </StackLayout>
         
     </ContentPage.Content>

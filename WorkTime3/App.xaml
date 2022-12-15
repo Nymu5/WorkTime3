@@ -18,7 +18,7 @@
                     </Border>
                     <VerticalStackLayout Margin="13,0,13,14">
                         <Label x:Name="Label" Text="{Binding EntryLabel}" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" HorizontalOptions="Start" Padding="5,0,5,0" />
-                        <Entry Background="{AppThemeBinding Dark={StaticResource Gray900}}" />
+                        <Entry Text="{Binding EntryText}" Background="{AppThemeBinding Dark={StaticResource Gray900}}" />
                     </VerticalStackLayout>
                 </Grid>
             </ControlTemplate>
@@ -31,10 +31,18 @@
                     </Border>
                     <StackLayout Orientation="Vertical" Margin="13,0,13,14" VerticalOptions="FillAndExpand">
                         <Label x:Name="Label" Text="{Binding EditorLabel}" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" HorizontalOptions="Start" Padding="5,0,5,0" />
-                        <Editor Background="{AppThemeBinding Dark={StaticResource Gray900}}" VerticalOptions="FillAndExpand" />
+                        <Editor Text="{Binding EntryText}" Background="{AppThemeBinding Dark={StaticResource Gray900}}" VerticalOptions="FillAndExpand" />
                     </StackLayout>
                 </Grid>
             </ControlTemplate>
+            <DataTemplate x:Key="EmployerTemplate">
+                <Grid BackgroundColor="Gray" HorizontalOptions="Fill">
+                    <StackLayout Orientation="Vertical" BackgroundColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}" Margin="10,2,10,2">
+                        <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Header" />
+                        <Label Text="{Binding Id}" />
+                    </StackLayout>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
