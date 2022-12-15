@@ -35,14 +35,14 @@
                     </StackLayout>
                 </Grid>
             </ControlTemplate>
-            <DataTemplate x:Key="EmployerTemplate">
-                <Grid BackgroundColor="Gray" HorizontalOptions="Fill">
-                    <StackLayout Orientation="Vertical" BackgroundColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}" Margin="10,2,10,2">
-                        <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Header" />
-                        <Label Text="{Binding Id}" />
+            <ControlTemplate x:Key="DetailLabelTemplate">
+                <Grid BindingContext="{Binding Source={RelativeSource TemplatedParent}}" VerticalOptions="FillAndExpand">
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="{Binding Label}" />
+                        <Label Text="{Binding Content}" />
                     </StackLayout>
                 </Grid>
-            </DataTemplate>
+            </ControlTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
