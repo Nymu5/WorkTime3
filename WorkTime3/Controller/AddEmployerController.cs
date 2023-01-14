@@ -1,33 +1,39 @@
 using System.Windows.Input;
-using WorkTime3.Core;
-using WorkTime3.Model;
-using WorkTime3.View;
+using MyTime.Core;
+using MyTime.Model;
+using MyTime.View;
 
-namespace WorkTime3.Controller;
+namespace MyTime.Controller;
+
+[QueryProperty(nameof(Employer), "Employer")]
 
 public class AddEmployerController : ControllerBase
 {
-    private WorkTime3Database _db;
+    private MyTimeDatabase _db;
     private string _id = null; 
     public AddEmployerController()
     {
-        _db = new WorkTime3Database();
-        TestCommand = new Command(
-            execute: () =>
-            {
-                Shell.Current.GoToAsync(nameof(AddTimePage)); 
-            }, canExecute: () => true);
+        _db = new MyTimeDatabase();
         SaveEmployerCommand = new Command(
             execute: async () =>
             {
-                Employer employer = new Employer();
-                if (_id == null)
+                Employer employer;
+                if (Employer == null)
                 {
-                    do
+                    employer = new Employer();
+                    if (_id == null)
                     {
-                        employer.Id = Employer.getUUID();
-                    } while (await _db.GetEmployerAsync(employer.Id) != null); 
+                        do
+                        {
+                            employer.Id = Employer.getUUID();
+                        } while (await _db.GetEmployerAsync(employer.Id) != null); 
+                    }
                 }
+                else
+                {
+                    employer = Employer;
+                }
+                
                 employer.Name = Name;
                 employer.EmployerNb = EmployerNb;
                 employer.Salary = Salary;
@@ -46,6 +52,23 @@ public class AddEmployerController : ControllerBase
     {
         get => _title;
         set => SetProperty(ref _title, value);
+    }
+
+    private Employer _employer;
+
+    public Employer Employer
+    {
+        get => _employer;
+        set
+        {
+            SetProperty(ref _employer, value);
+            Name = Employer.Name;
+            EmployerNb = Employer.EmployerNb;
+            Salary = Employer.Salary;
+            AddressLine1 = Employer.AddressLine1;
+            AddressLine2 = Employer.AddressLine2;
+            Description = Employer.Description;
+        }
     }
     
     public ICommand TestCommand { get; set; }

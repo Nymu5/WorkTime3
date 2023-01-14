@@ -1,4 +1,4 @@
-namespace WorkTime3.View;
+namespace MyTime.View;
 
 public partial class SettingsPage : ContentPage
 {
@@ -10,7 +10,8 @@ public partial class SettingsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Title = "Settings";
+        //Title = "Settings";
+        Title = String.Empty;
     }
 
     protected override void OnDisappearing()

@@ -1,11 +1,6 @@
-using WorkTime3.Core;
+namespace MyTime.Controller;
 
-namespace WorkTime3.Controller;
-
-public class AddTimeController : ControllerBase
+public class AddTimeController
 {
-    public AddTimeController()
-    {
-        
-    }
+    
 }

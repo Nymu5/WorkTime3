@@ -1,7 +1,6 @@
-﻿using WorkTime3.View;
-using AddTimeController = WorkTime3.Controller.AddTimeController;
+﻿using MyTime.View;
 
-namespace WorkTime3;
+namespace MyTime;
 
 public partial class AppShell : Shell
 {
@@ -10,10 +9,11 @@ public partial class AppShell : Shell
         
         InitializeComponent();
         
+        Routing.RegisterRoute(nameof(AddTimePage), typeof(AddTimePage));
         Routing.RegisterRoute(nameof(AddEmployerPage), typeof(AddEmployerPage));
         Routing.RegisterRoute(nameof(DetailEmployerPage), typeof(DetailEmployerPage));
-        Routing.RegisterRoute(nameof(AddTimePage), typeof(AddTimePage));
-
-        Console.WriteLine("Drecksbums");
+        Routing.RegisterRoute(nameof(PersonalDetailsPage), typeof(PersonalDetailsPage));
+        Routing.RegisterRoute(nameof(BankInformationPage), typeof(BankInformationPage));
+        Routing.RegisterRoute(nameof(RegionalSettingsPage), typeof(RegionalSettingsPage));
     }
 }

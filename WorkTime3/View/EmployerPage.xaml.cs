@@ -1,4 +1,4 @@
-namespace WorkTime3.View;
+namespace MyTime.View;
 
 public partial class EmployerPage : ContentPage
 {
@@ -11,7 +11,8 @@ public partial class EmployerPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Title = "Employers";
+        //Title = "Employers";
+        Title = String.Empty;
     }
     protected override void OnDisappearing()
     {

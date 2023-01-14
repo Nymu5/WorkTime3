@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace WorkTime3;
+namespace MyTime;
 
 class Program : MauiApplication
 {

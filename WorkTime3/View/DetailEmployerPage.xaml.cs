@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkTime3.View;
+namespace MyTime.View;
 
 public partial class DetailEmployerPage : ContentPage
 {
@@ -16,7 +16,8 @@ public partial class DetailEmployerPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Title = "Details";
+        //Title = "Details";
+        Title = String.Empty;
     }
     protected override void OnDisappearing()
     {

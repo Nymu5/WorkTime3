@@ -1,7 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using WorkTime3.Core;
+using DynamicData;
+using SQLite;
+using SQLiteNetExtensions.Attributes;
+using MyTime.Core;
 
-namespace WorkTime3.Model;
+namespace MyTime.Model;
 
 public class Employer : ControllerBase
 {
@@ -14,7 +18,24 @@ public class Employer : ControllerBase
         _salary = 0;
         _addressLine1 = String.Empty;
         _addressLine2 = String.Empty;
+        _times = new SourceCache<Time, string>(t => t.Id);
     }
+
+    public bool istString(double a)
+    {
+
+        return true;
+    }
+
+    public bool istString(int b, double c)
+    {
+        return false;
+    }
+    public bool istString(int b, float c)
+    {
+        return false;
+    }
+    
 
     public Employer(string id, string name, long employerNb = 0, string description = "", float salary = 0, string addressLine1 = "", string addressLine2 = "")
     {
@@ -25,10 +46,13 @@ public class Employer : ControllerBase
         _salary = salary;
         _addressLine1 = addressLine1;
         _addressLine2 = addressLine2;
+        _times = new SourceCache<Time, string>(t => t.Id);
     }
-
+    
+    [Key]
     private string _id;
 
+    [PrimaryKey]
     public string Id
     {
         get => _id;
@@ -81,5 +105,13 @@ public class Employer : ControllerBase
     {
         Guid myuuid = Guid.NewGuid();
         return myuuid.ToString();
+    }
+
+    private SourceCache<Time, string> _times;
+    [OneToMany]
+    public SourceCache<Time, string> Times
+    {
+        get => _times;
+        set => SetProperty(ref _times, value);
     }
 }

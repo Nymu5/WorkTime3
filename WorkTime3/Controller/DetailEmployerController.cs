@@ -1,15 +1,34 @@
-using WorkTime3.Core;
-using WorkTime3.Model;
+using System.Windows.Input;
+using MyTime.Core;
+using MyTime.Model;
 
-namespace WorkTime3.Controller;
+namespace MyTime.Controller;
 
 [QueryProperty(nameof(Employer), "Employer")]
 [QueryProperty(nameof(EmployerId), "EmployerId")]
 public class DetailEmployerController : ControllerBase
 {
+    private MyTimeDatabase _db;
     public DetailEmployerController()
     {
-        
+        _db = new MyTimeDatabase();
+        EditEmployerCommand = new Command(canExecute: () => true, execute: () =>
+        {
+            if (Employer == null) return; 
+            Shell.Current.GoToAsync("AddEmployerPage", new Dictionary<string, object>
+            {
+                {"Employer", Employer},
+            });
+        });
+        DeleteEmployerCommand = new Command(canExecute: () => true, execute: async () =>
+        {
+            var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete {Employer.Name}?",
+                "Cancel", "Yes");
+            if (result != "Yes") return;
+            await _db.DeleteEmployerAsync(Employer);
+            await Shell.Current.GoToAsync("..");
+        });
+
     }
 
     private Employer _employer;
@@ -30,4 +49,7 @@ public class DetailEmployerController : ControllerBase
             Console.WriteLine($"HALLLOOOOOOOOOOO: {_employer}");
         }
     }
+    
+    public ICommand EditEmployerCommand { get; set; }
+    public ICommand DeleteEmployerCommand { get; set; }
 }

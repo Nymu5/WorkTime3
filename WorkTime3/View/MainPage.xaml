@@ -2,54 +2,90 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controller="clr-namespace:WorkTime3.Controller"
-             x:Class="WorkTime3.MainPage">
+             xmlns:controller="clr-namespace:MyTime.Controller"
+             xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="MyTime.View.MainPage"
+             Background="White">
     <ContentPage.BindingContext>
         <controller:MainController />
     </ContentPage.BindingContext>
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding LoadDashboardCommand}" />
+    </ContentPage.Behaviors>
+    <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}" Padding="10,0,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Text="Overview" FontFamily="" FontSize="Title"
+                   Margin="20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="{Binding Txt}"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center"/>
-
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Command="{Binding TestCommand}"
-                HorizontalOptions="Center" />
-
-            <Entry HorizontalOptions="Fill" Text="{Binding Txt}" />
-            <Grid BackgroundColor="Blue" Margin="10,0,10,0">
-                <StackLayout Orientation="Vertical" BackgroundColor="Red" Margin="0,2,0,2">
-                    <Label Text="Name" FontAttributes="Bold" FontSize="Header" />
-                    <Label Text="Id" />
-                </StackLayout>
-            </Grid>
-            
-            
-
-        </VerticalStackLayout>
-    </ScrollView>
-
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    Margin="10,10,10,10" Padding="10">
+                <Border.Shadow>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                </Border.Shadow>
+                <Grid>
+                    <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
+                        <Label Text="{Binding EmployersCount}" HorizontalOptions="Center" FontSize="32" FontAttributes="Bold" FontFamily=""/>
+                        <Label Text="Employers" HorizontalOptions="Center" />
+                    </StackLayout>
+                </Grid>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    Margin="10,10,10,10" Padding="10">
+                <Border.Shadow>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                </Border.Shadow>
+                <Grid>
+                    <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
+                        <Label Text="3.588" HorizontalOptions="Center" FontSize="32" FontAttributes="Bold" FontFamily=""/>
+                        <Label Text="Hours" HorizontalOptions="Center" />
+                    </StackLayout>
+                </Grid>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    Margin="10,10,10,0" Padding="10">
+                <Border.Shadow>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                </Border.Shadow>
+                <Grid>
+                    <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
+                        <Label Text="17.864,00 €" HorizontalOptions="Center" FontSize="32" FontAttributes="Bold" FontFamily=""/>
+                        <Label Text="Total" HorizontalOptions="Center"/>
+                    </StackLayout>
+                </Grid>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    Margin="10,10,10,0" Padding="10">
+                <Border.Shadow>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                </Border.Shadow>
+                <Grid>
+                    <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
+                        <Label Text="37" HorizontalOptions="Center" FontSize="32" FontAttributes="Bold" FontFamily=""/>
+                        <Label Text="Times Worked" HorizontalOptions="Center" />
+                    </StackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+        
+    </Grid>
 </ContentPage>

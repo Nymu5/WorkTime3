@@ -1,10 +1,11 @@
 using SQLite;
+using MyTime.Model;
 
-namespace WorkTime3.Core;
+namespace MyTime.Core;
 
 public static class Constants
 {
-    private const string DatabaseFilename = "WorkTime3.db3";
+    private const string DatabaseFilename = "MyTime.db3";
 
     public const SQLite.SQLiteOpenFlags Flags =
         SQLiteOpenFlags.ReadWrite |
@@ -12,4 +13,8 @@ public static class Constants
         SQLiteOpenFlags.SharedCache;
 
     public static string DatabasePath => Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
+
+    public static List<Currency> Currencies;
+
+    public static List<DSeparator> DSeparators;
 }

@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace WorkTime3;
+namespace MyTime;
 
 [Application]
 public class MainApplication : MauiApplication

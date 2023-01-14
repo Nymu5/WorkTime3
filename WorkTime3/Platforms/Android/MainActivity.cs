@@ -2,7 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 
-namespace WorkTime3;
+namespace MyTime;
 
 [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true,
     ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode |

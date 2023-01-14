@@ -1,6 +1,6 @@
-using WorkTime3.View;
+using MyTime.View;
 
-namespace WorkTime3;
+namespace MyTime;
 
 public class CustomAppShell : AppShell
 {

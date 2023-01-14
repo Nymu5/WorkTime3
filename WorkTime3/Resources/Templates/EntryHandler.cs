@@ -4,7 +4,7 @@ using UIKit;
 using Foundation;
 
 
-namespace WorkTime3;
+namespace MyTime;
 
 /// <summary>
 /// An EntryHandler that overrides the MAUI Platform Entry Handler to better handle Entry focus events.

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyTime.View.BankInformationPage"
+             xmlns:controller="clr-namespace:MyTime.Controller">
+    <ContentPage.BindingContext>
+        <controller:BankInformationController />
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label Text="Bank Information" FontFamily="" FontSize="Title"
+                   Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center"/>
+            <StackLayout Orientation="Vertical" Grid.Row="1">
+                <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                        StrokeShape="RoundRectangle 20,20,20,20"
+                        Margin="20,10,20,10" Padding="10">
+                    <Border.Shadow>
+                        <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                                Offset="0,30" Radius="40" Opacity="0.8" />
+                    </Border.Shadow>
+                    <Grid>
+                        <StackLayout Orientation="Vertical" Margin="10,10,10,10">
+                            <Label Text="Bank Name" FontFamily="" FontAttributes="Bold" FontSize="Header" />
+                            <Entry Margin="0, 5, 0, 10" Text="{Binding Settings.BankName}" />
+                            <Label Text="IBAN" FontFamily="" FontAttributes="Bold" FontSize="Header" />
+                            <Entry Margin="0, 5, 0, 10" Text="{Binding Settings.BankIban}" />
+                            <Label Text="BIC" FontFamily="" FontAttributes="Bold" FontSize="Header" />
+                            <Entry Margin="0, 5, 0, 10" Text="{Binding Settings.BankBic}" />
+                        </StackLayout>
+                    </Grid>
+                </Border>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

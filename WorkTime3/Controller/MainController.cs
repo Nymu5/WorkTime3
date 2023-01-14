@@ -1,34 +1,42 @@
 using System.Windows.Input;
-using WorkTime3.Core;
+using DynamicData;
+using MyTime.Core;
+using MyTime.Model;
 
-namespace WorkTime3.Controller;
+namespace MyTime.Controller;
 
 public class MainController : ControllerBase
 {
-    private string _txt = "Mole";
-
+    private MyTimeDatabase _db = new MyTimeDatabase(); 
     public MainController()
     {
-        TestCommand = new Command(
-            () =>
-            {
-                Txt = "Bimbo";
-                (TestCommand as Command)?.ChangeCanExecute();
-                Console.WriteLine();
-            },
-            () => _txt != "Bimbo");
+        LoadDashboardCommand = new Command(execute: async () =>
+        {
+            SourceCache<Employer, string> Employers = await _db.GetEmployersAsync();
+            EmployersCount = Employers.Count;
+        });
     }
 
     // Commands
-    public ICommand TestCommand { get; set; }
-
-    public string Txt
+    public ICommand LoadDashboardCommand { get; }
+    
+    // Properties
+    private SourceCache<Employer, string> _employers;
+    public SourceCache<Employer, string> Employers
     {
-        get => _txt;
+        get => _employers;
         set
         {
-            SetProperty(ref _txt, value);
-            (TestCommand as Command)?.ChangeCanExecute();
-        }
+            SetProperty(ref _employers, value);
+        } 
     }
+
+    private int _employersCount;
+    public int EmployersCount
+    {
+        get => _employersCount;
+        set => SetProperty(ref _employersCount, value);
+    }
+    
+    // Functions
 }

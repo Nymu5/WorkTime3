@@ -4,18 +4,18 @@ using System.Windows.Input;
 using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
-using WorkTime3.Core;
-using WorkTime3.Model;
-using WorkTime3.View;
+using MyTime.Core;
+using MyTime.Model;
+using MyTime.View;
 
-namespace WorkTime3.Controller;
+namespace MyTime.Controller;
 
 public class EmployerController : ControllerBase
 {
-    private WorkTime3Database _db;
+    private MyTimeDatabase _db;
     public EmployerController()
     {
-        _db = new WorkTime3Database();
+        _db = new MyTimeDatabase();
         CreateEmployer = new Command(() =>
         {
             //Shell.Current.GoToAsync(nameof(AddEmployerPage));

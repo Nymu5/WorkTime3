@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace WorkTime3;
+namespace MyTime;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

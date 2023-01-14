@@ -1,6 +1,6 @@
 using Maui.BindableProperty.Generator.Core;
 
-namespace WorkTime3.Resources.Templates;
+namespace MyTime.Resources.Templates;
 
 public partial class BorderedEntry : ContentView
 {

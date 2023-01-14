@@ -2,18 +2,56 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controller="clr-namespace:WorkTime3.Controller"
-             xmlns:controls="clr-namespace:WorkTime3.Resources.Templates"
-             x:Class="WorkTime3.View.DetailEmployerPage">
+             xmlns:controller="clr-namespace:MyTime.Controller"
+             xmlns:controls="clr-namespace:MyTime.Resources.Templates"
+             x:Class="MyTime.View.DetailEmployerPage">
     <ContentPage.BindingContext>
         <controller:DetailEmployerController />
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit" Command="{Binding EditEmployerCommand}" />
+        <ToolbarItem Text=" | " />
+        <ToolbarItem Text="Delete" Command="{Binding DeleteEmployerCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <StackLayout Orientation="Vertical">
-                <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
-                                      Content="{Binding Employer.Name}"
-                                      Label="Name"/>
+        <Grid BackgroundColor="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Picker SelectedItem=""></Picker>
+            <Label Text="{Binding Employer.Name}" FontFamily="" FontSize="Title"
+                   Margin="20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
+            <StackLayout Grid.Row="1" Orientation="Vertical">
+                <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                        StrokeShape="RoundRectangle 20,20,20,20"
+                        Margin="20,10,20,10" Padding="10">
+                    <Border.Shadow>
+                        <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                    </Border.Shadow>
+                    <Grid>
+                        <StackLayout Orientation="Vertical" Margin="10, 10, 10, 10">
+                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
+                                                  Content="{Binding Employer.Id}"
+                                                  Label="ID" Margin="0,0,0,20"/>
+                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
+                                                  Content="{Binding Employer.AddressLine1}"
+                                                  Label="Address Line 1" Margin="0,0,0,20"/>
+                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
+                                                  Content="{Binding Employer.AddressLine2}"
+                                                  Label="Address Line 2" Margin="0,0,0,20"/>
+                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
+                                                  Content="{Binding Employer.EmployerNb}"
+                                                  Label="Employer Number" Margin="0,0,0,20"/>
+                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
+                                                  Content="{Binding Employer.Salary}"
+                                                  Label="Salary" Margin="0,0,0,20"/>
+                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
+                                                  Content="{Binding Employer.Description}"
+                                                  Label="Description" Margin="0,0,0,20"/>
+                        </StackLayout>
+                    </Grid>
+                </Border>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

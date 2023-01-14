@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace WorkTime3;
+namespace MyTime;
 
 public class Program
 {

@@ -1,12 +1,31 @@
-using WorkTime3.Core;
+using SQLite;
+using SQLiteNetExtensions.Attributes;
+using MyTime.Core;
 
-namespace WorkTime3.Model;
+namespace MyTime.Model;
 
 public class Settings : ControllerBase
 {
     public Settings()
     {
-        
+        _id = String.Empty;
+        _name = String.Empty;
+        _taxId = String.Empty;
+        _addressLine1 = String.Empty;
+        _addressLine2 = String.Empty;
+        _bankName = String.Empty;
+        _bankIban = String.Empty;
+        _bankBic = String.Empty;
+        _currency = Constants.Currencies[0];;
+        _dSeparator = Constants.DSeparators[0];
+    }
+
+    private string _id;
+    [PrimaryKey]
+    public string Id
+    {
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
 
     private string _name;
@@ -58,5 +77,25 @@ public class Settings : ControllerBase
         set => SetProperty(ref _bankBic, value);
     }
     
+    [ForeignKey(typeof(Currency))]
+    public string CurrencyId { get; set; }
     
+    private Currency _currency;
+    [OneToOne]
+    public Currency Currency
+    {
+        get => _currency;
+        set => SetProperty(ref _currency, value);
+    }
+    
+    [ForeignKey(typeof(DSeparator))]
+    public string DSeparatorId { get; set; }
+    
+    private DSeparator _dSeparator;
+    [OneToOne]
+    public DSeparator DSeparator
+    {
+        get => _dSeparator;
+        set => SetProperty(ref _dSeparator, value);
+    }
 }

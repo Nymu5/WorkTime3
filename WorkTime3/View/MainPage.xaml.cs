@@ -1,4 +1,4 @@
-﻿namespace WorkTime3;
+﻿namespace MyTime.View;
 
 public partial class MainPage : ContentPage
 {
@@ -12,7 +12,7 @@ public partial class MainPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Title = "Home";
+        Title = String.Empty;
     }
 
     protected override void OnDisappearing()

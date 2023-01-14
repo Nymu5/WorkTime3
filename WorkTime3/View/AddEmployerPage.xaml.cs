@@ -1,4 +1,4 @@
-namespace WorkTime3.View;
+namespace MyTime.View;
 
 public partial class AddEmployerPage : ContentPage
 {

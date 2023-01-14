@@ -1,17 +1,13 @@
-using WorkTime3.Core;
+using SQLite;
+using SQLiteNetExtensions.Attributes;
+using MyTime.Core;
 
-namespace WorkTime3.Model;
+namespace MyTime.Model;
 
 public class Time : ControllerBase
 {
-    private WorkTime3Database Database;
-
-    public Time()
-    {
-        Database = new WorkTime3Database();
-    }
-
     private string _id;
+    [PrimaryKey]
     public string Id
     {
         get => _id;
@@ -19,35 +15,11 @@ public class Time : ControllerBase
     }
 
     private string _employerId;
+    [ForeignKey(typeof(Employer))]
     public string EmployerId
     {
         get => _employerId;
         set => SetProperty(ref _employerId, value);
-    }
-    
-    private string _employerName;
-    public string EmployerName
-    {
-        get
-        {
-            if (!String.IsNullOrWhiteSpace(_employerId) && Database.GetEmployerAsync(_employerId).Result != null)
-            {
-                return Database.GetEmployerAsync(_employerId).Result.Name;
-            }
-
-            return _employerName;
-        }
-        set => SetProperty(ref _employerName, value);
-    }
-
-    public Employer Employer
-    {
-        get => Database.GetEmployerAsync(_employerId).Result;
-        set
-        {
-            SetProperty(ref _employerId, value.Id);
-            SetProperty(ref _employerName, value.Name);
-        }
     }
 
     private string _text;

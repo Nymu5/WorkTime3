@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WorkTime3.Core;
+namespace MyTime.Core;
 
 public class ControllerBase : INotifyPropertyChanged
 {

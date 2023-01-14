@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
-using WorkTime3.Controller;
-using WorkTime3.Core;
-using WorkTime3.Resources.Templates;
-using WorkTime3.View;
+using MyTime.Controller;
+using MyTime.Core;
+using MyTime.Resources.Templates;
+using MyTime.View;
+using CommunityToolkit.Maui;
 
-namespace WorkTime3;
+namespace MyTime;
 
 public static class MauiProgram
 {
@@ -19,11 +20,12 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+        builder.UseMauiApp<App>().UseMauiCommunityToolkit();
         builder.Services.AddSingleton<EmployerController>();
         builder.Services.AddTransient<EmployerController>();
         builder.Services.AddSingleton<AddEmployerController>();
         builder.Services.AddTransient<AddEmployerController>();
-        builder.Services.AddSingleton<WorkTime3Database>();
+        builder.Services.AddSingleton<MyTimeDatabase>();
 
 #if DEBUG
         builder.Logging.AddDebug();

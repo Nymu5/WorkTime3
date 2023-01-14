@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkTime3.View;
+namespace MyTime.View;
 
 public partial class AddTimePage : ContentPage
 {
@@ -12,11 +12,11 @@ public partial class AddTimePage : ContentPage
     {
         InitializeComponent();
     }
-
+    
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Title = "Add Time";
+        Title = String.Empty;
     }
 
     protected override void OnDisappearing()

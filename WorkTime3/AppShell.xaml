@@ -1,16 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <Shell
-    x:Class="WorkTime3.AppShell"
+    x:Class="MyTime.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:WorkTime3"
-    xmlns:view="clr-namespace:WorkTime3.View">
+    xmlns:local="clr-namespace:MyTime"
+    xmlns:view="clr-namespace:MyTime.View"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:controller="clr-namespace:MyTime.Controller"
+    BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource Gray900}}">
+    <Shell.BindingContext>
+        <controller:ShellController />
+    </Shell.BindingContext>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding  DatabaseSetupCommand}" />
+    </ContentPage.Behaviors>
+    <Shell.Resources>
+        <Style x:Key="TitleColor" TargetType="Element">
+            <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource BackgroundLight}}"/>
+        </Style>
+    </Shell.Resources>
     <TabBar>
         <Tab Title="Home" Icon="icon_shell_dashboard.png" Route="Home">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
+            <ShellContent ContentTemplate="{DataTemplate view:MainPage}" Route="MainPage" />
         </Tab>
-        <Tab Title="Employers" Icon="icon_shell_employer.png" Route="Employers">
+        <Tab Title="Times" Icon="icon_shell_times.png" Route="Times">
+            <ShellContent ContentTemplate="{DataTemplate view:TimePage}" Route="TimesPage" />
+        </Tab>
+        <Tab Title="Employers" Icon="icon_shell_employer.png" Route="Employers" Style="{StaticResource TitleColor}">
             <ShellContent ContentTemplate="{DataTemplate view:EmployerPage}" Route="EmployerPage" />
         </Tab>
         <Tab Title="Settings" Icon="icon_shell_settings.png" Route="Settings">

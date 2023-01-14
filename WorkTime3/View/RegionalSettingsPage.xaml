@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyTime.View.RegionalSettingsPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controller="clr-namespace:MyTime.Controller">
+    <ContentPage.BindingContext>
+        <controller:RegionalSettingsController />
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding LoadRegionalCommand}" />
+    </ContentPage.Behaviors>
+    <ContentPage.Content>
+        <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label Text="Regional Settings" FontFamily="" FontSize="Title"
+                   Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center"/>
+            <StackLayout Orientation="Vertical" Grid.Row="1">
+                <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                        StrokeShape="RoundRectangle 20,20,20,20"
+                        Margin="20,10,20,10" Padding="10">
+                    <Border.Shadow>
+                        <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                                Offset="0,30" Radius="40" Opacity="0.8" />
+                    </Border.Shadow>
+                    <Grid>
+                        <StackLayout Orientation="Vertical" Margin="10,10,10,10">
+                            <Label Text="Currency" FontFamily="" FontAttributes="Bold" FontSize="Header" />
+                            <Picker Margin="0, 5, 0, 10" ItemsSource="{Binding Currencies}" SelectedItem="{Binding Settings.Currency, Mode=TwoWay}" ItemDisplayBinding="{Binding DisplayString}" />
+
+
+                            <Label Text="Decimal Seperator" FontFamily="" FontAttributes="Bold" FontSize="Header" />
+                            <Picker Margin="0, 5, 0, 10" ItemsSource="{Binding DSeparators}" SelectedItem="{Binding Settings.DSeparator}" ItemDisplayBinding="{Binding SeparatorString}" />
+                        </StackLayout>
+                    </Grid>
+                </Border>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTime3", "WorkTime3\WorkTime3.csproj", "{60B3635F-7554-449C-A2AC-4B1CFA7800A3}"
+# Visual Studio Version 16
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTime", "WorkTime3\MyTime.csproj", "{60B3635F-7554-449C-A2AC-4B1CFA7800A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 using DynamicData;
-using WorkTime3.Core;
+using MyTime.Core;
 
-namespace WorkTime3.Model;
+namespace MyTime.Model;
 
 public class Profile : ControllerBase
 {

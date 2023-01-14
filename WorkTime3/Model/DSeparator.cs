@@ -1,13 +1,29 @@
-using WorkTime3.Core;
+using SQLite;
+using MyTime.Core;
 
-namespace WorkTime3.Model;
+namespace MyTime.Model;
 
 public class DSeparator : ControllerBase
 {
-    public DSeparator(string separator, string text)
+    public DSeparator()
     {
+        _id = String.Empty;
+        _separator = String.Empty;
+        _text = String.Empty;
+    }
+    public DSeparator(string id, string separator, string text)
+    {
+        _id = id;
         _separator = separator;
         _text = text;
+    }
+
+    private string _id;
+    [PrimaryKey]
+    public string Id
+    {
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
 
     private string _separator;

@@ -27,8 +27,8 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>CFBundleIdentifier</key>
-	<string>info.nymus.worktim3</string>
+	<string>app.nymus.n5mytime</string>
 	<key>CFBundleDisplayName</key>
-	<string>W0RKT1M3</string>
+	<string>N5 MyTime</string>
 </dict>
 </plist>

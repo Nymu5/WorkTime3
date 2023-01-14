@@ -1,13 +1,30 @@
-using WorkTime3.Core;
+using System.ComponentModel.DataAnnotations.Schema;
+using SQLite;
+using MyTime.Core;
 
-namespace WorkTime3.Model;
+namespace MyTime.Model;
 
 public class Currency : ControllerBase
 {
-    public Currency(string symbol, string text)
+    public Currency()
     {
+        _id = String.Empty;
+        _symbol = String.Empty;
+        _text = String.Empty;
+    }
+    public Currency(string id, string symbol, string text)
+    {
+        _id = id;
         _symbol = symbol;
         _text = text;
+    }
+
+    private string _id;
+    [PrimaryKey]
+    public string Id
+    {
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
 
     private string _symbol;
@@ -17,6 +34,7 @@ public class Currency : ControllerBase
         set => SetProperty(ref _symbol, value);
     }
 
+    
     private string _text;
     public string Text
     {

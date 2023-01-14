@@ -2,9 +2,10 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controller="clr-namespace:WorkTime3.Controller"
-             xmlns:model="clr-namespace:WorkTime3.Model"
-             x:Class="WorkTime3.View.EmployerPage"            
+             xmlns:controller="clr-namespace:MyTime.Controller"
+             xmlns:model="clr-namespace:MyTime.Model"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="MyTime.View.EmployerPage"            
              Title="Employer">
     <ContentPage.BindingContext>
         <controller:EmployerController />
@@ -12,28 +13,64 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="plus_icon.png" Command="{Binding CreateEmployer}" />
     </ContentPage.ToolbarItems>
-    
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding RefreshCommand}" />
+    </ContentPage.Behaviors>
     <ContentPage.Content>
-        <Grid>
-            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+        <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label Text="Your Employers" FontFamily="" FontSize="Title"
+                   Margin="20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
+            <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                 <ContentView>
                     <CollectionView SelectionMode="Single"
                                     SelectionChangedCommand="{Binding SelectionChangedCommand}"
                                     ItemsSource="{Binding Employers}" SelectedItem="{Binding SelectedEmployer}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding Name}"
-                                           FontAttributes="Bold"
-                                           FontSize="Medium"
-                                           Margin="10,2,10,2"/>
-                                    <Label Grid.Row="1"
-                                           Text="{Binding Id}"
-                                           FontAttributes="Italic"
-                                           VerticalOptions="End"
-                                           Margin="10,0,10,2"/>
-                                    <Border BackgroundColor="Gray" HeightRequest="2" />
-                                </StackLayout>
+                                <Grid>
+                                    <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                                            StrokeShape="RoundRectangle 20,20,20,20"
+                                            Margin="20,10,20,0" Padding="10">
+                                        <Border.Shadow>
+                                            <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+
+                                        </Border.Shadow>
+                                        <Grid Margin="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}, Light={StaticResource Gray100}}" HeightRequest="60" WidthRequest="60"
+                                                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                                    StrokeShape="RoundRectangle 30,30,30,30"
+                                                    Margin="10,0">
+                                                <Image Source="building_icon.png" WidthRequest="40" HeightRequest="40" />
+                                            </Border>
+                                            <Label Text="{Binding Name}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="Medium"
+                                                   Margin="10,2,10,5"
+                                                   Grid.Row="0"
+                                                   Grid.Column="1"
+                                                   VerticalOptions="StartAndExpand" FontFamily=""/>
+                                            <Label Text="{Binding Id}"
+                                                   FontAttributes="Italic"
+                                                   TextColor="{AppThemeBinding Dark=LightGray, Light=Gray}"
+                                                   VerticalOptions="End"
+                                                   Margin="10,2,10,2"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
