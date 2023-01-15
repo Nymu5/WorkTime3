@@ -12,9 +12,6 @@ public class ShellController : ControllerBase
         _db = new MyTimeDatabase();
         DatabaseSetupCommand = new Command(canExecute: () => true, execute: async () =>
         {
-            await _db.PreConfigConstantsAsync();
-            Constants.Currencies = await _db.GetCurrenciesAsync();
-            Constants.DSeparators = await _db.GetDSeparatorsAsync();
             Constants.Settings = await _db.LoadProfileAsync();
         });
     }

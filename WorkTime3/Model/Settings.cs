@@ -16,8 +16,6 @@ public class Settings : ControllerBase
         _bankName = String.Empty;
         _bankIban = String.Empty;
         _bankBic = String.Empty;
-        _currency = Constants.Currencies[0];;
-        _dSeparator = Constants.DSeparators[0];
     }
 
     private string _id;
@@ -75,27 +73,5 @@ public class Settings : ControllerBase
     {
         get => _bankBic;
         set => SetProperty(ref _bankBic, value);
-    }
-    
-    [ForeignKey(typeof(Currency))]
-    public string CurrencyId { get; set; }
-    
-    private Currency _currency;
-    [OneToOne]
-    public Currency Currency
-    {
-        get => _currency;
-        set => SetProperty(ref _currency, value);
-    }
-    
-    [ForeignKey(typeof(DSeparator))]
-    public string DSeparatorId { get; set; }
-    
-    private DSeparator _dSeparator;
-    [OneToOne]
-    public DSeparator DSeparator
-    {
-        get => _dSeparator;
-        set => SetProperty(ref _dSeparator, value);
     }
 }

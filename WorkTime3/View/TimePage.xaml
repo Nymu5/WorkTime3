@@ -4,7 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyTime.View.TimePage"
              xmlns:controller="clr-namespace:MyTime.Controller"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui">
     <ContentPage.BindingContext>
         <controller:TimeController />
     </ContentPage.BindingContext>
@@ -16,9 +17,6 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="plus_icon.png" Command="{Binding CreateTimeCommand}" />
     </ContentPage.ToolbarItems>
-    <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding RefreshCommand}" />
-    </ContentPage.Behaviors>
     <ContentPage.Content>
         <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
@@ -29,9 +27,7 @@
                    Margin="20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
             <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                 <ContentView>
-                    <CollectionView SelectionMode="Single"
-                                    SelectionChangedCommand="{Binding SelectionChangedCommand}"
-                                    ItemsSource="{Binding Times}" SelectedItem="{Binding SelectedTime}">
+                    <CollectionView SelectionMode="Single" x:Name="TimeCollectionView">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid>

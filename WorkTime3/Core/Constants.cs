@@ -14,9 +14,5 @@ public static class Constants
 
     public static string DatabasePath => Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
 
-    public static List<Currency> Currencies;
-
-    public static List<DSeparator> DSeparators;
-
     public static Settings Settings;
 }

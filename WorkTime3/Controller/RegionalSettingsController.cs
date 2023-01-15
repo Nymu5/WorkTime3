@@ -19,11 +19,6 @@ public class RegionalSettingsController : ControllerBase
             Console.WriteLine(Settings);
             await Shell.Current.GoToAsync("..");
         });
-        LoadRegionalCommand = new Command(canExecute: () => true, execute: () =>
-        {
-            if (_db != null) Settings.Currency = Constants.Currencies.Find(c => c.Id == Settings.CurrencyId);
-            if (_db != null) Settings.DSeparator = Constants.DSeparators.Find(d => d.Id == Settings.DSeparatorId);
-        });
     }
     private Settings _settings;
     public Settings Settings
@@ -31,9 +26,6 @@ public class RegionalSettingsController : ControllerBase
         get => _settings;
         set => SetProperty(ref _settings, value);
     }
-
-    public List<Currency> Currencies => Constants.Currencies;
-    public List<DSeparator> DSeparators => Constants.DSeparators;
 
     public ICommand SaveCommand { get; set; }
     public ICommand LoadRegionalCommand { get; set; }

@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<rxui:ReactiveContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                           x:Class="MyTime.View.AddTimePage"
                           xmlns:controller="clr-namespace:MyTime.Controller"
                           xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                           xmlns:controls="clr-namespace:MyTime.Resources.Templates"
-                          xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
-                          x:TypeArguments="controller:AddTimeController">
+                          xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui">
     <ContentPage.BindingContext>
         <controller:AddTimeController />
     </ContentPage.BindingContext>
@@ -73,4 +72,4 @@
             </StackLayout>
         </Grid>
     </ContentPage.Content>
-</rxui:ReactiveContentPage>
+</ContentPage>
