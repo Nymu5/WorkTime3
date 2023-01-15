@@ -1,9 +1,5 @@
 using System.Collections.ObjectModel;
-using System.Reactive.Linq;
 using System.Windows.Input;
-using DynamicData;
-using DynamicData.Binding;
-using ReactiveUI;
 using MyTime.Core;
 using MyTime.Model;
 using MyTime.View;
@@ -24,19 +20,8 @@ public class EmployerController : ControllerBase
         }, () => true);
         RefreshCommand = new Command(execute: async () =>
         {
-            SourceCache<Employer, string> employers = await _db.GetEmployersAsync();
-            var disposable = employers
-                .Connect()
-                .Sort(SortExpressionComparer<Employer>.Ascending(e => e.Name))
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Bind(out _employers)
-                .DisposeMany()
-                .Subscribe();
-            OnPropertyChanged(nameof(Employers));
+            Employers = await _db.GetEmployersAsync();
             IsRefreshing = false;
-        }, canExecute: () =>
-        {
-            return true;
         });
         SelectionChangedCommand = new Command(execute: () =>
         {
@@ -56,8 +41,8 @@ public class EmployerController : ControllerBase
     public ICommand RefreshCommand { get; set; }
     public ICommand SelectionChangedCommand { get; set; }
 
-    private ReadOnlyObservableCollection<Employer> _employers;
-    public ReadOnlyObservableCollection<Employer> Employers
+    private List<Employer> _employers;
+    public List<Employer> Employers
     {
         get => _employers;
         set => SetProperty(ref _employers, value);

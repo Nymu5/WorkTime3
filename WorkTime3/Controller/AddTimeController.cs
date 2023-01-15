@@ -1,11 +1,7 @@
 using System.Collections.ObjectModel;
-using System.Reactive.Linq;
 using System.Windows.Input;
-using DynamicData;
-using DynamicData.Binding;
 using MyTime.Core;
 using MyTime.Model;
-using ReactiveUI;
 
 namespace MyTime.Controller;
 
@@ -21,21 +17,8 @@ public class AddTimeController : ControllerBase
 
         LoadCommand = new Command(execute: async () =>
         {
-            SourceCache<Employer, string> employers = await _db.GetEmployersAsync();
-            var dispostable = employers
-                .Connect()
-                .Sort(SortExpressionComparer<Employer>.Ascending(e => e.Name))
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Bind(out _employers)
-                .DisposeMany()
-                .Subscribe();
-            OnPropertyChanged(nameof(Employers));
-            Console.WriteLine(employers.Count);
-            if (Time.Employer != null)
-            {
-                Console.WriteLine(employers.Items.FirstOrDefault(e => e.Id == Time.Employer.Id));
-            }
-            
+            Employers = await _db.GetEmployersAsync();
+            if (Time.Employer != null) SelectedEmployer = Employers.FirstOrDefault(e => e.Id == Time.Employer.Id); 
         });
         
         SaveTimeCommand = new Command<bool>(canExecute: (canSave) => canSave, execute: async (canSave) =>
@@ -65,11 +48,11 @@ public class AddTimeController : ControllerBase
     public ICommand BindingChangedCommand { get; }
     
     // Properties
-    private ReadOnlyObservableCollection<Employer> _employers;
-    public ReadOnlyObservableCollection<Employer> Employers
+    private List<Employer> _employers;
+    public List<Employer> Employers
     {
         get => _employers;
-        set => Console.WriteLine(value);
+        set => SetProperty(ref _employers, value);
     }
     
     private Employer _selectedEmployer;

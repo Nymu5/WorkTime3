@@ -30,5 +30,7 @@
 	<string>app.nymus.n5mytime</string>
 	<key>CFBundleDisplayName</key>
 	<string>N5 MyTime</string>
+	<key>XIEnableUITracking</key>
+	<false/>
 </dict>
 </plist>

@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using DynamicData;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 using MyTime.Core;

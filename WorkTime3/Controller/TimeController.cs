@@ -1,11 +1,7 @@
 using System.Collections.ObjectModel;
-using System.Reactive.Linq;
 using System.Windows.Input;
-using DynamicData;
-using DynamicData.Binding;
 using MyTime.Core;
 using MyTime.Model;
-using ReactiveUI;
 
 namespace MyTime.Controller;
 
@@ -21,15 +17,7 @@ public class TimeController : ControllerBase
         });
         RefreshCommand = new Command(execute: async () =>
         {
-            SourceCache<Time, string> times = await _db.GetTimesAsync();
-            var disposable = times
-                .Connect()
-                .Sort(SortExpressionComparer<Time>.Descending(t => t.Start))
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Bind(out _times)
-                .DisposeMany()
-                .Subscribe();
-            OnPropertyChanged(nameof(Times));
+            Times = await _db.GetTimesAsync();
             IsRefreshing = false;
         });
         SelectionChangedCommand = new Command(execute: async () =>
@@ -59,14 +47,15 @@ public class TimeController : ControllerBase
         set => SetProperty(ref _selectedTime, value);
     }
     
-    private ReadOnlyObservableCollection<Time> _times;
-    public ReadOnlyObservableCollection<Time> Times
+    private List<Time> _times;
+    public List<Time> Times
     {
         get => _times;
         set => SetProperty(ref _times, value);
     }
     
     private bool _isRefreshing;
+
     public bool IsRefreshing
     {
         get => _isRefreshing;

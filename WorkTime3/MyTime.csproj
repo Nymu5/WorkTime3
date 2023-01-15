@@ -56,8 +56,6 @@
         <PackageReference Include="CommunityToolkit.Maui" Version="3.1.0" />
         <PackageReference Include="M.BindableProperty.Generator" Version="0.9.3" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-        <PackageReference Include="ReactiveUI" Version="18.4.1" />
-        <PackageReference Include="ReactiveUI.Maui" Version="18.4.1" />
         <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
         <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
         <PackageReference Include="SQLiteNetExtensions.Async" Version="2.1.0" />

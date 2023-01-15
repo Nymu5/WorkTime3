@@ -1,4 +1,3 @@
-using DynamicData;
 using SQLite;
 using SQLiteNetExtensions.Extensions;
 using MyTime.Model;
@@ -29,20 +28,16 @@ public class MyTimeDatabase
         
     }
 
-    public async Task<SourceCache<Employer, String>> GetEmployersAsync()
+    public async Task<List<Employer>> GetEmployersAsync()
     {
         await Init();
-        SourceCache<Employer, String> employers = new SourceCache<Employer, string>(e => e.Id);
-        employers.AddOrUpdate(await Database.GetAllWithChildrenAsync<Employer>());
-        return employers;
+        return (await Database.GetAllWithChildrenAsync<Employer>()).OrderBy(e => e.Name).ToList();
     }
 
     public async Task<Employer> GetEmployerAsync(string id)
     {
         await Init();
         return (await Database.GetAllWithChildrenAsync<Employer>(e => e.Id == id)).FirstOrDefault();
-        //return await Database.GetWithChildrenAsync<Employer>(id);
-        //return await Database.Table<Employer>().Where(e => e.Id == id).FirstOrDefaultAsync();
     }
 
     public async Task SaveEmployerAsync(Employer employer)
@@ -55,40 +50,35 @@ public class MyTimeDatabase
         }
 
         await Database.InsertWithChildrenAsync(employer);
-        //await Database.InsertAsync(employer);
     }
 
-    public async Task<int> DeleteEmployerAsync(Employer employer)
+    public async Task DeleteEmployerAsync(Employer employer)
     {
         await Init();
-        return await Database.DeleteAsync(employer); 
+        await Database.DeleteAsync(employer);
     }
 
-    public async Task<SourceCache<Time, string>> GetTimesAsync()
+    public async Task<List<Time>> GetTimesAsync()
     {
         await Init();
-        SourceCache<Time, String> times = new SourceCache<Time, string>(e => e.Id);
-        times.AddOrUpdate(await Database.GetAllWithChildrenAsync<Time>());
-        //times.AddOrUpdate(await Database.Table<Time>().ToListAsync());
-        return times;
+        return (await Database.GetAllWithChildrenAsync<Time>()).OrderBy(t => t.Start).ToList();
     }
 
     public async Task<Time> GetTimeAsync(string id)
     {
         await Init();
         return (await Database.GetAllWithChildrenAsync<Time>(t => t.Id == id)).FirstOrDefault();
-        //return await Database.Table<Time>().Where(t => t.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task<int> SaveTimeAsync(Time time)
+    public async Task SaveTimeAsync(Time time)
     {
         await Init();
         if (await GetTimeAsync(time.Id) != null)
         {
-            return await Database.UpdateAsync(time);
+            await Database.UpdateAsync(time);
+            return;
         }
-
-        return await Database.InsertAsync(time);
+        await Database.InsertAsync(time);
     }
 
     public async Task<int> DeleteTimeAsync(Time time)

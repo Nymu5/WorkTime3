@@ -1,5 +1,4 @@
 using System.Windows.Input;
-using DynamicData;
 using MyTime.Core;
 using MyTime.Model;
 
@@ -22,8 +21,8 @@ public class MainController : ControllerBase
     public ICommand LoadDashboardCommand { get; }
     
     // Properties
-    private SourceCache<Employer, string> _employers;
-    public SourceCache<Employer, string> Employers
+    private List<Employer> _employers;
+    public List<Employer> Employers
     {
         get => _employers;
         set
@@ -32,8 +31,8 @@ public class MainController : ControllerBase
         } 
     }
     
-    private SourceCache<Time, string> _times;
-    public SourceCache<Time, string> Times
+    private List<Time> _times;
+    public List<Time> Times
     {
         get => _times;
         set => SetProperty(ref _times, value);
