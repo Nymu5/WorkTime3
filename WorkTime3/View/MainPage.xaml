@@ -41,7 +41,7 @@
                 </Border.Shadow>
                 <Grid>
                     <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
-                        <Label Text="{Binding EmployersCount}" HorizontalOptions="Center" FontSize="32" FontAttributes="Bold" FontFamily=""/>
+                        <Label Text="{Binding Employers.Count}" HorizontalOptions="Center" FontSize="32" FontAttributes="Bold" FontFamily=""/>
                         <Label Text="Employers" HorizontalOptions="Center" />
                     </StackLayout>
                 </Grid>
@@ -80,7 +80,7 @@
                 </Border.Shadow>
                 <Grid>
                     <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
-                        <Label Text="37" HorizontalOptions="Center" FontSize="32" FontAttributes="Bold" FontFamily=""/>
+                        <Label Text="{Binding Times.Count}" HorizontalOptions="Center" FontSize="32" FontAttributes="Bold" FontFamily=""/>
                         <Label Text="Times Worked" HorizontalOptions="Center" />
                     </StackLayout>
                 </Grid>

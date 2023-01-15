@@ -12,8 +12,9 @@ public class MainController : ControllerBase
     {
         LoadDashboardCommand = new Command(execute: async () =>
         {
-            SourceCache<Employer, string> Employers = await _db.GetEmployersAsync();
-            EmployersCount = Employers.Count;
+            Employers = await _db.GetEmployersAsync();
+            Times = await _db.GetTimesAsync(); 
+            
         });
     }
 
@@ -30,12 +31,12 @@ public class MainController : ControllerBase
             SetProperty(ref _employers, value);
         } 
     }
-
-    private int _employersCount;
-    public int EmployersCount
+    
+    private SourceCache<Time, string> _times;
+    public SourceCache<Time, string> Times
     {
-        get => _employersCount;
-        set => SetProperty(ref _employersCount, value);
+        get => _times;
+        set => SetProperty(ref _times, value);
     }
     
     // Functions

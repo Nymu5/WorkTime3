@@ -15,6 +15,7 @@ public class ShellController : ControllerBase
             await _db.PreConfigConstantsAsync();
             Constants.Currencies = await _db.GetCurrenciesAsync();
             Constants.DSeparators = await _db.GetDSeparatorsAsync();
+            Constants.Settings = await _db.LoadProfileAsync();
         });
     }
     

@@ -17,4 +17,6 @@ public static class Constants
     public static List<Currency> Currencies;
 
     public static List<DSeparator> DSeparators;
+
+    public static Settings Settings;
 }
