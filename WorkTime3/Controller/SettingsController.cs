@@ -31,8 +31,8 @@ public class SettingsController : ControllerBase
                         {"settings", _settings}
                     });
                     break;
-                case "regional":
-                    await Shell.Current.GoToAsync("RegionalSettingsPage", new Dictionary<string, object>
+                case "iesettings":
+                    await Shell.Current.GoToAsync("ImportExportPage", new Dictionary<string, object>
                     {
                         {"settings", _settings}
                     });

@@ -12,6 +12,9 @@
     <Shell.BindingContext>
         <controller:ShellController />
     </Shell.BindingContext>
+    <Shell.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding DatabaseSetupCommand}" />
+    </Shell.Behaviors>
     <Shell.Resources>
         <Style x:Key="TitleColor" TargetType="Element">
             <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource BackgroundLight}}"/>

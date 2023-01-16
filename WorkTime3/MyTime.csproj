@@ -69,34 +69,4 @@
         <PackageReference Include="SQLiteNetExtensions.Async" Version="2.1.0" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.3" />
     </ItemGroup>
-    <ItemGroup>
-      <None Remove="Resources\Images\icon_arrow_right_sm.png" />
-      <None Remove="Resources\Images\plus_icon_sm.png" />
-      <None Remove="Resources\Images\icon_shell_times_sm.png" />
-      <None Remove="Resources\Images\icon_shell_settings_sm.png" />
-      <None Remove="Resources\Images\icon_shell_employer_sm.png" />
-      <None Remove="Resources\Images\icon_shell_dashboard_sm.png" />
-      <None Remove="Resources\Images\icon_shell_employer_sm.png" />
-      <None Remove="Resources\Images\icon_arrow_right_sm.png" />
-      <None Remove="Resources\Images\icon_shell_times_sm.png" />
-      <None Remove="Resources\Images\icon_shell_settings_sm.png" />
-      <None Remove="Resources\Images\plus_icon_sm.png" />
-      <None Remove="Resources\Images\icon_shell_dashboard_sm.png" />
-    </ItemGroup>
-    <ItemGroup>
-      <BundleResource Include="Resources\Images\icon_arrow_right_sm.png" />
-      <BundleResource Include="Resources\Images\plus_icon_sm.png" />
-      <BundleResource Include="Resources\Images\icon_shell_times_sm.png" />
-      <BundleResource Include="Resources\Images\icon_shell_settings_sm.png" />
-      <BundleResource Include="Resources\Images\icon_shell_employer_sm.png" />
-      <BundleResource Include="Resources\Images\icon_shell_dashboard_sm.png" />
-    </ItemGroup>
-    <ItemGroup>
-      <MauiImage Remove="Resources\Images\icon_shell_employer_sm.png" />
-      <MauiImage Remove="Resources\Images\icon_arrow_right_sm.png" />
-      <MauiImage Remove="Resources\Images\icon_shell_times_sm.png" />
-      <MauiImage Remove="Resources\Images\icon_shell_settings_sm.png" />
-      <MauiImage Remove="Resources\Images\plus_icon_sm.png" />
-      <MauiImage Remove="Resources\Images\icon_shell_dashboard_sm.png" />
-    </ItemGroup>
 </Project>
