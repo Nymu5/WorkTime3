@@ -11,10 +11,12 @@
         <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Label Text="Import / Export" FontFamily="" FontSize="Title"
-                   Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center"/>
+            <Label Text="Import" FontFamily="" FontSize="Title"
+                   Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
             <StackLayout Orientation="Vertical" Grid.Row="1">
                 <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                         StrokeShape="RoundRectangle 20,20,20,20"
@@ -25,9 +27,28 @@
                     </Border.Shadow>
                     <Grid>
                         <StackLayout Orientation="Vertical" Margin="10,10,10,10">
-                            <Label FontSize="Medium" FontFamily="" FontAttributes="Bold" Text="Supported Operations" />
+                            <Label FontSize="Medium" FontFamily="" FontAttributes="Bold" Text="Supported Import Operations" />
                             <Label Text="- Importing from N5 WorkTime" />
-                            <Button Command="{Binding ImportWT3}" Text="Import" Margin="0,30,0,0" />
+                            <Button Command="{Binding Import}" Text="Import" Margin="0,30,0,0" />
+                        </StackLayout>
+                    </Grid>
+                </Border>
+            </StackLayout>
+            <Label Text="Export" FontFamily="" FontSize="Title"
+                   Margin="20,50" Grid.Row="2" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+            <StackLayout Orientation="Vertical" Grid.Row="3">
+                <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                        StrokeShape="RoundRectangle 20,20,20,20"
+                        Margin="20,10,20,10" Padding="10">
+                    <Border.Shadow>
+                        <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                                Offset="0,30" Radius="40" Opacity="0.8" />
+                    </Border.Shadow>
+                    <Grid>
+                        <StackLayout Orientation="Vertical" Margin="10,10,10,10">
+                            <Label FontSize="Medium" FontFamily="" FontAttributes="Bold" Text="Supported Export Operations" />
+                            <Label Text="- Exporting to MyTime" />
+                            <Button Command="{Binding Export}" Text="Export" Margin="0,30,0,0" />
                         </StackLayout>
                     </Grid>
                 </Border>

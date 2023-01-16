@@ -33,7 +33,7 @@ public class AddTimeController : ControllerBase
         });
         UpdateSalaryCommand = new Command(execute: () =>
         {
-            Time.Salary = SelectedEmployer.Salary;
+            if (Time.Id == null) Time.Salary = SelectedEmployer.Salary;
         });
         BindingChangedCommand = new Command(execute: () =>
         {

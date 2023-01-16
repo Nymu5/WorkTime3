@@ -39,7 +39,7 @@
                             <Label Text="Employer Number" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
                             <Label Text="{Binding Employer.EmployerNb}" Margin="0,0,0,10" />
                             <Label Text="Salary" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
-                            <Label Text="{Binding Employer.Salary}" Margin="0,0,0,10" />
+                            <Label Text="{Binding Employer.SalaryString}" Margin="0,0,0,10" />
                             <Label Text="Description" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
                             <Label Text="{Binding Employer.Description}" />
                         </StackLayout>

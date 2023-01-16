@@ -66,11 +66,11 @@ public class Time : ControllerBase
         set => SetProperty(ref _end, value);
     }
     
-    private float _salary;
-    public float Salary
+    private double _salary;
+    public double Salary
     {
         get => _salary;
-        set => SetProperty(ref _salary, value);
+        set => SetProperty(ref _salary, (float)Math.Round(value, 2));
     }
 
     [Ignore] public string SalaryFloat => Salary.ToString("C");

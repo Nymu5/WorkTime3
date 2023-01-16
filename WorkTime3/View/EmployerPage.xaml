@@ -22,8 +22,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Label Text="Your Employers" FontFamily="" FontSize="Title"
-                   Margin="20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
+            <Border StrokeThickness="2" Margin="-10,-10,-10,0" Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
+                <Label Text="Your Employers" FontFamily="" FontSize="Title" FontAttributes="Bold"
+                   Margin="20, 60, 20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
+            </Border>
             <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                 <ContentView>
                     <CollectionView SelectionMode="Single"

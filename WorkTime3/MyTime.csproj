@@ -38,7 +38,7 @@
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
       <CodesignKey>iPhone Distribution: Nikolaus Alexander Klemm (5UU5SXUEFQ)</CodesignKey>
-      <CodesignProvision>N5 MyTime</CodesignProvision>
+      <CodesignProvision></CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>

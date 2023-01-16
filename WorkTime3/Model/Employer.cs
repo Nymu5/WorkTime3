@@ -78,13 +78,15 @@ public class Employer : ControllerBase
         get => _description;
         set => SetProperty(ref _description, value);
     }
-    private float _salary;
+    private double _salary;
 
-    public float Salary
+    public double Salary
     {
         get => _salary;
-        set => SetProperty(ref _salary, value); 
+        set => SetProperty(ref _salary, (float)Math.Round(value, 2)); 
     }
+
+    public string SalaryString => Salary.ToString("C");
     private string _addressLine1;
 
     public string AddressLine1

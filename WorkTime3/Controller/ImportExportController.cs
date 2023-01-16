@@ -11,14 +11,24 @@ public class ImportExportController : ControllerBase
     {
         _db = new MyTimeDatabase();
 
-        ImportWT3 = new Command(execute: async () =>
+        Import = new Command(execute: async () =>
         {
             await PickAndMove(PickOptions.Default);
+        });
+
+        Export = new Command(execute: async () =>
+        {
+            await Share.RequestAsync(new ShareFileRequest
+            {
+                Title = "MyTime .db3 Backup",
+                File = new ShareFile(Constants.DatabasePath)
+            });
         });
     }
     
     // Commands
-    public ICommand ImportWT3 { get; }
+    public ICommand Import { get; }
+    public ICommand Export { get; }
     
     // Properties
 
