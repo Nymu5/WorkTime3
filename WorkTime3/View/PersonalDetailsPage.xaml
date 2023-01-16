@@ -12,7 +12,7 @@
         <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+        <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />

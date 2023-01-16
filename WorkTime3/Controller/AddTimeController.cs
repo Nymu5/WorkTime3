@@ -39,6 +39,14 @@ public class AddTimeController : ControllerBase
         {
             
         });
+        DeleteTimeCommand = new Command<bool>(canExecute: (canDelete) => canDelete, execute: async (canDelete) =>
+        {
+            var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete this entry?",
+                "Cancel", "Yes");
+            if (result != "Yes") return;
+            await _db.DeleteTimeAsync(Time);
+            await Shell.Current.GoToAsync("..");
+        });
     }
     
     // Controls 
@@ -46,6 +54,7 @@ public class AddTimeController : ControllerBase
     public ICommand SaveTimeCommand { get; }
     public ICommand UpdateSalaryCommand { get; }
     public ICommand BindingChangedCommand { get; }
+    public ICommand DeleteTimeCommand { get; }
     
     // Properties
     private List<Employer> _employers;
@@ -128,5 +137,12 @@ public class AddTimeController : ControllerBase
     {
         get => SelectedEmployer != null;
         set => SetProperty(ref _canSave, value);
+    }
+    
+    private bool _canDelete = true;
+    public bool CanDelete
+    {
+        get => _canDelete;
+        set => SetProperty(ref _canDelete, value);
     }
 }

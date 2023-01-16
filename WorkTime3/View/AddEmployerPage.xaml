@@ -19,7 +19,7 @@
         <ToolbarItem Text="Save" Command="{Binding SaveEmployerCommand}" CommandParameter="{Binding Employer.Name, Converter={StaticResource NullOrEmptyConverter}}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+        <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />

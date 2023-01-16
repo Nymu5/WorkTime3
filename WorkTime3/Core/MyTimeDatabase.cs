@@ -55,13 +55,13 @@ public class MyTimeDatabase
     public async Task DeleteEmployerAsync(Employer employer)
     {
         await Init();
-        await Database.DeleteAsync(employer);
+        await Database.DeleteAsync(employer, recursive: true);
     }
 
     public async Task<List<Time>> GetTimesAsync()
     {
         await Init();
-        return (await Database.GetAllWithChildrenAsync<Time>()).OrderBy(t => t.Start).ToList();
+        return (await Database.GetAllWithChildrenAsync<Time>()).OrderByDescending(t => t.Start).ToList();
     }
 
     public async Task<Time> GetTimeAsync(string id)

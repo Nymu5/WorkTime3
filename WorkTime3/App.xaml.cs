@@ -1,15 +1,24 @@
-﻿using MyTime.Core;
+﻿using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using MyTime.Core;
 
 namespace MyTime;
 
 public partial class App : Application
 {
-    private MyTimeDatabase _db;
     public App()
     {
         
         InitializeComponent();
 
         MainPage = new AppShell();
+        
+        LiveCharts.Configure(config =>
+        {
+            config
+                .AddSkiaSharp()
+                .AddDefaultMappers()
+                .AddLightTheme();
+        });
     }
 }

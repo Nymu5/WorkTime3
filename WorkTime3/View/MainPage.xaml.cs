@@ -2,8 +2,6 @@
 
 public partial class MainPage : ContentPage
 {
-    private int count;
-
     public MainPage()
     {
         InitializeComponent();

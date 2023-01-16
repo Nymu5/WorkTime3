@@ -22,7 +22,7 @@ public class DetailEmployerController : ControllerBase
         });
         DeleteEmployerCommand = new Command(canExecute: () => true, execute: async () =>
         {
-            var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete {Employer.Name}?",
+            var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete {Employer.Name} and ALL OF THE TRACKED HOURS? This operation cannot be undone!",
                 "Cancel", "Yes");
             if (result != "Yes") return;
             await _db.DeleteEmployerAsync(Employer);

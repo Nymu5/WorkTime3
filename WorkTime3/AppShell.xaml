@@ -8,29 +8,26 @@
     xmlns:view="clr-namespace:MyTime.View"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:controller="clr-namespace:MyTime.Controller"
-    BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource Gray900}}">
+    BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource Black}}">
     <Shell.BindingContext>
         <controller:ShellController />
     </Shell.BindingContext>
-    <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding  DatabaseSetupCommand}" />
-    </ContentPage.Behaviors>
     <Shell.Resources>
         <Style x:Key="TitleColor" TargetType="Element">
             <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource BackgroundLight}}"/>
         </Style>
     </Shell.Resources>
     <TabBar>
-        <Tab Title="Home" Icon="icon_shell_dashboard.png" Route="Home">
+        <Tab Title="Home" Icon="icon_shell_dashboard_sm.png" Route="Home">
             <ShellContent ContentTemplate="{DataTemplate view:MainPage}" Route="MainPage" />
         </Tab>
-        <Tab Title="Times" Icon="icon_shell_times.png" Route="Times">
+        <Tab Title="Times" Icon="icon_shell_times_sm.png" Route="Times">
             <ShellContent ContentTemplate="{DataTemplate view:TimePage}" Route="TimesPage" />
         </Tab>
-        <Tab Title="Employers" Icon="icon_shell_employer.png" Route="Employers" Style="{StaticResource TitleColor}">
+        <Tab Title="Employers" Icon="icon_shell_employer_sm.png" Route="Employers" Style="{StaticResource TitleColor}">
             <ShellContent ContentTemplate="{DataTemplate view:EmployerPage}" Route="EmployerPage" />
         </Tab>
-        <Tab Title="Settings" Icon="icon_shell_settings.png" Route="Settings">
+        <Tab Title="Settings" Icon="icon_shell_settings_sm.png" Route="Settings">
             <ShellContent ContentTemplate="{DataTemplate view:SettingsPage}" Route="SettingsPage" />
         </Tab>
     </TabBar>

@@ -6,7 +6,6 @@ namespace MyTime.Model;
 
 public class Time : ControllerBase
 {
-    private Profile _profile;
     public Time()
     {
         DateTime now = DateTime.Now;
@@ -88,4 +87,7 @@ public class Time : ControllerBase
     [Ignore] public string TimeString => $"{Start.ToString("dd.MM.yyyy HH:mm")} - {End.ToString("dd.MM.yyyy HH:mm")}";
     [Ignore] public string TimeStartString => $"{Start.ToString("dd.MM.yyyy HH:mm")}";
     [Ignore] public string TimeEndString => $"{End.ToString("dd.MM.yyyy HH:mm")}";
+
+    [Ignore] public double Earned => Duration.TotalHours * Salary;
+
 }

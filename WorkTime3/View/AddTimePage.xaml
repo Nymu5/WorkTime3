@@ -13,10 +13,12 @@
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding LoadCommand}" />
     </ContentPage.Behaviors>
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Delete" Command="{Binding DeleteTimeCommand}" CommandParameter="{Binding CanDelete}" />
+        <ToolbarItem Text=" | " />
         <ToolbarItem Text="Save" Command="{Binding SaveTimeCommand}" CommandParameter="{Binding CanSave}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+        <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />

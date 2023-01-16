@@ -5,6 +5,7 @@ using MyTime.Core;
 using MyTime.Resources.Templates;
 using MyTime.View;
 using CommunityToolkit.Maui;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace MyTime;
 
@@ -21,6 +22,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
         builder.UseMauiApp<App>().UseMauiCommunityToolkit();
+        builder.UseSkiaSharp(true);
         builder.Services.AddSingleton<EmployerController>();
         builder.Services.AddTransient<EmployerController>();
         builder.Services.AddSingleton<AddEmployerController>();

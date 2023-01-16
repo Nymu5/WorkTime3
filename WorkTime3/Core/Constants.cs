@@ -15,4 +15,14 @@ public static class Constants
     public static string DatabasePath => Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
 
     public static Settings Settings;
+    
+    public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> source)
+    {
+        return source.Select((item, index) => (item, index));
+    }
+
+    public static string TsFormatter(TimeSpan ts)
+    {
+        return $"{(int)ts.TotalHours}:{((int)ts.Minutes).ToString("00")} h";
+    }
 }

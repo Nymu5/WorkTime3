@@ -11,13 +11,13 @@
         <controller:EmployerController />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="plus_icon.png" Command="{Binding CreateEmployer}" />
+        <ToolbarItem IconImageSource="plus_icon_sm.png" Command="{Binding CreateEmployer}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding RefreshCommand}" />
     </ContentPage.Behaviors>
     <ContentPage.Content>
-        <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+        <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />

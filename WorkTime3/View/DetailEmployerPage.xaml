@@ -3,7 +3,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controller="clr-namespace:MyTime.Controller"
-             xmlns:controls="clr-namespace:MyTime.Resources.Templates"
              x:Class="MyTime.View.DetailEmployerPage">
     <ContentPage.BindingContext>
         <controller:DetailEmployerController />
@@ -14,7 +13,7 @@
         <ToolbarItem Text="Delete" Command="{Binding DeleteEmployerCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid BackgroundColor="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+        <Grid BackgroundColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -31,24 +30,18 @@
                     </Border.Shadow>
                     <Grid>
                         <StackLayout Orientation="Vertical" Margin="10, 10, 10, 10">
-                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
-                                                  Content="{Binding Employer.Id}"
-                                                  Label="ID" Margin="0,0,0,20"/>
-                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
-                                                  Content="{Binding Employer.AddressLine1}"
-                                                  Label="Address Line 1" Margin="0,0,0,20"/>
-                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
-                                                  Content="{Binding Employer.AddressLine2}"
-                                                  Label="Address Line 2" Margin="0,0,0,20"/>
-                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
-                                                  Content="{Binding Employer.EmployerNb}"
-                                                  Label="Employer Number" Margin="0,0,0,20"/>
-                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
-                                                  Content="{Binding Employer.Salary}"
-                                                  Label="Salary" Margin="0,0,0,20"/>
-                            <controls:DetailLabel ControlTemplate="{StaticResource DetailLabelTemplate}" 
-                                                  Content="{Binding Employer.Description}"
-                                                  Label="Description" Margin="0,0,0,20"/>
+                            <Label Text="ID" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
+                            <Label Text="{Binding Employer.Id}" Margin="0,0,0,10" />
+                            <Label Text="Address Line 1" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
+                            <Label Text="{Binding Employer.AddressLine1}" Margin="0,0,0,10" />
+                            <Label Text="Address Line 2" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
+                            <Label Text="{Binding Employer.AddressLine2}" Margin="0,0,0,10" />
+                            <Label Text="Employer Number" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
+                            <Label Text="{Binding Employer.EmployerNb}" Margin="0,0,0,10" />
+                            <Label Text="Salary" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
+                            <Label Text="{Binding Employer.Salary}" Margin="0,0,0,10" />
+                            <Label Text="Description" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
+                            <Label Text="{Binding Employer.Description}" />
                         </StackLayout>
                     </Grid>
                 </Border>

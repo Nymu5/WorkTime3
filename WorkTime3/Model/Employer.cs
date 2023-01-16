@@ -107,7 +107,7 @@ public class Employer : ControllerBase
     }
 
     private List<Time> _times;
-    [OneToMany]
+    [OneToMany(CascadeOperations = CascadeOperation.CascadeDelete)]
     public List<Time> Times
     {
         get => _times;

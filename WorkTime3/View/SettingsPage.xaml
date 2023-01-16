@@ -3,12 +3,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controller="clr-namespace:MyTime.Controller"
-             x:Class="MyTime.View.SettingsPage">
+             x:Class="MyTime.View.SettingsPage"
+             Shell.NavBarIsVisible="False">
     <ContentPage.BindingContext>
         <controller:SettingsController />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <Grid Background="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource BackgroundLight}}">
+        <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -29,7 +30,7 @@
                            Margin="10,12,10,10"
                            FontFamily="" FontSize="Medium"
                            HorizontalOptions="StartAndExpand"/>
-                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right.png" 
+                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right_sm.png" 
                            IsEnabled="False"/>
                     <Line Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Gray300}" HeightRequest="1"/>
                     <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0"
@@ -71,55 +72,13 @@
                            Margin="10,12,10,10"
                            FontFamily="" FontSize="Medium"
                            HorizontalOptions="StartAndExpand"/>
-                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right.png" 
+                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right_sm.png" 
                            IsEnabled="False"/>
                     <Line Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Gray300}" HeightRequest="1"/>
                     <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0"
                             FontFamily="" FontSize="Medium"
                             Command="{Binding SettingSelectedCommand}"
                             CommandParameter="bank" Opacity="0.5">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="VisualStateManager.VisualStateGroups">
-                                    <VisualStateGroupList>
-                                        <VisualStateGroup x:Name="CommonStates">
-                                            <VisualState x:Name="Pressed">
-                                                <VisualState.Setters>
-                                                    <Setter Property="BackgroundColor" Value="{StaticResource Gray300}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="Normal">
-                                                <VisualState.Setters>
-                                                    <Setter Property="BackgroundColor" Value="Transparent" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateGroupList>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Text="Regional Settings"
-                           Margin="10,12,10,10"
-                           FontFamily="" FontSize="Medium"
-                           HorizontalOptions="StartAndExpand"/>
-                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right.png" 
-                           IsEnabled="False"/>
-                    <Line Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Gray300}" HeightRequest="1"/>
-                    <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0"
-                            FontFamily="" FontSize="Medium"
-                            Command="{Binding SettingSelectedCommand}"
-                            CommandParameter="regional" Opacity="0.5">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="VisualStateManager.VisualStateGroups">
