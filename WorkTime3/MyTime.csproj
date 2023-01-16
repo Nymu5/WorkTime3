@@ -19,7 +19,7 @@
         <ApplicationIdGuid>BCF404BE-8249-4531-B63E-5FE39C6DD071</ApplicationIdGuid>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>0.0.2</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>0.0.3</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
@@ -37,7 +37,8 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
-      <CodesignKey>iPhone Developer</CodesignKey>
+      <CodesignKey>iPhone Distribution: Nikolaus Alexander Klemm (5UU5SXUEFQ)</CodesignKey>
+      <CodesignProvision>N5 MyTime</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>

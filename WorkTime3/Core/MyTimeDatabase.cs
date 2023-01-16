@@ -186,10 +186,8 @@ public class MyTimeDatabase
         await Init();
         if (await LoadProfileByIdAsync(settings.Id) != null)
         {
-            DatabaseSync.UpdateWithChildren(settings); 
             return await Database.UpdateAsync(settings);
         }
-        DatabaseSync.InsertWithChildren(settings);
         return await Database.InsertAsync(settings);
     }
 }
