@@ -44,6 +44,17 @@
                     <CollectionView SelectionMode="Single"
                                     SelectionChangedCommand="{Binding SelectionChangedCommand}"
                                     ItemsSource="{Binding Employers}" SelectedItem="{Binding SelectedEmployer}">
+                        <CollectionView.EmptyView>
+                            <ContentView>
+                                <Grid>
+                                    <Label Text="No employers found!" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,40,0,0"
+                                           FontSize="Medium" FontFamily="" />
+
+                                </Grid>
+
+                            </ContentView>
+
+                        </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid>

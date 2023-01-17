@@ -83,6 +83,10 @@ public class AddTimeController : ControllerBase
         set
         {
             SetProperty(ref _time, value);
+            OnPropertyChanged(nameof(StartDate));
+            OnPropertyChanged(nameof(StartTime));
+            OnPropertyChanged(nameof(EndDate));
+            OnPropertyChanged(nameof(EndTime));
             Console.WriteLine(Time.Employer);
         }
     }

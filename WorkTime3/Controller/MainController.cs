@@ -18,6 +18,7 @@ public class MainController : ControllerBase
 
     public MainController()
     {
+        YearSelectorItems = new List<int>();
         SKColor[] colors = new SKColor[]
         {
             SKColor.Parse("F8B195"),
@@ -33,6 +34,7 @@ public class MainController : ControllerBase
         };
         LoadDashboardCommand = new Command(execute: async () =>
         {
+            
             Employers = await _db.GetEmployersAsync();
             Times = await _db.GetTimesAsync();
 
@@ -43,6 +45,14 @@ public class MainController : ControllerBase
                 _years = _maxYear - _minYear + 2;
                 _employerCount = Employers.Count + 1;
 
+                List<int> tempYears = new List<int>();
+                for (int i = _maxYear; i >= _minYear; i--)
+                {
+                    tempYears.Add(i);
+                }
+
+                YearSelectorItems = tempYears;
+                YearSelector = YearSelectorItems[0];
 
                 EarningsCube = new Double[_employerCount, _years, 13];
                 TimesCube = new TimeSpan[_employerCount, _years, 13];
@@ -170,6 +180,20 @@ public class MainController : ControllerBase
 
     public string TotalHours =>
         Constants.TsFormatter(TimesCube != null ? TimesCube[_employerCount - 1, _years - 1, 12] : TimeSpan.Zero);
+    
+    private List<int> _yearSelectorItems;
+    public List<int> YearSelectorItems
+    {
+        get => _yearSelectorItems;
+        set => SetProperty(ref _yearSelectorItems, value);
+    }
+    
+    private int _yearSelector;
+    public int YearSelector
+    {
+        get => _yearSelector;
+        set => SetProperty(ref _yearSelector, value);
+    }
 
     // Functions
 }

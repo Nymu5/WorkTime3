@@ -97,4 +97,12 @@ public class Time : ControllerBase
     [Ignore] public string TimeEndString => $"{End.ToString("dd.MM.yyyy HH:mm")}";
 
     [Ignore] public double Earned => Duration.TotalHours * Salary;
+    
+    private bool _isVisible = true;
+    [Ignore]
+    public bool IsVisible
+    {
+        get => _isVisible;
+        set => SetProperty(ref _isVisible, value);
+    }
 }

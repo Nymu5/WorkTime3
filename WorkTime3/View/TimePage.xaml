@@ -27,9 +27,33 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Border StrokeThickness="0" Margin="0,0,0,0"
-                    Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
-                <Label Text="Your Times" FontFamily="" FontSize="Title"
-                       Margin="20, 50, 20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
+                    Background="Transparent" Grid.Row="0">
+                <Grid>
+                    <Grid.RowDefinitions >
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.RowSpan="2" Text="Your Times" FontFamily="" FontSize="Title"
+                       Margin="20, 30, 20, 90" HorizontalTextAlignment="Center" />
+                    <Border Margin="20,0,20,10" Grid.Row="1" ZIndex="10" HorizontalOptions="Fill"
+                            StrokeShape="RoundRectangle 30,30,30,30" StrokeThickness="2">
+                        <Grid>
+
+                            <Editor Grid.Row="1" Margin="16,7,10,0" ZIndex="10" Placeholder="Search..." Text="{Binding SearchValue}" HorizontalOptions="Fill">
+                                <Editor.Behaviors>
+                                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding RefreshCommand}" />
+
+                                </Editor.Behaviors>
+
+                            </Editor>
+                            <ImageButton CornerRadius="22" Padding="10" Scale=".7" BackgroundColor="LightGray" HorizontalOptions="End" HeightRequest="10" WidthRequest="10" Source="plus_icon.png" ZIndex="20" Rotation="45" Command="{Binding ClearSearch}" />
+                        </Grid>
+
+                        
+                        
+                    </Border>
+                    
+                </Grid>
             </Border>
             <ImageButton Grid.Row="1" CornerRadius="30" Source="plus_icon.png" HeightRequest="60" WidthRequest="60"
                          Margin="0,0,25,25" Padding="15" ZIndex="10" Background="LightGray"
@@ -40,16 +64,26 @@
                             Offset="0,5" Radius="10" Opacity="0.8" />
 
                 </ImageButton.Shadow>
-
             </ImageButton>
             <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                 <ContentView>
                     <CollectionView SelectionMode="Single"
                                     SelectionChangedCommand="{Binding SelectionChangedCommand}"
                                     ItemsSource="{Binding Times}" SelectedItem="{Binding SelectedTime}">
+                        <CollectionView.EmptyView>
+                            <ContentView>
+                                <Grid>
+                                    <Label Text="No times found!" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,40,0,0"
+                                           FontSize="Medium" FontFamily="" />
+
+                                </Grid>
+
+                            </ContentView>
+
+                        </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
+                                <Grid IsVisible="{Binding IsVisible}">
                                     <Border
                                         BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                                         StrokeShape="RoundRectangle 20,20,20,20"

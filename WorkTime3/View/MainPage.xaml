@@ -26,6 +26,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -100,7 +101,7 @@
                     </StackLayout>
                 </Grid>
             </Border>
-            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"
+            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
                     BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                     StrokeShape="RoundRectangle 20,20,20,20"
                     Margin="5,5,5,10">
