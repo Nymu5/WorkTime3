@@ -10,11 +10,10 @@ namespace MyTime.Core.WT3Core
     [Table("Item")]
     public class Item : ControllerBase
     {
-        [PrimaryKey, Column("_id")]
-        public string Id { get; set; }
-        [ForeignKey(typeof(Employer))]
-        public string EmployerId { get; set; }
+        [PrimaryKey, Column("_id")] public string Id { get; set; }
+        [ForeignKey(typeof(Employer))] public string EmployerId { get; set; }
         private Employer employer;
+
         [ManyToOne(CascadeOperations = CascadeOperation.All)]
         public Employer Employer
         {
@@ -23,14 +22,21 @@ namespace MyTime.Core.WT3Core
         }
 
         private string employerString;
-        public string EmployerString { get => employerString; set => SetProperty(ref employerString, value); }
+
+        public string EmployerString
+        {
+            get => employerString;
+            set => SetProperty(ref employerString, value);
+        }
 
         [Ignore]
         public string EmployerStringDisplay
         {
             get => Employer != null ? Employer.Name : EmployerString + " [Deleted]";
         }
+
         private string text;
+
         public string Text
         {
             get => text;
@@ -50,10 +56,7 @@ namespace MyTime.Core.WT3Core
         public DateTime StartDate
         {
             get => startDate;
-            set
-            {
-                SetProperty(ref startDate, value);
-            } 
+            set { SetProperty(ref startDate, value); }
         }
 
         public TimeSpan StartTime
@@ -77,6 +80,7 @@ namespace MyTime.Core.WT3Core
                 OnPropertyChanged(nameof(EndDateStr));
             }
         }
+
         public TimeSpan EndTime
         {
             get => new TimeSpan(EndDate.Hour, EndDate.Minute, 0);
@@ -86,13 +90,19 @@ namespace MyTime.Core.WT3Core
                     new DateTime(endDate.Year, endDate.Month, endDate.Day, value.Hours, value.Minutes, 0));
             }
         }
+
         public string EndDateStr
         {
             get => endDate.ToString("dd.MM.yyyy HH:mm");
         }
-        
+
         private double salary;
-        public double Salary { get => salary; set => SetProperty(ref salary, Math.Round(value, 2)); }
+
+        public double Salary
+        {
+            get => salary;
+            set => SetProperty(ref salary, Math.Round(value, 2));
+        }
 
         private bool _onInvoice;
 

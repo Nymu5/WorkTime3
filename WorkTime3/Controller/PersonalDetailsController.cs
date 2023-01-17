@@ -8,6 +8,7 @@ namespace MyTime.Controller;
 public class PersonalDetailsController : ControllerBase
 {
     private MyTimeDatabase _db;
+
     public PersonalDetailsController()
     {
         _db = new MyTimeDatabase();
@@ -19,6 +20,7 @@ public class PersonalDetailsController : ControllerBase
     }
 
     private Settings _settings;
+
     public Settings Settings
     {
         get => _settings;

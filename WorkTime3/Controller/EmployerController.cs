@@ -9,6 +9,7 @@ namespace MyTime.Controller;
 public class EmployerController : ControllerBase
 {
     private MyTimeDatabase _db;
+
     public EmployerController()
     {
         _db = new MyTimeDatabase();
@@ -29,8 +30,8 @@ public class EmployerController : ControllerBase
             {
                 Shell.Current.GoToAsync("DetailEmployerPage", new Dictionary<string, object>
                 {
-                    {"Employer", _selectedEmployer},
-                    {"EmployerId", _selectedEmployer.Id}
+                    { "Employer", _selectedEmployer },
+                    { "EmployerId", _selectedEmployer.Id }
                 });
                 SelectedEmployer = null;
             }
@@ -42,6 +43,7 @@ public class EmployerController : ControllerBase
     public ICommand SelectionChangedCommand { get; set; }
 
     private List<Employer> _employers;
+
     public List<Employer> Employers
     {
         get => _employers;
@@ -50,6 +52,7 @@ public class EmployerController : ControllerBase
 
 
     private bool _isRefreshing;
+
     public bool IsRefreshing
     {
         get => _isRefreshing;
@@ -57,12 +60,10 @@ public class EmployerController : ControllerBase
     }
 
     private Employer _selectedEmployer;
+
     public Employer SelectedEmployer
     {
         get => _selectedEmployer;
-        set
-        {
-            SetProperty(ref _selectedEmployer, value);
-        }
+        set { SetProperty(ref _selectedEmployer, value); }
     }
 }

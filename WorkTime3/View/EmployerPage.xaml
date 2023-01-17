@@ -5,8 +5,9 @@
              xmlns:controller="clr-namespace:MyTime.Controller"
              xmlns:model="clr-namespace:MyTime.Model"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="MyTime.View.EmployerPage"            
-             Title="Employer">
+             x:Class="MyTime.View.EmployerPage"
+             Title="Employer"
+             Shell.NavBarIsVisible="False">
     <ContentPage.BindingContext>
         <controller:EmployerController />
     </ContentPage.BindingContext>
@@ -22,10 +23,22 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Border StrokeThickness="2" Margin="-10,-10,-10,0" Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
-                <Label Text="Your Employers" FontFamily="" FontSize="Title" FontAttributes="Bold"
-                   Margin="20, 60, 20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
+            <Border StrokeThickness="0" Margin="0,0,0,0"
+                    Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
+                <Label Text="Your Employers" FontFamily="" FontSize="Title"
+                       Margin="20, 50, 20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
             </Border>
+            <ImageButton Grid.Row="1" CornerRadius="30" Source="plus_icon.png" HeightRequest="60" WidthRequest="60"
+                         Margin="0,0,25,25" Padding="15" ZIndex="10" Background="LightGray"
+                         Command="{Binding CreateEmployer}" VerticalOptions="End" HorizontalOptions="End"
+                         BackgroundColor="Transparent">
+                <ImageButton.Shadow>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource Gray200}}"
+                            Offset="0,5" Radius="10" Opacity="0.8" />
+
+                </ImageButton.Shadow>
+
+            </ImageButton>
             <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                 <ContentView>
                     <CollectionView SelectionMode="Single"
@@ -34,11 +47,14 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
-                                            StrokeShape="RoundRectangle 20,20,20,20"
-                                            Margin="20,10,20,0" Padding="10">
+                                    <Border
+                                        BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                                        StrokeShape="RoundRectangle 20,20,20,20"
+                                        Margin="20,10,20,0" Padding="10">
                                         <Border.Shadow>
-                                            <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                                            <Shadow
+                                                Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                                                Offset="0,5" Radius="10" Opacity="0.8" />
 
                                         </Border.Shadow>
                                         <Grid Margin="10">
@@ -50,10 +66,12 @@
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-                                            <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}, Light={StaticResource Gray100}}" HeightRequest="60" WidthRequest="60"
-                                                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
-                                                    StrokeShape="RoundRectangle 30,30,30,30"
-                                                    Margin="10,0">
+                                            <Border
+                                                BackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}, Light={StaticResource Gray100}}"
+                                                HeightRequest="60" WidthRequest="60"
+                                                Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                                StrokeShape="RoundRectangle 30,30,30,30"
+                                                Margin="10,0">
                                                 <Image Source="building_icon.png" WidthRequest="40" HeightRequest="40" />
                                             </Border>
                                             <Label Text="{Binding Name}"
@@ -62,7 +80,7 @@
                                                    Margin="10,2,10,5"
                                                    Grid.Row="0"
                                                    Grid.Column="1"
-                                                   VerticalOptions="StartAndExpand" FontFamily=""/>
+                                                   VerticalOptions="StartAndExpand" FontFamily="" />
                                             <Label Text="{Binding Id}"
                                                    FontAttributes="Italic"
                                                    TextColor="{AppThemeBinding Dark=LightGray, Light=Gray}"

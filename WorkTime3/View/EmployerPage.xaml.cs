@@ -14,6 +14,7 @@ public partial class EmployerPage : ContentPage
         //Title = "Employers";
         Title = String.Empty;
     }
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();

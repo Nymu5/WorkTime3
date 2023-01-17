@@ -16,7 +16,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Command="{Binding SaveEmployerCommand}" CommandParameter="{Binding Employer.Name, Converter={StaticResource NullOrEmptyConverter}}" />
+        <ToolbarItem Text="Save" Command="{Binding SaveEmployerCommand}"
+                     CommandParameter="{Binding Employer.Name, Converter={StaticResource NullOrEmptyConverter}}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
@@ -25,18 +26,20 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Label Text="{Binding Employer.Name, TargetNullValue='New Employer'}" FontFamily="" FontSize="Title"
-                   Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center"/>
+                   Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
             <StackLayout Orientation="Vertical" Grid.Row="1">
                 <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                         StrokeShape="RoundRectangle 20,20,20,20"
                         Margin="20,10,20,10" Padding="10">
                     <Border.Shadow>
-                        <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
-                                Offset="0,30" Radius="40" Opacity="0.8" />
+                        <Shadow
+                            Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                            Offset="0,30" Radius="40" Opacity="0.8" />
                     </Border.Shadow>
                     <Grid>
                         <StackLayout Orientation="Vertical" Margin="10,10,10,10">
-                            <Label Text="Name" FontFamily="" FontAttributes="Bold" FontSize="Header" x:Name="EmployerName">
+                            <Label Text="Name" FontFamily="" FontAttributes="Bold" FontSize="Header"
+                                   x:Name="EmployerName">
                             </Label>
                             <Entry Margin="0, 5, 0, 10" Text="{Binding Employer.Name}" />
                             <Label Text="Employer #" FontFamily="" FontAttributes="Bold" FontSize="Header" />

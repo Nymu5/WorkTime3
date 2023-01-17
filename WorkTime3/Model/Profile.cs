@@ -4,5 +4,4 @@ namespace MyTime.Model;
 
 public class Profile : ControllerBase
 {
-    
 }

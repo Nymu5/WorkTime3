@@ -11,9 +11,10 @@ public class CustomAppShell : AppShell
         var result = await DisplayActionSheet("Navigate?", "Cancel", "Yes", "No");
         if (result != "Yes")
         {
-            await Shell.Current.Navigation.PushAsync(new EmployerPage()); 
+            await Shell.Current.Navigation.PushAsync(new EmployerPage());
             args.Cancel();
         }
+
         token.Complete();
     }
 }

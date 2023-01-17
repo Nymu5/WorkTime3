@@ -6,15 +6,12 @@ namespace MyTime.Controller;
 public class ImportExportController : ControllerBase
 {
     private MyTimeDatabase _db;
-    
+
     public ImportExportController()
     {
         _db = new MyTimeDatabase();
 
-        Import = new Command(execute: async () =>
-        {
-            await PickAndMove(PickOptions.Default);
-        });
+        Import = new Command(execute: async () => { await PickAndMove(PickOptions.Default); });
 
         Export = new Command(execute: async () =>
         {
@@ -25,11 +22,11 @@ public class ImportExportController : ControllerBase
             });
         });
     }
-    
+
     // Commands
     public ICommand Import { get; }
     public ICommand Export { get; }
-    
+
     // Properties
 
     private FilePickerFileType _db3FileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
@@ -52,7 +49,7 @@ public class ImportExportController : ControllerBase
             }
 
             var stream = await result.OpenReadAsync();
-            
+
             using (var fileStream = File.Create(Constants.ImportDbPath))
             {
                 stream.Seek(0, SeekOrigin.Begin);
@@ -60,10 +57,10 @@ public class ImportExportController : ControllerBase
                 stream.Close();
                 fileStream.Close();
             }
-            await _db.Importer(Constants.ImportDbPath);
-            
-            return result;
 
+            await _db.Importer(Constants.ImportDbPath);
+
+            return result;
         }
         catch (Exception e)
         {

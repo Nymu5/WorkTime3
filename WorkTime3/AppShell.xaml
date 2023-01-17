@@ -17,7 +17,8 @@
     </Shell.Behaviors>
     <Shell.Resources>
         <Style x:Key="TitleColor" TargetType="Element">
-            <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource BackgroundLight}}"/>
+            <Setter Property="Shell.TitleColor"
+                    Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource BackgroundLight}}" />
         </Style>
     </Shell.Resources>
     <TabBar>

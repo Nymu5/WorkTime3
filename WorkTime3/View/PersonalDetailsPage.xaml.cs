@@ -12,7 +12,7 @@ public partial class PersonalDetailsPage : ContentPage
     {
         InitializeComponent();
     }
-    
+
     protected override void OnAppearing()
     {
         base.OnAppearing();

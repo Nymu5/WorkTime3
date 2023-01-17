@@ -7,14 +7,12 @@ namespace MyTime.Controller;
 
 public class TimeController : ControllerBase
 {
-    private MyTimeDatabase _db; 
+    private MyTimeDatabase _db;
+
     public TimeController()
     {
         _db = new MyTimeDatabase();
-        CreateTimeCommand = new Command(execute: async () =>
-        {
-            await Shell.Current.GoToAsync("AddTimePage");
-        });
+        CreateTimeCommand = new Command(execute: async () => { await Shell.Current.GoToAsync("AddTimePage"); });
         RefreshCommand = new Command(execute: async () =>
         {
             Times = await _db.GetTimesAsync();
@@ -33,27 +31,29 @@ public class TimeController : ControllerBase
             }
         });
     }
-    
+
     // Commands
     public ICommand CreateTimeCommand { get; }
     public ICommand RefreshCommand { get; }
     public ICommand SelectionChangedCommand { get; }
-    
+
     // Properties
     private Time _selectedTime;
+
     public Time SelectedTime
     {
         get => _selectedTime;
         set => SetProperty(ref _selectedTime, value);
     }
-    
+
     private List<Time> _times;
+
     public List<Time> Times
     {
         get => _times;
         set => SetProperty(ref _times, value);
     }
-    
+
     private bool _isRefreshing;
 
     public bool IsRefreshing

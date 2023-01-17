@@ -22,7 +22,6 @@ public class Employer : ControllerBase
 
     public bool istString(double a)
     {
-
         return true;
     }
 
@@ -30,13 +29,15 @@ public class Employer : ControllerBase
     {
         return false;
     }
+
     public bool istString(int b, float c)
     {
         return false;
     }
-    
 
-    public Employer(string id, string name, long employerNb = 0, string description = "", float salary = 0, string addressLine1 = "", string addressLine2 = "")
+
+    public Employer(string id, string name, long employerNb = 0, string description = "", float salary = 0,
+        string addressLine1 = "", string addressLine2 = "")
     {
         _id = id;
         _name = name;
@@ -47,9 +48,8 @@ public class Employer : ControllerBase
         _addressLine2 = addressLine2;
         _times = new List<Time>();
     }
-    
-    [Key]
-    private string _id;
+
+    [Key] private string _id;
 
     [PrimaryKey]
     public string Id
@@ -57,6 +57,7 @@ public class Employer : ControllerBase
         get => _id;
         set => SetProperty(ref _id, value);
     }
+
     private string _name;
 
     public string Name
@@ -64,6 +65,7 @@ public class Employer : ControllerBase
         get => _name;
         set => SetProperty(ref _name, String.IsNullOrWhiteSpace(value) ? null : value);
     }
+
     private long _employerNb;
 
     public long EmployerNb
@@ -71,6 +73,7 @@ public class Employer : ControllerBase
         get => _employerNb;
         set => SetProperty(ref _employerNb, value);
     }
+
     private string _description;
 
     public string Description
@@ -78,12 +81,13 @@ public class Employer : ControllerBase
         get => _description;
         set => SetProperty(ref _description, value);
     }
+
     private double _salary;
 
     public double Salary
     {
         get => _salary;
-        set => SetProperty(ref _salary, (float)Math.Round(value, 2)); 
+        set => SetProperty(ref _salary, (float)Math.Round(value, 2));
     }
 
     public string SalaryString => Salary.ToString("C");
@@ -94,6 +98,7 @@ public class Employer : ControllerBase
         get => _addressLine1;
         set => SetProperty(ref _addressLine1, value);
     }
+
     private string _addressLine2;
 
     public string AddressLine2
@@ -109,6 +114,7 @@ public class Employer : ControllerBase
     }
 
     private List<Time> _times;
+
     [OneToMany(CascadeOperations = CascadeOperation.CascadeDelete)]
     public List<Time> Times
     {

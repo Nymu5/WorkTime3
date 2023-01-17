@@ -18,6 +18,7 @@ public partial class AddEmployerPage : ContentPage
         base.OnAppearing();
         Title = "Add Employer";
     }
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();

@@ -16,7 +16,6 @@ public class MyTimeDatabase
 
     public MyTimeDatabase()
     {
-        
     }
 
     async Task Init()
@@ -29,7 +28,6 @@ public class MyTimeDatabase
         await Database.CreateTableAsync<Employer>();
         await Database.CreateTableAsync<Time>();
         await Database.CreateTableAsync<Settings>();
-        
     }
 
     public async Task<Dictionary<string, object>> Importer(string path)
@@ -60,7 +58,8 @@ public class MyTimeDatabase
                 };
                 await this.SaveEmployerAsync(employer);
                 List<MyTime.Core.WT3Core.Item> itemsOld =
-                    await ImportDatabase.GetAllWithChildrenAsync<MyTime.Core.WT3Core.Item>(i => i.EmployerId == oldEmployer.Id);
+                    await ImportDatabase.GetAllWithChildrenAsync<MyTime.Core.WT3Core.Item>(i =>
+                        i.EmployerId == oldEmployer.Id);
                 foreach (MyTime.Core.WT3Core.Item itemOld in itemsOld)
                 {
                     Time time = new Time
@@ -68,8 +67,10 @@ public class MyTimeDatabase
                         Id = Time.getUUID(),
                         Description = itemOld.Description,
                         Employer = employer,
-                        Start = new DateTime(itemOld.StartDate.Year, itemOld.StartDate.Month, itemOld.StartDate.Day, itemOld.StartTime.Hours, itemOld.StartDate.Minute, 0),
-                        End = new DateTime(itemOld.EndDate.Year, itemOld.EndDate.Month, itemOld.EndDate.Day, itemOld.EndTime.Hours, itemOld.EndTime.Minutes, 0),
+                        Start = new DateTime(itemOld.StartDate.Year, itemOld.StartDate.Month, itemOld.StartDate.Day,
+                            itemOld.StartTime.Hours, itemOld.StartDate.Minute, 0),
+                        End = new DateTime(itemOld.EndDate.Year, itemOld.EndDate.Month, itemOld.EndDate.Day,
+                            itemOld.EndTime.Hours, itemOld.EndTime.Minutes, 0),
                         Salary = (float)itemOld.Salary,
                         Text = itemOld.Text
                     };
@@ -77,6 +78,7 @@ public class MyTimeDatabase
                     await this.SaveTimeAsync(time);
                     await this.SaveEmployerAsync(employer);
                 }
+
                 Console.WriteLine($"{oldEmployer.Name}: {itemsOld.Count}");
             }
 
@@ -151,6 +153,7 @@ public class MyTimeDatabase
             await Database.UpdateAsync(time);
             return;
         }
+
         await Database.InsertAsync(time);
     }
 
@@ -188,6 +191,7 @@ public class MyTimeDatabase
         {
             return await Database.UpdateAsync(settings);
         }
+
         return await Database.InsertAsync(settings);
     }
 }

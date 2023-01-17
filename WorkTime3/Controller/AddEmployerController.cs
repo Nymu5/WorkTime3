@@ -6,10 +6,10 @@ using MyTime.View;
 namespace MyTime.Controller;
 
 [QueryProperty(nameof(Employer), "Employer")]
-
 public class AddEmployerController : ControllerBase
 {
     private MyTimeDatabase _db;
+
     public AddEmployerController()
     {
         _db = new MyTimeDatabase();
@@ -21,19 +21,21 @@ public class AddEmployerController : ControllerBase
             await Shell.Current.GoToAsync("..");
         }, canExecute: (canSave) => canSave);
     }
-    
+
     // Commands
     public ICommand SaveEmployerCommand { get; set; }
-    
+
     // Properties
     private Employer _employer;
+
     public Employer Employer
     {
         get => _employer;
         set => SetProperty(ref _employer, value);
     }
-    
+
     private bool _canExecute;
+
     public bool CanExecute
     {
         get => _canExecute;

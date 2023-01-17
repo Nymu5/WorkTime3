@@ -18,14 +18,15 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Label Text="Personal Details" FontFamily="" FontSize="Title"
-                   Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center"/>
+                   Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
             <StackLayout Orientation="Vertical" Grid.Row="1">
                 <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                         StrokeShape="RoundRectangle 20,20,20,20"
                         Margin="20,10,20,10" Padding="10">
                     <Border.Shadow>
-                        <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
-                                Offset="0,30" Radius="40" Opacity="0.8" />
+                        <Shadow
+                            Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                            Offset="0,30" Radius="40" Opacity="0.8" />
                     </Border.Shadow>
                     <Grid>
                         <StackLayout Orientation="Vertical" Margin="10,10,10,10">

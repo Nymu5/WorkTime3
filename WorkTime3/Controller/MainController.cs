@@ -10,11 +10,12 @@ namespace MyTime.Controller;
 
 public class MainController : ControllerBase
 {
-    private MyTimeDatabase _db = new MyTimeDatabase(); 
+    private MyTimeDatabase _db = new MyTimeDatabase();
     int _minYear;
     int _maxYear;
     int _years;
     int _employerCount;
+
     public MainController()
     {
         SKColor[] colors = new SKColor[]
@@ -41,7 +42,7 @@ public class MainController : ControllerBase
                 _maxYear = Times.Max(t => t.Start.Year);
                 _years = _maxYear - _minYear + 2;
                 _employerCount = Employers.Count + 1;
-                
+
 
                 EarningsCube = new Double[_employerCount, _years, 13];
                 TimesCube = new TimeSpan[_employerCount, _years, 13];
@@ -51,25 +52,26 @@ public class MainController : ControllerBase
                     int pos1 = Employers.IndexOf(Employers.FirstOrDefault(e => e.Id == time.Employer.Id));
                     int pos2 = time.Start.Year - _minYear;
                     int pos3 = time.Start.Month - 1;
-                    
+
                     EarningsCube[pos1, pos2, pos3] += time.Earned;
                     EarningsCube[Employers.Count, pos2, pos3] += time.Earned;
-                    EarningsCube[pos1, _years-1, pos3] += time.Earned;
+                    EarningsCube[pos1, _years - 1, pos3] += time.Earned;
                     EarningsCube[pos1, pos2, 12] += time.Earned;
                     EarningsCube[Employers.Count, _years - 1, pos3] += time.Earned;
                     EarningsCube[Employers.Count, pos2, 12] += time.Earned;
                     EarningsCube[pos1, _years - 1, 12] += time.Earned;
                     EarningsCube[Employers.Count, _years - 1, 12] += time.Earned;
-                    
+
                     TimesCube[pos1, pos2, pos3] += time.Duration;
                     TimesCube[Employers.Count, pos2, pos3] += time.Duration;
-                    TimesCube[pos1, _years-1, pos3] += time.Duration;
+                    TimesCube[pos1, _years - 1, pos3] += time.Duration;
                     TimesCube[pos1, pos2, 12] += time.Duration;
                     TimesCube[Employers.Count, _years - 1, pos3] += time.Duration;
                     TimesCube[Employers.Count, pos2, 12] += time.Duration;
                     TimesCube[pos1, _years - 1, 12] += time.Duration;
                     TimesCube[Employers.Count, _years - 1, 12] += time.Duration;
                 }
+
                 OnPropertyChanged(nameof(Times));
                 OnPropertyChanged(nameof(TotalEarnings));
                 OnPropertyChanged(nameof(TotalHours));
@@ -84,36 +86,39 @@ public class MainController : ControllerBase
                         {
                             Values = vals,
                             Name = Employers[i].Name,
-                            TooltipLabelFormatter = (chartPoint) => $"{chartPoint.Context.Series.Name}: {(chartPoint.PrimaryValue.ToString("C"))}",
+                            TooltipLabelFormatter = (chartPoint) =>
+                                $"{chartPoint.Context.Series.Name}: {(chartPoint.PrimaryValue.ToString("C"))}",
                             Stroke = null,
-                            Fill = new SolidColorPaint(colors[i%10]),
+                            Fill = new SolidColorPaint(colors[i % 10]),
                         };
                     }
                 }
             }
         });
     }
-    
+
     private ISeries[] _series;
+
     public ISeries[] Series
     {
         get => _series;
         set => SetProperty(ref _series, value);
     }
-    
+
     public Axis[] XAxes { get; set; } =
+    {
+        new Axis
         {
-            new Axis
-            {
-                Labels = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
-                LabelsRotation = 90,
-                SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
-                SeparatorsAtCenter = false,
-                TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
-                TicksAtCenter = true,
-                TextSize = 40,
-            }
-        };
+            Labels = new string[]
+                { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+            LabelsRotation = 90,
+            SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+            SeparatorsAtCenter = false,
+            TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
+            TicksAtCenter = true,
+            TextSize = 40,
+        }
+    };
 
     public Axis[] YAxes { get; set; } =
     {
@@ -126,19 +131,18 @@ public class MainController : ControllerBase
 
     // Commands
     public ICommand LoadDashboardCommand { get; }
-    
+
     // Properties
     private List<Employer> _employers;
+
     public List<Employer> Employers
     {
         get => _employers;
-        set
-        {
-            SetProperty(ref _employers, value);
-        } 
+        set { SetProperty(ref _employers, value); }
     }
-    
+
     private List<Time> _times;
+
     public List<Time> Times
     {
         get => _times;
@@ -146,20 +150,23 @@ public class MainController : ControllerBase
     }
 
     private double[,,] _earningsCube;
+
     public double[,,] EarningsCube
     {
         get => _earningsCube;
         set => SetProperty(ref _earningsCube, value);
     }
-    
+
     private TimeSpan[,,] _timesCube;
+
     public TimeSpan[,,] TimesCube
     {
         get => _timesCube;
         set => SetProperty(ref _timesCube, value);
     }
-    
-    public string TotalEarnings => (EarningsCube != null ? EarningsCube[_employerCount-1, _years - 1, 12] : 0).ToString("C");
+
+    public string TotalEarnings =>
+        (EarningsCube != null ? EarningsCube[_employerCount - 1, _years - 1, 12] : 0).ToString("C");
 
     public string TotalHours =>
         Constants.TsFormatter(TimesCube != null ? TimesCube[_employerCount - 1, _years - 1, 12] : TimeSpan.Zero);

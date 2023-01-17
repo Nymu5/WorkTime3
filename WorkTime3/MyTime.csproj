@@ -37,10 +37,14 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
-      <CodesignKey>iPhone Distribution: Nikolaus Alexander Klemm (5UU5SXUEFQ)</CodesignKey>
+      <CodesignKey></CodesignKey>
       <CodesignProvision></CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+      <CreatePackage>false</CreatePackage>
+      <CodesignProvision>MacBook Pro MyTime</CodesignProvision>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
       <CreatePackage>false</CreatePackage>
     </PropertyGroup>
     <ItemGroup>
@@ -69,5 +73,11 @@
         <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
         <PackageReference Include="SQLiteNetExtensions.Async" Version="2.1.0" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\..\AuthKey_WU93V84P2W.p8">
+        <Link>AuthKey_WU93V84P2W.p8</Link>
+      </None>
     </ItemGroup>
 </Project>

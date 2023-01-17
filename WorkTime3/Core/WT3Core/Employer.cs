@@ -10,10 +10,10 @@ namespace MyTime.Core.WT3Core
     [Table("Employers")]
     public class Employer : ControllerBase
     {
-        [PrimaryKey, Column("_id")]
-        public string Id { get; set; }
+        [PrimaryKey, Column("_id")] public string Id { get; set; }
 
         private string name;
+
         public string Name
         {
             get => name;
@@ -21,13 +21,15 @@ namespace MyTime.Core.WT3Core
         }
 
         private string address;
+
         public string Address
         {
-            get => address; 
+            get => address;
             set => SetProperty(ref address, value);
         }
 
         private string description;
+
         public string Description
         {
             get => description;
@@ -35,13 +37,15 @@ namespace MyTime.Core.WT3Core
         }
 
         private double salary = 10.45;
+
         public double Salary
         {
-            get => salary; 
+            get => salary;
             set => SetProperty(ref salary, value);
         }
 
         private string _employerNumber;
+
         public string EmployerNumber
         {
             get => _employerNumber;
@@ -52,8 +56,8 @@ namespace MyTime.Core.WT3Core
 
         public Employer()
         {
-            
         }
+
         public Employer(Employer employer)
         {
             Id = employer.Id;

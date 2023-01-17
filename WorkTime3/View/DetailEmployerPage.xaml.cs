@@ -12,13 +12,14 @@ public partial class DetailEmployerPage : ContentPage
     {
         InitializeComponent();
     }
-    
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
         //Title = "Details";
         Title = String.Empty;
     }
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();

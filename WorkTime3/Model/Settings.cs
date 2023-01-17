@@ -19,6 +19,7 @@ public class Settings : ControllerBase
     }
 
     private string _id;
+
     [PrimaryKey]
     public string Id
     {
@@ -27,6 +28,7 @@ public class Settings : ControllerBase
     }
 
     private string _name;
+
     public string Name
     {
         get => _name;
@@ -34,6 +36,7 @@ public class Settings : ControllerBase
     }
 
     private string _taxId;
+
     public string TaxId
     {
         get => _taxId;
@@ -41,6 +44,7 @@ public class Settings : ControllerBase
     }
 
     private string _addressLine1;
+
     public string AddressLine1
     {
         get => _addressLine1;
@@ -48,6 +52,7 @@ public class Settings : ControllerBase
     }
 
     private string _addressLine2;
+
     public string AddressLine2
     {
         get => _addressLine2;
@@ -55,6 +60,7 @@ public class Settings : ControllerBase
     }
 
     private string _bankName;
+
     public string BankName
     {
         get => _bankName;
@@ -62,6 +68,7 @@ public class Settings : ControllerBase
     }
 
     private string _bankIban;
+
     public string BankIban
     {
         get => _bankIban;
@@ -69,6 +76,7 @@ public class Settings : ControllerBase
     }
 
     private string _bankBic;
+
     public string BankBic
     {
         get => _bankBic;

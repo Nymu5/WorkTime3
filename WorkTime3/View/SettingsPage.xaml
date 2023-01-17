@@ -14,9 +14,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Border StrokeThickness="2" Margin="-10,-10,-10,0" Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
-                <Label Text="Settings" FontFamily="" FontSize="Title" FontAttributes="Bold"
-                   Margin="20, 60, 20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
+            <Border StrokeThickness="0" Margin="0,0,0,0"
+                    Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
+                <Label Text="Settings" FontFamily="" FontSize="Title"
+                       Margin="20, 60, 20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
             </Border>
             <StackLayout Grid.Row="1" Orientation="Vertical">
                 <Grid>
@@ -31,10 +32,11 @@
                     <Label Grid.Row="0" Grid.Column="0" Text="Personal Details"
                            Margin="10,12,10,10"
                            FontFamily="" FontSize="Medium"
-                           HorizontalOptions="StartAndExpand"/>
-                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right_sm.png" 
-                           IsEnabled="False"/>
-                    <Line Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Gray300}" HeightRequest="1"/>
+                           HorizontalOptions="StartAndExpand" />
+                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right_sm.png"
+                           IsEnabled="False" />
+                    <Line Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Gray300}"
+                          HeightRequest="1" />
                     <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0"
                             FontFamily="" FontSize="Medium"
                             Command="{Binding SettingSelectedCommand}"
@@ -73,10 +75,11 @@
                     <Label Grid.Row="0" Grid.Column="0" Text="Bank Information"
                            Margin="10,12,10,10"
                            FontFamily="" FontSize="Medium"
-                           HorizontalOptions="StartAndExpand"/>
-                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right_sm.png" 
-                           IsEnabled="False"/>
-                    <Line Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Gray300}" HeightRequest="1"/>
+                           HorizontalOptions="StartAndExpand" />
+                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right_sm.png"
+                           IsEnabled="False" />
+                    <Line Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Gray300}"
+                          HeightRequest="1" />
                     <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0"
                             FontFamily="" FontSize="Medium"
                             Command="{Binding SettingSelectedCommand}"
@@ -115,10 +118,11 @@
                     <Label Grid.Row="0" Grid.Column="0" Text="Import / Export"
                            Margin="10,12,10,10"
                            FontFamily="" FontSize="Medium"
-                           HorizontalOptions="StartAndExpand"/>
-                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right_sm.png" 
-                           IsEnabled="False"/>
-                    <Line Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Gray300}" HeightRequest="1"/>
+                           HorizontalOptions="StartAndExpand" />
+                    <Image Grid.Row="0" Margin="10" Grid.Column="1" Source="icon_arrow_right_sm.png"
+                           IsEnabled="False" />
+                    <Line Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Gray300}"
+                          HeightRequest="1" />
                     <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="0"
                             FontFamily="" FontSize="Medium"
                             Command="{Binding SettingSelectedCommand}"
@@ -146,7 +150,7 @@
                     </Button>
                 </Grid>
             </StackLayout>
-            
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

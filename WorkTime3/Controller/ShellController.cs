@@ -10,12 +10,9 @@ public class ShellController : ControllerBase
     public ShellController()
     {
         _db = new MyTimeDatabase();
-        DatabaseSetupCommand = new Command(canExecute: () => true, execute: async () =>
-        {
-            Constants.Settings = await _db.LoadProfileAsync();
-        });
+        DatabaseSetupCommand = new Command(canExecute: () => true,
+            execute: async () => { Constants.Settings = await _db.LoadProfileAsync(); });
     }
-    
+
     public ICommand DatabaseSetupCommand { get; set; }
-    
 }

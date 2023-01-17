@@ -12,8 +12,9 @@ public class Time : ControllerBase
         Start = new DateTime(now.Year, now.Month, now.Day, now.Hour, (now.Minute / 15) * 15, 0);
         End = (new DateTime(now.Year, now.Month, now.Day, now.Hour, (now.Minute / 15) * 15, 0)).AddHours(2);
     }
-    
+
     private string _id;
+
     [PrimaryKey]
     public string Id
     {
@@ -22,15 +23,17 @@ public class Time : ControllerBase
     }
 
     private string _employerId;
+
     [ForeignKey(typeof(Employer))]
     public string EmployerId
     {
         get => _employerId;
         set => SetProperty(ref _employerId, value);
     }
-    
-    
+
+
     private Employer _employer;
+
     [ManyToOne(CascadeOperations = CascadeOperation.All)]
     public Employer Employer
     {
@@ -39,6 +42,7 @@ public class Time : ControllerBase
     }
 
     private string _text;
+
     public string Text
     {
         get => _text;
@@ -46,6 +50,7 @@ public class Time : ControllerBase
     }
 
     private string _description;
+
     public string Description
     {
         get => _description;
@@ -53,6 +58,7 @@ public class Time : ControllerBase
     }
 
     private DateTime _start;
+
     public DateTime Start
     {
         get => _start;
@@ -60,13 +66,15 @@ public class Time : ControllerBase
     }
 
     private DateTime _end;
+
     public DateTime End
     {
         get => _end;
         set => SetProperty(ref _end, value);
     }
-    
+
     private double _salary;
+
     public double Salary
     {
         get => _salary;
@@ -75,7 +83,7 @@ public class Time : ControllerBase
 
     [Ignore] public string SalaryFloat => Salary.ToString("C");
     [Ignore] public string EarnedString => (Salary * Duration.TotalHours).ToString("C");
-    
+
     public static string getUUID()
     {
         Guid myuuid = Guid.NewGuid();
@@ -89,5 +97,4 @@ public class Time : ControllerBase
     [Ignore] public string TimeEndString => $"{End.ToString("dd.MM.yyyy HH:mm")}";
 
     [Ignore] public double Earned => Duration.TotalHours * Salary;
-
 }

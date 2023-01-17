@@ -10,6 +10,7 @@ namespace MyTime.Controller;
 public class AddTimeController : ControllerBase
 {
     private MyTimeDatabase _db;
+
     public AddTimeController()
     {
         Time = new Time();
@@ -18,9 +19,9 @@ public class AddTimeController : ControllerBase
         LoadCommand = new Command(execute: async () =>
         {
             Employers = await _db.GetEmployersAsync();
-            if (Time.Employer != null) SelectedEmployer = Employers.FirstOrDefault(e => e.Id == Time.Employer.Id); 
+            if (Time.Employer != null) SelectedEmployer = Employers.FirstOrDefault(e => e.Id == Time.Employer.Id);
         });
-        
+
         SaveTimeCommand = new Command<bool>(canExecute: (canSave) => canSave, execute: async (canSave) =>
         {
             if (Time.Id == null) Time.Id = Time.getUUID();
@@ -35,10 +36,7 @@ public class AddTimeController : ControllerBase
         {
             if (Time.Id == null) Time.Salary = SelectedEmployer.Salary;
         });
-        BindingChangedCommand = new Command(execute: () =>
-        {
-            
-        });
+        BindingChangedCommand = new Command(execute: () => { });
         DeleteTimeCommand = new Command<bool>(canExecute: (canDelete) => canDelete, execute: async (canDelete) =>
         {
             var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete this entry?",
@@ -48,23 +46,25 @@ public class AddTimeController : ControllerBase
             await Shell.Current.GoToAsync("..");
         });
     }
-    
+
     // Controls 
     public ICommand LoadCommand { get; }
     public ICommand SaveTimeCommand { get; }
     public ICommand UpdateSalaryCommand { get; }
     public ICommand BindingChangedCommand { get; }
     public ICommand DeleteTimeCommand { get; }
-    
+
     // Properties
     private List<Employer> _employers;
+
     public List<Employer> Employers
     {
         get => _employers;
         set => SetProperty(ref _employers, value);
     }
-    
+
     private Employer _selectedEmployer;
+
     public Employer SelectedEmployer
     {
         get => _selectedEmployer;
@@ -74,8 +74,9 @@ public class AddTimeController : ControllerBase
             OnPropertyChanged(nameof(CanSave));
         }
     }
-    
+
     private Time _time;
+
     public Time Time
     {
         get => _time;
@@ -83,7 +84,7 @@ public class AddTimeController : ControllerBase
         {
             SetProperty(ref _time, value);
             Console.WriteLine(Time.Employer);
-        } 
+        }
     }
 
     public DateTime StartDate
@@ -133,13 +134,15 @@ public class AddTimeController : ControllerBase
     }
 
     private bool _canSave;
+
     public bool CanSave
     {
         get => SelectedEmployer != null;
         set => SetProperty(ref _canSave, value);
     }
-    
+
     private bool _canDelete = true;
+
     public bool CanDelete
     {
         get => _canDelete;

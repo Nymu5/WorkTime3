@@ -14,13 +14,14 @@
     <ContentPage.Behaviors>
         <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding LoadDashboardCommand}" />
     </ContentPage.Behaviors>
-    <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}" Padding="10,0,10,0">
+    <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}"
+          Padding="10,0,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label Text="Overview" FontFamily="" FontSize="Title"
-                   Margin="20,50,20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
+               Margin="20,50,20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -35,63 +36,77 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                     StrokeShape="RoundRectangle 20,20,20,20"
                     Margin="5,5,5,5" Padding="10">
                 <Border.Shadow>
-                    <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                    <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
+                            Offset="0,30" Radius="40" Opacity="0.8" />
                 </Border.Shadow>
                 <Grid>
                     <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
-                        <Label Margin="0,0,0,5" Text="{Binding Employers.Count}" HorizontalOptions="Center" FontSize="24" FontAttributes="Bold" FontFamily=""/>
+                        <Label Margin="0,0,0,5" Text="{Binding Employers.Count}" HorizontalOptions="Center"
+                               FontSize="24" FontAttributes="Bold" FontFamily="" />
                         <Label Text="Employers" HorizontalOptions="Center" />
                     </StackLayout>
                 </Grid>
             </Border>
-            <Border Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+            <Border Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                     StrokeShape="RoundRectangle 20,20,20,20"
                     Margin="5,5,5,5" Padding="10,10,10,10">
                 <Border.Shadow>
-                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                            Offset="0,30" Radius="40" Opacity="0.8" />
                 </Border.Shadow>
                 <Grid>
                     <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
-                        <Label Margin="0,0,0,5" Text="{Binding TotalHours}" HorizontalOptions="Center" FontSize="24" FontAttributes="Bold" FontFamily=""/>
+                        <Label Margin="0,0,0,5" Text="{Binding TotalHours}" HorizontalOptions="Center" FontSize="24"
+                               FontAttributes="Bold" FontFamily="" />
                         <Label Text="Total Hours" HorizontalOptions="Center" />
                     </StackLayout>
                 </Grid>
             </Border>
-            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                     StrokeShape="RoundRectangle 20,20,20,20"
                     Margin="5,5,5,5" Padding="10,10,10,10">
                 <Border.Shadow>
-                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                            Offset="0,30" Radius="40" Opacity="0.8" />
                 </Border.Shadow>
                 <Grid>
                     <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
-                        <Label Margin="0,0,0,5"  Text="{Binding TotalEarnings}" HorizontalOptions="Center" FontSize="24" FontAttributes="Bold" FontFamily=""/>
-                        <Label Text="Total Earnings" HorizontalOptions="Center"/>
+                        <Label Margin="0,0,0,5" Text="{Binding TotalEarnings}" HorizontalOptions="Center" FontSize="24"
+                               FontAttributes="Bold" FontFamily="" />
+                        <Label Text="Total Earnings" HorizontalOptions="Center" />
                     </StackLayout>
                 </Grid>
             </Border>
-            <Border Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+            <Border Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                     StrokeShape="RoundRectangle 20,20,20,20"
                     Margin="5,5,5,5" Padding="10,10,10,10">
                 <Border.Shadow>
-                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                            Offset="0,30" Radius="40" Opacity="0.8" />
                 </Border.Shadow>
                 <Grid>
                     <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
-                        <Label Margin="0,0,0,5" Text="{Binding Times.Count}" HorizontalOptions="Center" FontSize="24" FontAttributes="Bold" FontFamily=""/>
+                        <Label Margin="0,0,0,5" Text="{Binding Times.Count}" HorizontalOptions="Center" FontSize="24"
+                               FontAttributes="Bold" FontFamily="" />
                         <Label Text="Times Worked" HorizontalOptions="Center" />
                     </StackLayout>
                 </Grid>
             </Border>
-            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                     StrokeShape="RoundRectangle 20,20,20,20"
                     Margin="5,5,5,10">
                 <Border.Shadow>
-                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}" Offset="0,30" Radius="40" Opacity="0.8"/>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                            Offset="0,30" Radius="40" Opacity="0.8" />
                 </Border.Shadow>
                 <Grid>
                     <lvc:CartesianChart Margin="10,10,10,10" Series="{Binding Series}"
@@ -99,12 +114,12 @@
                                         YAxes="{Binding YAxes}"
                                         AnimationsSpeed="0">
                         <lvc:CartesianChart.Tooltip>
-                             <vms:CustomTooltip />
+                            <vms:CustomTooltip />
                         </lvc:CartesianChart.Tooltip>
                     </lvc:CartesianChart>
                 </Grid>
             </Border>
         </Grid>
-        
+
     </Grid>
 </ContentPage>

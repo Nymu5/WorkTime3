@@ -18,12 +18,14 @@ public class BankInformationController : ControllerBase
             await Shell.Current.GoToAsync("..");
         });
     }
+
     private Settings _settings;
+
     public Settings Settings
     {
         get => _settings;
         set => SetProperty(ref _settings, value);
     }
-    
+
     public ICommand SaveCommand { get; set; }
 }

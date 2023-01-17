@@ -12,7 +12,7 @@ public partial class AddTimePage : ContentPage
     {
         InitializeComponent();
     }
-    
+
     protected override void OnAppearing()
     {
         base.OnAppearing();

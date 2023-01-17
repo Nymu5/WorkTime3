@@ -12,7 +12,7 @@ public partial class BankInformationPage : ContentPage
     {
         InitializeComponent();
     }
-    
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
