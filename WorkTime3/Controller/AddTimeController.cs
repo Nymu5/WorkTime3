@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using DynamicData;
 using MyTime.Core;
 using MyTime.Model;
 
@@ -43,7 +44,10 @@ public class AddTimeController : ControllerBase
                 "Cancel", "Yes");
             if (result != "Yes") return;
             await _db.DeleteTimeAsync(Time);
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync("..", new Dictionary<string, object>
+            {
+                {"DeleteTime", Time}
+            });
         });
     }
 

@@ -10,30 +10,21 @@ using ReactiveUI;
 
 namespace MyTime.Controller;
 
-public class TimeController : ControllerBase
+[QueryProperty(nameof(DeleteTime), "DeleteTime")]
+public class TimeController : ReactiveObject
 {
     private MyTimeDatabase _db;
 
     public TimeController()
     {
-        TimesCache = new SourceCache<Time, string>(t => t.Id);
+        _myTimes = new SourceCache<Time, string>(t => t.Id);
         _db = new MyTimeDatabase();
         CreateTimeCommand = new Command(execute: async () => { await Shell.Current.GoToAsync("AddTimePage"); });
         RefreshCommand = new Command(execute: async () =>
         {
-            TimesCache.AddOrUpdate(await _db.GetTimesAsync());
-            var disposable = TimesCache
-                .Connect()
-                .Sort(SortExpressionComparer<Time>.Descending(t => t.Start))
-                .Filter(t =>
-                    (t.Text.ToLower().Contains(SearchValue.ToLower()) ||
-                    t.Employer.Name.ToLower().Contains(SearchValue.ToLower())) || String.IsNullOrWhiteSpace(SearchValue) ||
-                    t.TimeStartString.ToLower().Contains(SearchValue.ToLower()) || t.TimeEndString.ToLower().Contains(SearchValue.ToLower())) 
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Bind(out _times)
-                .DisposeMany()
-                .Subscribe();
-            OnPropertyChanged(nameof(Times));
+            Console.WriteLine(_myTimes.Count);
+            Console.WriteLine("Updating list!");
+            _myTimes.AddOrUpdate(await _db.GetTimesAsync());
             IsRefreshing = false;
         });
         SelectionChangedCommand = new Command(execute: async () =>
@@ -43,15 +34,33 @@ public class TimeController : ControllerBase
                 await Shell.Current.GoToAsync("AddTimePage", new Dictionary<string, object>
                 {
                     { "Time", SelectedTime },
-                    { "TimeId", SelectedTime.Id }
+                    { "TimeId", SelectedTime.Id },
+                    { "MyTimes", _myTimes }
                 });
                 SelectedTime = null;
             }
         });
         ClearSearch = new Command(execute: () =>
         {
-            SearchValue = String.Empty;
+            SearchTerm = String.Empty;
         });
+
+        Func<Time, bool> SearchTermFilter(string text) => time => String.IsNullOrWhiteSpace(text) ||
+                                                                  time.Text.ToLower().Contains(text.ToLower()) ||
+                                                                  time.Employer.Name.ToLower().Contains(text.ToLower());
+
+        var filterPredicate = this.WhenAnyValue(x => x.SearchTerm)
+            .Throttle(TimeSpan.FromMilliseconds(250), RxApp.TaskpoolScheduler)
+            .DistinctUntilChanged()
+            .Select(SearchTermFilter);
+
+        var disposable = _myTimes
+            .Connect()
+            .Filter(filterPredicate)
+            .Sort(SortExpressionComparer<Time>.Descending(t => t.Start))
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Bind(out Times)
+            .Subscribe();
     }
 
     // Commands
@@ -66,40 +75,29 @@ public class TimeController : ControllerBase
     public Time SelectedTime
     {
         get => _selectedTime;
-        set => SetProperty(ref _selectedTime, value);
+        set => this.RaiseAndSetIfChanged(ref _selectedTime, value);
     }
     
-    private SourceCache<Time, string> _timesCache;
-    public SourceCache<Time, string> TimesCache
-    {
-        get => _timesCache;
-        set => SetProperty(ref _timesCache, value);
-    }
-
-    private ReadOnlyObservableCollection<Time> _times;
-    public ReadOnlyObservableCollection<Time> Times
-    {
-        get => _times;
-        set => SetProperty(ref _times, value);
-    }
+    private SourceCache<Time, string> _myTimes;
+    public ReadOnlyObservableCollection<Time> Times;
 
     private bool _isRefreshing;
-
     public bool IsRefreshing
     {
         get => _isRefreshing;
-        set => SetProperty(ref _isRefreshing, value);
+        set => this.RaiseAndSetIfChanged(ref _isRefreshing, value);
     }
-    
-    private string _searchValue = "";
-    public string SearchValue
+
+    private string _searchTerm = String.Empty;
+    public string SearchTerm
     {
-        get => _searchValue;
-        set
-        {
-            SetProperty(ref _searchValue, value);
-            OnPropertyChanged(nameof(Times));
-        }
+        get => _searchTerm;
+        set => this.RaiseAndSetIfChanged(ref _searchTerm, value);
+    }
+
+    public Time DeleteTime
+    {
+        set => _myTimes.Remove(value);
     }
 
 }
