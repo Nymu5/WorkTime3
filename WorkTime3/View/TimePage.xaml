@@ -38,13 +38,7 @@
                        Margin="20, 30, 20, 90" HorizontalTextAlignment="Center" />
                     <Border Margin="20,0,20,10" Grid.Row="1" ZIndex="10" HorizontalOptions="Fill"
                             StrokeShape="RoundRectangle 30,30,30,30" StrokeThickness="2">
-                        <Grid>
-
-                            <Editor x:Name="SearchTermEditor" Margin="16,7,10,0" ZIndex="10" Placeholder="Search..." HorizontalOptions="Fill">
-
-                            </Editor>
-                            <ImageButton CornerRadius="22" Padding="10" Scale=".7" BackgroundColor="LightGray" HorizontalOptions="End" HeightRequest="10" WidthRequest="10" Source="plus_icon.png" ZIndex="20" Rotation="45" Command="{Binding ClearSearch}" />
-                        </Grid>
+                        <SearchBar x:Name="SearchBar" />
 
                         
                         
@@ -80,11 +74,12 @@
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Grid IsVisible="{Binding IsVisible}">
+                                <Grid>
                                     <Border
                                         BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                                         StrokeShape="RoundRectangle 20,20,20,20"
                                         Margin="20,10,20,0" Padding="10" StrokeThickness="2" ZIndex="0">
+                                        <Border.Behaviors></Border.Behaviors>
                                         <Border.Shadow>
                                             <Shadow
                                                 Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"

@@ -1,9 +1,11 @@
+using DynamicData;
 using SQLite;
 using MyTime.Model;
+using ReactiveUI;
 
 namespace MyTime.Core;
 
-public static class Constants
+public static class Constants 
 {
     private const string DatabaseFilename = "MyTime.db3";
     private const string ImportDatabaseFilename = "ImportDB.db3";
@@ -27,4 +29,8 @@ public static class Constants
     {
         return $"{(int)ts.TotalHours}:{((int)ts.Minutes).ToString("00")} h";
     }
+
+    public static SourceCache<Employer, string> Employers;
+    public static SourceCache<Time, string> Times;
+    public static MyTimeDatabase Database;
 }

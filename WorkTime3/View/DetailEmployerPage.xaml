@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controller="clr-namespace:MyTime.Controller"
-             x:Class="MyTime.View.DetailEmployerPage">
+<rxui:ReactiveContentPage x:TypeArguments="controller:DetailEmployerController" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                          xmlns:controller="clr-namespace:MyTime.Controller"
+                          xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
+                          x:Class="MyTime.View.DetailEmployerPage">
     <ContentPage.BindingContext>
         <controller:DetailEmployerController />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Edit" Command="{Binding EditEmployerCommand}" />
+        <ToolbarItem x:Name="EditButton" Text="Edit" />
         <ToolbarItem Text=" | " />
-        <ToolbarItem Text="Delete" Command="{Binding DeleteEmployerCommand}" />
+        <ToolbarItem x:Name="DeleteButton" Text="Delete" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid BackgroundColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
@@ -19,7 +20,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Picker SelectedItem=""></Picker>
-            <Label Text="{Binding Employer.Name}" FontFamily="" FontSize="Title"
+            <Label x:Name="NameLabel" FontFamily="" FontSize="Title"
                    Margin="20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
             <StackLayout Grid.Row="1" Orientation="Vertical">
                 <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
@@ -33,21 +34,21 @@
                     <Grid>
                         <StackLayout Orientation="Vertical" Margin="10, 10, 10, 10">
                             <Label Text="ID" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
-                            <Label Text="{Binding Employer.Id}" Margin="0,0,0,10" />
+                            <Label x:Name="IdLabel" />
                             <Label Text="Address Line 1" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
-                            <Label Text="{Binding Employer.AddressLine1}" Margin="0,0,0,10" />
+                            <Label x:Name="AddressLine1Label" Margin="0,0,0,10" />
                             <Label Text="Address Line 2" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
-                            <Label Text="{Binding Employer.AddressLine2}" Margin="0,0,0,10" />
+                            <Label x:Name="AddressLine2Label" Margin="0,0,0,10" />
                             <Label Text="Employer Number" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
-                            <Label Text="{Binding Employer.EmployerNb}" Margin="0,0,0,10" />
+                            <Label x:Name="EmployerNumberLabel" Margin="0,0,0,10" />
                             <Label Text="Salary" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
-                            <Label Text="{Binding Employer.SalaryString}" Margin="0,0,0,10" />
+                            <Label x:Name="SalaryLabel" Margin="0,0,0,10" />
                             <Label Text="Description" FontFamily="" FontAttributes="Bold" FontSize="Medium" />
-                            <Label Text="{Binding Employer.Description}" />
+                            <Label x:Name="DescriptionLabel" />
                         </StackLayout>
                     </Grid>
                 </Border>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
-</ContentPage>
+</rxui:ReactiveContentPage>

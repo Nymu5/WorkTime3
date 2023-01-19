@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controller="clr-namespace:MyTime.Controller"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="MyTime.View.AddEmployerPage"
-             xmlns:controls="clr-namespace:MyTime.Resources.Templates"
-             Title="Add Employer">
+<rxui:ReactiveContentPage x:TypeArguments="controller:AddEmployerController" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                          xmlns:controller="clr-namespace:MyTime.Controller"
+                          xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                          x:Class="MyTime.View.AddEmployerPage"
+                          xmlns:controls="clr-namespace:MyTime.Resources.Templates"
+                          xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
+                          Title="Add Employer">
     <ContentPage.BindingContext>
         <controller:AddEmployerController />
     </ContentPage.BindingContext>
@@ -16,8 +17,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Command="{Binding SaveEmployerCommand}"
-                     CommandParameter="{Binding Employer.Name, Converter={StaticResource NullOrEmptyConverter}}" />
+        <ToolbarItem x:Name="SaveButton" Text="Save" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
@@ -25,7 +25,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Label Text="{Binding Employer.Name, TargetNullValue='New Employer'}" FontFamily="" FontSize="Title"
+            <Label x:Name="HeaderLabel" FontFamily="" FontSize="Title"
                    Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
             <StackLayout Orientation="Vertical" Grid.Row="1">
                 <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
@@ -38,24 +38,22 @@
                     </Border.Shadow>
                     <Grid>
                         <StackLayout Orientation="Vertical" Margin="10,10,10,10">
-                            <Label Text="Name" FontFamily="" FontAttributes="Bold" FontSize="Header"
-                                   x:Name="EmployerName">
-                            </Label>
-                            <Entry Margin="0, 5, 0, 10" Text="{Binding Employer.Name}" />
+                            <Label Text="Name" FontFamily="" FontAttributes="Bold" FontSize="Header" />
+                            <Entry Margin="0, 5, 0, 10" x:Name="NameLabel" />
                             <Label Text="Employer #" FontFamily="" FontAttributes="Bold" FontSize="Header" />
-                            <Entry Margin="0, 5, 0, 10" Text="{Binding Employer.EmployerNb}" />
+                            <Entry Margin="0, 5, 0, 10" x:Name="EmployerNumberLabel" />
                             <Label Text="Salary" FontFamily="" FontAttributes="Bold" FontSize="Header" />
-                            <Entry Margin="0, 5, 0, 10" Text="{Binding Employer.Salary}" Keyboard="Numeric" />
+                            <Entry Margin="0, 5, 0, 10" x:Name="SalaryLabel" Keyboard="Numeric" />
                             <Label Text="Address Line 1" FontFamily="" FontAttributes="Bold" FontSize="Header" />
-                            <Entry Margin="0, 5, 0, 10" Text="{Binding Employer.AddressLine1}" />
+                            <Entry Margin="0, 5, 0, 10" x:Name="AddressLine1Label" />
                             <Label Text="Address Line 2" FontFamily="" FontAttributes="Bold" FontSize="Header" />
-                            <Entry Margin="0, 5, 0, 10" Text="{Binding Employer.AddressLine2}" />
+                            <Entry Margin="0, 5, 0, 10" x:Name="AddressLine2Label" />
                             <Label Text="Description" FontFamily="" FontAttributes="Bold" FontSize="Header" />
-                            <Entry Margin="0, 5, 0, 10" Text="{Binding Employer.Description}" />
+                            <Entry Margin="0, 5, 0, 10" x:Name="DescriptionLabel" />
                         </StackLayout>
                     </Grid>
                 </Border>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
-</ContentPage>
+</rxui:ReactiveContentPage>

@@ -1,6 +1,8 @@
+using DynamicData;
 using SQLite;
 using SQLiteNetExtensions.Extensions;
 using MyTime.Model;
+using MyTime.Core;
 using SQLiteNetExtensionsAsync.Extensions;
 using Employer = MyTime.Model.Employer;
 using Item = MyTime.Model.Time;
@@ -118,19 +120,17 @@ public class MyTimeDatabase
     public async Task SaveEmployerAsync(Employer employer)
     {
         await Init();
-        if (await GetEmployerAsync(employer.Id) != null)
-        {
-            await Database.UpdateWithChildrenAsync(employer);
-            return;
-        }
-
-        await Database.InsertWithChildrenAsync(employer);
+        if (await GetEmployerAsync(employer.Id) != null) await Database.UpdateWithChildrenAsync(employer);
+        else await Database.InsertWithChildrenAsync(employer);
+        Constants.Employers.AddOrUpdate(employer);
     }
 
     public async Task DeleteEmployerAsync(Employer employer)
     {
         await Init();
         await Database.DeleteAsync(employer, recursive: true);
+        Constants.Times.RemoveWhere(t => t.Employer.Id == employer.Id);
+        Constants.Employers.Remove(employer);
     }
 
     public async Task<List<Time>> GetTimesAsync()
@@ -148,19 +148,16 @@ public class MyTimeDatabase
     public async Task SaveTimeAsync(Time time)
     {
         await Init();
-        if (await GetTimeAsync(time.Id) != null)
-        {
-            await Database.UpdateAsync(time);
-            return;
-        }
-
-        await Database.InsertAsync(time);
+        if (await GetTimeAsync(time.Id) != null) await Database.UpdateAsync(time);
+        else await Database.InsertAsync(time);
+        Constants.Times.AddOrUpdate(time);
     }
 
-    public async Task<int> DeleteTimeAsync(Time time)
+    public async Task DeleteTimeAsync(Time time)
     {
         await Init();
-        return await Database.DeleteAsync(time);
+        await Database.DeleteAsync(time);
+        Constants.Times.Remove(time);
     }
 
     public async Task<Settings> LoadProfileByIdAsync(string id)

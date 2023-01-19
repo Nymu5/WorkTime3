@@ -2,24 +2,24 @@ using System.Windows.Input;
 using MyTime.Core;
 using MyTime.Model;
 using MyTime.View;
+using ReactiveUI;
 
 namespace MyTime.Controller;
 
 [QueryProperty(nameof(Employer), "Employer")]
-public class AddEmployerController : ControllerBase
+public class AddEmployerController : ReactiveObject
 {
-    private MyTimeDatabase _db;
 
     public AddEmployerController()
-    {
-        _db = new MyTimeDatabase();
+    { 
         Employer = new Employer();
         Employer.Id = Employer.getUUID();
-        SaveEmployerCommand = new Command<bool>(execute: async (canSave) =>
-        {
-            await _db.SaveEmployerAsync(Employer);
-            await Shell.Current.GoToAsync("..");
-        }, canExecute: (canSave) => canSave);
+
+        this.WhenAnyValue(x => x.Employer)
+            .Subscribe(_ => CheckCanSave()); 
+
+        var canSave = this.WhenAnyValue(x => x.CanSave);
+        SaveEmployerCommand = ReactiveCommand.CreateFromTask(SaveEmployerTask, canSave);
     }
 
     // Commands
@@ -31,14 +31,25 @@ public class AddEmployerController : ControllerBase
     public Employer Employer
     {
         get => _employer;
-        set => SetProperty(ref _employer, value);
+        set => this.RaiseAndSetIfChanged(ref _employer, value);
+    }
+    
+    private bool _canSave;
+    public bool CanSave
+    {
+        get => _canSave;
+        set => this.RaiseAndSetIfChanged(ref _canSave, value);
+    }
+    
+    // Function
+    private void CheckCanSave()
+    {
+        CanSave = !String.IsNullOrWhiteSpace(Employer.Name); 
     }
 
-    private bool _canExecute;
-
-    public bool CanExecute
+    private async Task SaveEmployerTask()
     {
-        get => _canExecute;
-        set => SetProperty(ref _canExecute, value);
+        await Constants.Database.SaveEmployerAsync(Employer);
+        await Shell.Current.GoToAsync("..");
     }
 }

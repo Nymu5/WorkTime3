@@ -15,7 +15,7 @@ public partial class TimePage : ReactiveContentPage<TimeController>
         {
             this.OneWayBind(ViewModel, x => x.Times, x => x.TimesCollection.ItemsSource)
                 .DisposeWith(disposable);
-            this.Bind(ViewModel, x => x.SearchTerm, x => x.SearchTermEditor.Text)
+            this.Bind(ViewModel, x => x.SearchTerm, x => x.SearchBar.Text)
                 .DisposeWith(disposable);
         });
     }
