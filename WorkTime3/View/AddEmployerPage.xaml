@@ -17,7 +17,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="SaveButton" Text="Save" />
+        <ToolbarItem Text="Save" Command="{Binding SaveEmployerCommand}"
+                     CommandParameter="{Binding CanSave}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
@@ -39,7 +40,11 @@
                     <Grid>
                         <StackLayout Orientation="Vertical" Margin="10,10,10,10">
                             <Label Text="Name" FontFamily="" FontAttributes="Bold" FontSize="Header" />
-                            <Entry Margin="0, 5, 0, 10" x:Name="NameLabel" />
+                            <Entry Margin="0, 5, 0, 10" x:Name="NameLabel">
+                                <Entry.Behaviors>
+                                    <toolkit:EventToCommandBehavior Command="{Binding EmployerNameChangedCommand}" EventName="TextChanged" />
+                                </Entry.Behaviors>
+                            </Entry>
                             <Label Text="Employer #" FontFamily="" FontAttributes="Bold" FontSize="Header" />
                             <Entry Margin="0, 5, 0, 10" x:Name="EmployerNumberLabel" />
                             <Label Text="Salary" FontFamily="" FontAttributes="Bold" FontSize="Header" />

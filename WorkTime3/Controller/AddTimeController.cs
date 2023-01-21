@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using DynamicData;
+using DynamicData.Binding;
 using MyTime.Core;
 using MyTime.Model;
 using ReactiveUI;
@@ -14,15 +16,52 @@ public class AddTimeController : ReactiveObject
     {
         Time = new Time();
 
-        LoadCommand = ReactiveCommand.CreateFromTask(LoadTask);
+        LoadCommand = new Command(execute: () =>
+        {
+            if (Time.Employer != null) SelectedEmployer = Constants.Employers.Lookup(Time.Employer.Id).Value;
+        });
 
-        var canSave = this.WhenAnyValue(x => x.CanSave);
-        SaveTimeCommand = ReactiveCommand.CreateFromTask(SaveTask, canSave);
+        SaveTimeCommand = new Command<bool>(execute: async (canSave) =>
+        {
+            Time.Id ??= Time.getUUID();
+            //if (Time.Id == null) Time.Id = Time.getUUID();
+            Employer employer = Constants.Employers.Lookup(SelectedEmployer.Id).Value;
+            Time.Employer = employer;
+            await Constants.Database.SaveTimeAsync(Time);
+            employer.Times.Add(Time);
+            await Constants.Database.SaveEmployerAsync(Time.Employer);
+            await Shell.Current.GoToAsync("..");
+        }, canExecute: (canSave) => canSave);
 
         var canDelete = this.WhenAnyValue(x => x.CanDelete);
-        DeleteTimeCommand = ReactiveCommand.CreateFromTask(DeleteTask, canDelete);
+        DeleteTimeCommand = new Command<bool>(execute: async (canDelete) =>
+        {
+            var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete this entry?",
+                "Cancel", "Yes");
+            if (result != "Yes") return;
+            await Constants.Database.DeleteTimeAsync(Time);
+            await Shell.Current.GoToAsync("..");
+        }, canExecute: (canDelete) => canDelete);
 
-        UpdateSalaryCommand = ReactiveCommand.CreateFromTask(UpdateSalaryTask);
+        UpdateSalaryCommand = new Command(execute: () =>
+        {
+            if (Time.Id == null) Time.Salary = SelectedEmployer.Salary;
+        });
+        PickerChangedCommand = new Command(execute: () =>
+        {
+            if (Time.Employer != null && Employers != null)
+            {
+                SelectedEmployer = Employers.FirstOrDefault(e => e.Id == Time.Employer.Id); 
+                this.RaisePropertyChanged(nameof(SelectedEmployer));
+            }
+        });
+
+        var disposable = Constants.Employers
+            .Connect()
+            .Sort(SortExpressionComparer<Employer>.Ascending(e => e.Name))
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Bind(out Employers)
+            .Subscribe();
     }
 
     // Controls 
@@ -30,20 +69,31 @@ public class AddTimeController : ReactiveObject
     public ICommand SaveTimeCommand { get; }
     public ICommand UpdateSalaryCommand { get; }
     public ICommand DeleteTimeCommand { get; }
+    public ICommand PickerChangedCommand { get; }
 
     // Properties
+    public ReadOnlyObservableCollection<Employer> Employers;
+
     private Employer _selectedEmployer;
     public Employer SelectedEmployer
     {
         get => _selectedEmployer;
-        set => this.RaiseAndSetIfChanged(ref _selectedEmployer, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedEmployer, value);
+            this.RaisePropertyChanged(nameof(CanSave));
+        } 
     }
 
     private Time _time;
     public Time Time
     {
         get => _time;
-        set => this.RaiseAndSetIfChanged(ref _time, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _time, value);
+            this.RaisePropertyChanged(nameof(CanDelete));
+        } 
     }
 
     public DateTime StartDate
@@ -87,52 +137,10 @@ public class AddTimeController : ReactiveObject
             Time.End = Time.End.AddMinutes(value.Minutes - Time.End.Minute);
         }
     }
-
-    private bool _canSave;
-
-    public bool CanSave
-    {
-        get => SelectedEmployer != null;
-        set => this.RaiseAndSetIfChanged(ref _canSave, value);
-    }
-
-    private bool _canDelete = true;
-
-    public bool CanDelete
-    {
-        get => _canDelete;
-        set => this.RaiseAndSetIfChanged(ref _canDelete, value);
-    }
     
+    public bool CanSave => SelectedEmployer != null;
+
+    public bool CanDelete => !String.IsNullOrWhiteSpace(Time.Id);
+
     // Functions
-    private async Task SaveTask()
-    {
-        Time.Id ??= Time.getUUID();
-        //if (Time.Id == null) Time.Id = Time.getUUID();
-        Employer employer = Constants.Employers.Lookup(SelectedEmployer.Id).Value;
-        Time.Employer = employer;
-        await Constants.Database.SaveTimeAsync(Time);
-        employer.Times.Add(Time);
-        await Constants.Database.SaveEmployerAsync(Time.Employer);
-        await Shell.Current.GoToAsync("..");
-    }
-
-    private async Task DeleteTask()
-    {
-        var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete this entry?",
-            "Cancel", "Yes");
-        if (result != "Yes") return;
-        await Constants.Database.DeleteTimeAsync(Time);
-        await Shell.Current.GoToAsync("..");
-    }
-
-    private async Task UpdateSalaryTask()
-    {
-        if (Time.Id == null) Time.Salary = SelectedEmployer.Salary;
-    }
-
-    private async Task LoadTask()
-    {
-        if (Time.Employer != null) SelectedEmployer = Constants.Employers.Lookup(Time.Employer.Id).Value;
-    }
 }

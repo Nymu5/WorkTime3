@@ -18,10 +18,6 @@ public partial class DetailEmployerPage : ReactiveContentPage<DetailEmployerCont
 
         this.WhenActivated(disposable =>
         {
-            this.BindCommand(ViewModel, x => x.DeleteEmployerCommand, x => x.DeleteButton.Command)
-                .DisposeWith(disposable);
-            this.BindCommand(ViewModel, x => x.EditEmployerCommand, x => x.EditButton.Command)
-                .DisposeWith(disposable);
             this.Bind(ViewModel, x => x.Employer.Name, x => x.NameLabel.Text)
                 .DisposeWith(disposable);
             this.Bind(ViewModel, x => x.Employer.Id, x => x.IdLabel.Text)

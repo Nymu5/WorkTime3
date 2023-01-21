@@ -9,9 +9,9 @@
         <controller:DetailEmployerController />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="EditButton" Text="Edit" />
+        <ToolbarItem Command="{Binding EditEmployerCommand}" Text="Edit" />
         <ToolbarItem Text=" | " />
-        <ToolbarItem x:Name="DeleteButton" Text="Delete" />
+        <ToolbarItem Command="{Binding DeleteEmployerCommand}" Text="Delete" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid BackgroundColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">

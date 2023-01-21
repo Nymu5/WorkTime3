@@ -14,9 +14,28 @@ public class EmployerController : ReactiveObject
 {
     public EmployerController()
     {
-        CreateEmployer = ReactiveCommand.CreateFromTask(AddEmployerTask);
-        RefreshCommand = ReactiveCommand.CreateFromTask(RefreshTask);
-        SelectionChangedCommand = ReactiveCommand.CreateFromTask(SelectionChangedTask);
+        CreateEmployer = new Command(execute: async () =>
+        {
+            await Shell.Current.GoToAsync(nameof(AddEmployerPage));
+        });
+        RefreshCommand = new Command(execute: async () =>
+        {
+            Constants.Employers.Clear();
+            Constants.Employers.AddOrUpdate(await Constants.Database.GetEmployersAsync());
+            IsRefreshing = false;
+        });
+        SelectionChangedCommand = new Command(execute: async () =>
+        {
+            if (SelectedEmployer != null)
+            {
+                await Shell.Current.GoToAsync("DetailEmployerPage", new Dictionary<string, object>
+                {
+                    { "Employer", _selectedEmployer },
+                    { "EmployerId", _selectedEmployer.Id }
+                });
+                SelectedEmployer = null;
+            }
+        });
         
         var disposable = Constants.Employers
             .Connect()
@@ -47,27 +66,4 @@ public class EmployerController : ReactiveObject
     }
     
     // Functions
-    private async Task AddEmployerTask()
-    {
-        await Shell.Current.GoToAsync(nameof(AddEmployerPage));
-    }
-
-    private async Task RefreshTask()
-    {
-        Constants.Employers.AddOrUpdate(await Constants.Database.GetEmployersAsync());
-        IsRefreshing = false;
-    }
-
-    private async Task SelectionChangedTask()
-    {
-        if (SelectedEmployer != null)
-        {
-            await Shell.Current.GoToAsync("DetailEmployerPage", new Dictionary<string, object>
-            {
-                { "Employer", _selectedEmployer },
-                { "EmployerId", _selectedEmployer.Id }
-            });
-            SelectedEmployer = null;
-        }
-    }
 }

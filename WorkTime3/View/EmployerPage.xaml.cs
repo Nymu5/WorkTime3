@@ -13,18 +13,7 @@ public partial class EmployerPage : ReactiveContentPage<EmployerController>
 
         this.WhenActivated(disposable =>
         {
-            this.Bind(ViewModel, x => x.Employers, x => x.EmployerCollection.ItemsSource)
-                .DisposeWith(disposable);
-            this.Bind(ViewModel, x => x.SelectedEmployer, x => x.EmployerCollection.SelectedItem)
-                .DisposeWith(disposable);
-            this.BindCommand(ViewModel, x => x.SelectionChangedCommand,
-                    x => x.EmployerCollection.SelectionChangedCommand)
-                .DisposeWith(disposable);
-            this.BindCommand(ViewModel, x => x.CreateEmployer, x => x.CreateEmployerButton.Command)
-                .DisposeWith(disposable);
-            this.Bind(ViewModel, x => x.IsRefreshing, x => x.RefreshView.IsRefreshing)
-                .DisposeWith(disposable);
-            this.BindCommand(ViewModel, x => x.RefreshCommand, x => x.RefreshView.Command)
+            this.OneWayBind(ViewModel, x => x.Employers, x => x.EmployerCollection.ItemsSource)
                 .DisposeWith(disposable);
         });
     }

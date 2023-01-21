@@ -10,8 +10,23 @@ public class DetailEmployerController : ReactiveObject
 {
     public DetailEmployerController()
     {
-        EditEmployerCommand = ReactiveCommand.CreateFromTask(EditEmployerTask);
-        DeleteEmployerCommand = ReactiveCommand.CreateFromTask(DeleteEmployerTask);
+        EditEmployerCommand = new Command(execute: async () =>
+        {
+            if (Employer == null) return;
+            await Shell.Current.GoToAsync("AddEmployerPage", new Dictionary<string, object>
+            {
+                { "Employer", Employer },
+            });
+        });
+        DeleteEmployerCommand = new Command(execute: async () =>
+        {
+            var result = await Shell.Current.DisplayActionSheet(
+                $"Are you sure you want to delete {Employer.Name} and ALL OF THE TRACKED HOURS? This operation cannot be undone!",
+                "Cancel", "Yes");
+            if (result != "Yes") return;
+            await Constants.Database.DeleteEmployerAsync(Employer);
+            await Shell.Current.GoToAsync("..");
+        });
     }
 
     private Employer _employer;
@@ -25,22 +40,4 @@ public class DetailEmployerController : ReactiveObject
     public ICommand DeleteEmployerCommand { get; set; }
     
     // Functions
-    private async Task EditEmployerTask()
-    {
-        if (Employer == null) return;
-        await Shell.Current.GoToAsync("AddEmployerPage", new Dictionary<string, object>
-        {
-            { "Employer", Employer },
-        });
-    }
-
-    private async Task DeleteEmployerTask()
-    {
-        var result = await Shell.Current.DisplayActionSheet(
-            $"Are you sure you want to delete {Employer.Name} and ALL OF THE TRACKED HOURS? This operation cannot be undone!",
-            "Cancel", "Yes");
-        if (result != "Yes") return;
-        await Constants.Database.DeleteEmployerAsync(Employer);
-        await Shell.Current.GoToAsync("..");
-    }
 }

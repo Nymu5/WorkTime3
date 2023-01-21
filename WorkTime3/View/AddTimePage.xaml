@@ -10,13 +10,18 @@
     <ContentPage.BindingContext>
         <controller:AddTimeController />
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior x:Name="LoadBehavior" EventName="Appearing" />
+        <toolkit:EventToCommandBehavior Command="{Binding LoadCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="DeleteButton" Text="Delete" Command="{Binding DeleteTimeCommand}" CommandParameter="{Binding CanDelete}" />
+        <ToolbarItem Text="Delete" Command="{Binding DeleteTimeCommand}" CommandParameter="{Binding CanDelete}" />
         <ToolbarItem Text=" | " />
-        <ToolbarItem x:Name="SaveButton" Text="Save" />
+        <ToolbarItem CommandParameter="{Binding CanSave}" Text="Save" Command="{Binding SaveTimeCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
@@ -38,10 +43,12 @@
                     <Grid>
                         <StackLayout Orientation="Vertical" Margin="10,10,10,10">
                             <Label Text="Employer" FontFamily="" FontAttributes="Bold" FontSize="Header" />
-                            <Picker x:Name="EmployerPicker" Margin="0, 5, 0, 10" ItemsSource="{Binding Employers}"
-                                    ItemDisplayBinding="{Binding Name}">
+                            <Picker x:Name="EmployerPicker" Margin="0, 5, 0, 10"
+                                    ItemDisplayBinding="{Binding Name}" 
+                                    SelectedItem="{Binding SelectedEmployer}">
                                 <Picker.Behaviors>
-                                    <toolkit:EventToCommandBehavior x:Name="UpdateSalaryBehavior" EventName="SelectedIndexChanged"/>
+                                    <toolkit:EventToCommandBehavior Command="{Binding PickerChangedCommand}"  EventName="PropertyChanged"/>
+                                    <toolkit:EventToCommandBehavior Command="{Binding UpdateSalaryCommand}" x:Name="UpdateSalaryBehavior" EventName="SelectedIndexChanged"/>
                                 </Picker.Behaviors>
                             </Picker>
                             <Label Text="Text" FontFamily="" FontAttributes="Bold" FontSize="Header" />

@@ -18,9 +18,6 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="plus_icon_sm.png" Command="{Binding CreateTimeCommand}" />
     </ContentPage.ToolbarItems>
-    <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding RefreshCommand}" />
-    </ContentPage.Behaviors>
     <ContentPage.Content>
         <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
@@ -33,16 +30,40 @@
                     <Grid.RowDefinitions >
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.RowSpan="2" Text="Your Times" FontFamily="" FontSize="Title"
-                       Margin="20, 30, 20, 90" HorizontalTextAlignment="Center" />
-                    <Border Margin="20,0,20,10" Grid.Row="1" ZIndex="10" HorizontalOptions="Fill"
-                            StrokeShape="RoundRectangle 30,30,30,30" StrokeThickness="2">
-                        <SearchBar x:Name="SearchBar" />
-
-                        
-                        
-                    </Border>
+                    <Label Grid.Row="0" Grid.RowSpan="3" Text="Your Times" FontFamily="" FontSize="Title"
+                       Margin="20, 30, 20, 180" HorizontalTextAlignment="Center" />
+                    <Grid Margin="20,10" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Grid.Column="0" Orientation="Vertical">
+                            <Label Text="Times Worked" HorizontalTextAlignment="Center" FontFamily="" FontAttributes="Bold" />
+                            <Label x:Name="StatsTimes" HorizontalTextAlignment="Center" FontFamily=""/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" Orientation="Vertical">
+                            <Label Text="Total" HorizontalTextAlignment="Center" FontFamily="" FontAttributes="Bold"/> 
+                            <Label Text="{Binding FilterWorkedTotal}" HorizontalTextAlignment="Center" FontFamily=""/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="2" Orientation="Vertical">
+                            <Label Text="Time" HorizontalTextAlignment="Center" FontFamily="" FontAttributes="Bold" />
+                            <Label Text="{Binding FilterWorkedTime}" HorizontalTextAlignment="Center" FontFamily=""/>
+                        </StackLayout>
+                    </Grid>
+                    <StackLayout Orientation="Vertical" Grid.Row="2">
+                        <SearchBar x:Name="SearchBar" BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark=Transparent}" Margin="12,0" />
+                        <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}" Padding="20,0" Margin="0,-5,0,5" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <DatePicker x:Name="FilterStart" Grid.Column="0" />
+                            <DatePicker x:Name="FilterEnd" Grid.Column="1" />
+                        </Grid>
+                    </StackLayout>
                     
                 </Grid>
             </Border>
@@ -53,12 +74,11 @@
                 <ImageButton.Shadow>
                     <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource Gray200}}"
                             Offset="0,5" Radius="10" Opacity="0.8" />
-
                 </ImageButton.Shadow>
             </ImageButton>
-            <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+            <RefreshView x:Name="RefreshView" Grid.Row="1" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
                 <ContentView>
-                    <CollectionView x:Name="TimesCollection" SelectionMode="Single"
+                    <CollectionView x:Name="TimesCollection" SelectionMode="Single" 
                                     SelectionChangedCommand="{Binding SelectionChangedCommand}"
                                     SelectedItem="{Binding SelectedTime}">
                         <CollectionView.EmptyView>
@@ -76,7 +96,7 @@
                             <DataTemplate>
                                 <Grid>
                                     <Border
-                                        BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                                        BackgroundColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Gray600}}"
                                         StrokeShape="RoundRectangle 20,20,20,20"
                                         Margin="20,10,20,0" Padding="10" StrokeThickness="2" ZIndex="0">
                                         <Border.Behaviors></Border.Behaviors>
@@ -95,11 +115,14 @@
                                                 <StackLayout Orientation="Vertical">
                                                     <StackLayout Orientation="Horizontal">
                                                         <Label Text="{Binding Employer.Name}" FontAttributes="Bold"
-                                                               FontFamily="" FontSize="Medium" />
+                                                               FontFamily="" FontSize="Medium"
+                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
                                                         <Label Text=": " FontAttributes="Bold" FontFamily=""
                                                                FontSize="Medium"
-                                                               IsVisible="{Binding Text, Converter={StaticResource NullOrEmptyConverter}}" />
-                                                        <Label Text="{Binding Text}" FontFamily="" FontSize="Medium" />
+                                                               IsVisible="{Binding Text, Converter={StaticResource NullOrEmptyConverter}}"
+                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                                        <Label Text="{Binding Text}" FontFamily="" FontSize="Medium"
+                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
                                                     </StackLayout>
                                                     <Grid ColumnSpacing="20">
                                                         <Grid.ColumnDefinitions>
@@ -111,13 +134,17 @@
                                                             <RowDefinition Height="Auto" />
                                                         </Grid.RowDefinitions>
                                                         <Label Grid.Row="0" Grid.Column="0"
-                                                               Text="{Binding TimeStartString}" />
+                                                               Text="{Binding TimeStartString}"
+                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
                                                         <Label Grid.Row="1" Grid.Column="0"
-                                                               Text="{Binding TimeEndString}" />
+                                                               Text="{Binding TimeEndString}"
+                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
                                                         <Label Grid.Row="0" Grid.Column="1"
-                                                               Text="{Binding DurationString}" />
+                                                               Text="{Binding DurationString}"
+                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
                                                         <Label Grid.Row="1" Grid.Column="1"
-                                                               Text="{Binding EarnedString}" />
+                                                               Text="{Binding EarnedString}"
+                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
                                                     </Grid>
                                                 </StackLayout>
                                             </Grid>

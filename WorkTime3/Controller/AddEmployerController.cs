@@ -15,15 +15,18 @@ public class AddEmployerController : ReactiveObject
         Employer = new Employer();
         Employer.Id = Employer.getUUID();
 
-        this.WhenAnyValue(x => x.Employer)
-            .Subscribe(_ => CheckCanSave()); 
+        SaveEmployerCommand = new Command<bool>(execute: async (canSave) =>
+        {
+            await Constants.Database.SaveEmployerAsync(Employer);
+            await Shell.Current.GoToAsync("..");
+        }, canExecute: (canSave) => canSave);
 
-        var canSave = this.WhenAnyValue(x => x.CanSave);
-        SaveEmployerCommand = ReactiveCommand.CreateFromTask(SaveEmployerTask, canSave);
+        EmployerNameChangedCommand = new Command(execute: () => this.RaisePropertyChanged(nameof(CanSave)));
     }
 
     // Commands
     public ICommand SaveEmployerCommand { get; set; }
+    public ICommand EmployerNameChangedCommand { get; }
 
     // Properties
     private Employer _employer;
@@ -34,22 +37,7 @@ public class AddEmployerController : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _employer, value);
     }
     
-    private bool _canSave;
-    public bool CanSave
-    {
-        get => _canSave;
-        set => this.RaiseAndSetIfChanged(ref _canSave, value);
-    }
-    
-    // Function
-    private void CheckCanSave()
-    {
-        CanSave = !String.IsNullOrWhiteSpace(Employer.Name); 
-    }
+    public bool CanSave => !String.IsNullOrWhiteSpace(Employer.Name);
 
-    private async Task SaveEmployerTask()
-    {
-        await Constants.Database.SaveEmployerAsync(Employer);
-        await Shell.Current.GoToAsync("..");
-    }
+    // Function
 }
