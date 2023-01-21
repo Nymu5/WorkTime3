@@ -12,6 +12,9 @@
     <ContentPage.BindingContext>
         <controller:MainController />
     </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding RefreshStats}" />
+    </ContentPage.Behaviors>
     <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}"
           Padding="10,0,10,0">
         <Grid.RowDefinitions>
@@ -99,6 +102,32 @@
                     </StackLayout>
                 </Grid>
             </Border>
+            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    Margin="5,5,5,5">
+                <Border.Shadow>
+                    <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                            Offset="0,30" Radius="40" Opacity="0.8" />
+                </Border.Shadow>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+
+                    </Grid.RowDefinitions>
+                    <CollectionView HeightRequest="50" ItemsLayout="HorizontalList" x:Name="Years" SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0">
+                                    <Label FontFamily="" FontAttributes="Bold" Text="{Binding .}" FontSize="Medium" Margin="10,10,10,10" VerticalTextAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+                </Grid>
+            </Border>
             <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
                     BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                     StrokeShape="RoundRectangle 20,20,20,20"
@@ -108,7 +137,7 @@
                             Offset="0,30" Radius="40" Opacity="0.8" />
                 </Border.Shadow>
                 <Grid>
-                    <lvc:CartesianChart Margin="10,10,10,10" x:Name="Chart"
+                    <lvc:CartesianChart x:Name="Chart" Margin="10"
                                         TooltipTextSize="60" XAxes="{Binding XAxes}"
                                         YAxes="{Binding YAxes}"
                                         AnimationsSpeed="0">

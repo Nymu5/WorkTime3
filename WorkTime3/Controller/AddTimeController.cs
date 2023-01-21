@@ -27,7 +27,7 @@ public class AddTimeController : ReactiveObject
             //if (Time.Id == null) Time.Id = Time.getUUID();
             Employer employer = Constants.Employers.Lookup(SelectedEmployer.Id).Value;
             Time.Employer = employer;
-            await Constants.Database.SaveTimeAsync(Time);
+            await Constants.Database.SaveTimeAsync(Time, true);
             employer.Times.Add(Time);
             await Constants.Database.SaveEmployerAsync(Time.Employer);
             await Shell.Current.GoToAsync("..");

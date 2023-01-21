@@ -10,6 +10,7 @@ using ReactiveUI;
 
 namespace MyTime.Controller;
 
+[QueryProperty(nameof(DeleteEmployer), "Delete")]
 public class EmployerController : ReactiveObject
 {
     public EmployerController()
@@ -63,6 +64,13 @@ public class EmployerController : ReactiveObject
     {
         get => _selectedEmployer;
         set => this.RaiseAndSetIfChanged(ref _selectedEmployer, value);
+    }
+    
+    private Employer _deleteEmployer;
+    public Employer DeleteEmployer
+    {
+        get => _deleteEmployer;
+        set => this.RaiseAndSetIfChanged(ref _deleteEmployer, value);
     }
     
     // Functions

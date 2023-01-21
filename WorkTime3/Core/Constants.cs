@@ -2,6 +2,7 @@ using DynamicData;
 using SQLite;
 using MyTime.Model;
 using ReactiveUI;
+using SkiaSharp;
 
 namespace MyTime.Core;
 
@@ -33,4 +34,18 @@ public static class Constants
     public static SourceCache<Employer, string> Employers;
     public static SourceCache<Time, string> Times;
     public static MyTimeDatabase Database;
+    
+    public static SKColor[] Colors = new SKColor[]
+    {
+        SKColor.Parse("F8B195"),
+        SKColor.Parse("F67280"),
+        SKColor.Parse("6C5B7B"),
+        SKColor.Parse("C06C84"),
+        SKColor.Parse("355C7D"),
+        SKColor.Parse("FE4365"),
+        SKColor.Parse("FC9D9A"),
+        SKColor.Parse("F9CDAD"),
+        SKColor.Parse("C8C8A9"),
+        SKColor.Parse("83AF9B"),
+    };
 }
