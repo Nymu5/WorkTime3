@@ -106,4 +106,7 @@ public class Settings : ReactiveObject
         get => _defaultInvoiceDays;
         set => this.RaiseAndSetIfChanged(ref _defaultInvoiceDays, value);
     }
+
+    [Ignore] public string PersonalDetailString => $"{Name}\n{AddressLine1}\n{AddressLine2}\n\nTax-ID\n{TaxId}";
+    [Ignore] public string BankDetailString => $"{BankName}\nIBAN: {BankIban}\nBIC: {BankBic}";
 }

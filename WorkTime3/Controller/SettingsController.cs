@@ -1,6 +1,7 @@
 using System.Windows.Input;
 using MyTime.Core;
 using MyTime.Model;
+using MyTime.View;
 
 namespace MyTime.Controller;
 
@@ -35,6 +36,12 @@ public class SettingsController : ControllerBase
                         break;
                     case "iesettings":
                         await Shell.Current.GoToAsync("ImportExportPage", new Dictionary<string, object>
+                        {
+                            { "settings", _settings }
+                        });
+                        break;
+                    case "invoice":
+                        await Shell.Current.GoToAsync(nameof(InvoiceSettingsPage), new Dictionary<string, object>
                         {
                             { "settings", _settings }
                         });

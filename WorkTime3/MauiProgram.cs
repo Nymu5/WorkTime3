@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Maui.Handlers;
 using MyTime.Controller;
 using MyTime.Core;
-using MyTime.Resources.Templates;
-using MyTime.View;
 using CommunityToolkit.Maui;
+using Microsoft.Maui.Controls.Compatibility.Hosting;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace MyTime;
@@ -16,6 +14,13 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiCompatibility()
+            .ConfigureMauiHandlers((handlers) =>
+            {   
+#if IOS
+
+#endif
+            })
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -28,6 +33,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<AddEmployerController>();
         builder.Services.AddTransient<AddEmployerController>();
         builder.Services.AddSingleton<MyTimeDatabase>();
+
 
 #if DEBUG
         builder.Logging.AddDebug();

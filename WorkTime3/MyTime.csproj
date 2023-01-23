@@ -47,6 +47,12 @@
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
       <CreatePackage>false</CreatePackage>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(TargetFramework)|$(Platform)'=='net7.0-android|AnyCPU'">
+      <AndroidManifest>AndroidManifest.xml</AndroidManifest>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" />
@@ -65,16 +71,22 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Maui" Version="3.1.0" />
-        <PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-beta.700" />
+        <PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
+        <PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-beta.701" />
         <PackageReference Include="M.BindableProperty.Generator" Version="0.9.3" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
         <PackageReference Include="ReactiveUI.Maui" Version="18.4.1" />
-        <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
         <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
         <PackageReference Include="SQLiteNetExtensions.Async" Version="2.1.0" />
-        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.3" />
+        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
         <PackageReference Include="Syncfusion.DocIO.NET" Version="20.4.0.44" />
         <PackageReference Include="Syncfusion.DocIORenderer.NET" Version="20.4.0.44" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Platforms\iOS\Renderers\MyDatePickerRenderer.cs">
+        <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+      </Compile>
     </ItemGroup>
 </Project>

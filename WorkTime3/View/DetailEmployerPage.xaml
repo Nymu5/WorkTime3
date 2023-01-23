@@ -9,6 +9,8 @@
         <controller:DetailEmployerController />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding CreateInvoiceCommand}" Text="Invoice" />
+        <ToolbarItem Text=" | " />
         <ToolbarItem Command="{Binding EditEmployerCommand}" Text="Edit" />
         <ToolbarItem Text=" | " />
         <ToolbarItem Command="{Binding DeleteEmployerCommand}" Text="Delete" />

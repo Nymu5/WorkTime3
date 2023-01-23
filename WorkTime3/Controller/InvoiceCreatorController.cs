@@ -13,14 +13,18 @@ using Syncfusion.DocIORenderer;
 using Syncfusion.Pdf;
 using Extensions = MyTime.Core.Extensions;
 using HorizontalAlignment = Microsoft.Maui.Graphics.HorizontalAlignment;
+using Settings = MyTime.Model.Settings;
 
 namespace MyTime.Controller;
 
 [QueryProperty(nameof(Employer), "Employer")]
+[QueryProperty(nameof(Settings), "Settings")]
 public class InvoiceCreatorController : ReactiveObject
 {
     public InvoiceCreatorController()
     {
+        
+        
         DateTime reference = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0, 0, 0);
         DateTime last = new DateTime((reference - TimeSpan.FromDays(1)).Year, (reference - TimeSpan.FromDays(1)).Month,
             1, 0, 0, 0, 0, 0);
@@ -64,6 +68,13 @@ public class InvoiceCreatorController : ReactiveObject
     // Properties
 
     public ReadOnlyObservableCollection<Time> Times;
+    
+    private Settings _settings;
+    public Settings Settings
+    {
+        get => _settings;
+        set => this.RaiseAndSetIfChanged(ref _settings, value);
+    }
 
     private Employer _employer;
     public Employer Employer

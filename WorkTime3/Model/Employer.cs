@@ -121,4 +121,6 @@ public class Employer : ControllerBase
         get => _times;
         set => SetProperty(ref _times, value);
     }
+
+    [Ignore] public string EmployerDetailString => $"{Name}\n{AddressLine1}\n{AddressLine2}\n\n#{EmployerNb}";
 }

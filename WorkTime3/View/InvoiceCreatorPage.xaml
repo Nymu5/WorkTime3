@@ -13,11 +13,45 @@
           Padding="10,0,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label Text="Create Invoice" FontFamily="" FontSize="Title"
                Margin="20,50,20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
+
         <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    Margin="5,5,5,5" Padding="10">
+                <Border.Shadow>
+                    <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
+                            Offset="0,30" Radius="40" Opacity="0.8" />
+                </Border.Shadow>
+                <Grid>
+                    <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="FillAndExpand" Spacing="10" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+
+                            </Grid.RowDefinitions>
+                            <DatePicker x:Name="StartDate" Grid.Row="0" Grid.Column="0"/>
+                            <DatePicker x:Name="EndDate" Grid.Row="0" Grid.Column="1"/>
+                        </Grid>
+                        
+                    </StackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -31,8 +65,16 @@
                             Offset="0,30" Radius="40" Opacity="0.8" />
                 </Border.Shadow>
                 <Grid>
-                    <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
-                        
+                    <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Start" Spacing="10" >
+                        <Label Text="Employer Details" FontFamily="" FontAttributes="Bold"
+                               FontSize="Medium" TextColor="Black" />
+                        <Label x:Name="EmployerDetailString" TextColor="Black" />
+                        <Label Text="Personal Details" FontFamily="" FontAttributes="Bold"
+                               FontSize="Medium" TextColor="Black" />
+                        <Label x:Name="PersonalDetailString" TextColor="Black" />
+                        <Label Text="Bank Details" FontFamily="" FontAttributes="Bold"
+                               FontSize="Medium" TextColor="Black" />
+                        <Label x:Name="BankDetailString" TextColor="Black" />
                     </StackLayout>
                 </Grid>
             </Border>

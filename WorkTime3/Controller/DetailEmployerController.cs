@@ -32,7 +32,8 @@ public class DetailEmployerController : ReactiveObject
             execute: async () => await Shell.Current.GoToAsync(nameof(InvoiceCreatorPage),
             new Dictionary<string, object>
             {
-                { "Employer", Employer }
+                { "Employer", Employer },
+                { "Settings", await Constants.Database.LoadProfileAsync()}
             }));
     }
 
