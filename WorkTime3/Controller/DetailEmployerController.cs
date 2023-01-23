@@ -28,6 +28,12 @@ public class DetailEmployerController : ReactiveObject
             await Constants.Database.DeleteEmployerAsync(Employer);
             await Shell.Current.GoToAsync("..");
         });
+        CreateInvoiceCommand = new Command(
+            execute: async () => await Shell.Current.GoToAsync(nameof(InvoiceCreatorPage),
+            new Dictionary<string, object>
+            {
+                { "Employer", Employer }
+            }));
     }
 
     private Employer _employer;
@@ -39,6 +45,8 @@ public class DetailEmployerController : ReactiveObject
 
     public ICommand EditEmployerCommand { get; set; }
     public ICommand DeleteEmployerCommand { get; set; }
-    
+
+    public ICommand CreateInvoiceCommand { get; }
+
     // Functions
 }

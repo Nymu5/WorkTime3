@@ -1,10 +1,11 @@
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 using MyTime.Core;
+using ReactiveUI;
 
 namespace MyTime.Model;
 
-public class Settings : ControllerBase
+public class Settings : ReactiveObject
 {
     public Settings()
     {
@@ -16,6 +17,8 @@ public class Settings : ControllerBase
         _bankName = String.Empty;
         _bankIban = String.Empty;
         _bankBic = String.Empty;
+        _lastInvoice = 0;
+        _informationText = String.Empty;
     }
 
     private string _id;
@@ -24,7 +27,7 @@ public class Settings : ControllerBase
     public string Id
     {
         get => _id;
-        set => SetProperty(ref _id, value);
+        set => this.RaiseAndSetIfChanged(ref _id, value);
     }
 
     private string _name;
@@ -32,7 +35,7 @@ public class Settings : ControllerBase
     public string Name
     {
         get => _name;
-        set => SetProperty(ref _name, value);
+        set => this.RaiseAndSetIfChanged(ref _name, value);
     }
 
     private string _taxId;
@@ -40,7 +43,14 @@ public class Settings : ControllerBase
     public string TaxId
     {
         get => _taxId;
-        set => SetProperty(ref _taxId, value);
+        set => this.RaiseAndSetIfChanged(ref _taxId, value);
+    }
+    
+    private long _lastInvoice;
+    public long LastInvoice
+    {
+            get => _lastInvoice;
+            set => this.RaiseAndSetIfChanged(ref _lastInvoice, value);
     }
 
     private string _addressLine1;
@@ -48,7 +58,7 @@ public class Settings : ControllerBase
     public string AddressLine1
     {
         get => _addressLine1;
-        set => SetProperty(ref _addressLine1, value);
+        set => this.RaiseAndSetIfChanged(ref _addressLine1, value);
     }
 
     private string _addressLine2;
@@ -56,7 +66,7 @@ public class Settings : ControllerBase
     public string AddressLine2
     {
         get => _addressLine2;
-        set => SetProperty(ref _addressLine2, value);
+        set => this.RaiseAndSetIfChanged(ref _addressLine2, value);
     }
 
     private string _bankName;
@@ -64,7 +74,7 @@ public class Settings : ControllerBase
     public string BankName
     {
         get => _bankName;
-        set => SetProperty(ref _bankName, value);
+        set => this.RaiseAndSetIfChanged(ref _bankName, value);
     }
 
     private string _bankIban;
@@ -72,7 +82,7 @@ public class Settings : ControllerBase
     public string BankIban
     {
         get => _bankIban;
-        set => SetProperty(ref _bankIban, value);
+        set => this.RaiseAndSetIfChanged(ref _bankIban, value);
     }
 
     private string _bankBic;
@@ -80,6 +90,20 @@ public class Settings : ControllerBase
     public string BankBic
     {
         get => _bankBic;
-        set => SetProperty(ref _bankBic, value);
+        set => this.RaiseAndSetIfChanged(ref _bankBic, value);
+    }
+    
+    private string _informationText;
+    public string InformationText
+    {
+        get => _informationText;
+        set => this.RaiseAndSetIfChanged(ref _informationText, value);
+    }
+    
+    private int _defaultInvoiceDays;
+    public int DefaultInvoiceDays
+    {
+        get => _defaultInvoiceDays;
+        set => this.RaiseAndSetIfChanged(ref _defaultInvoiceDays, value);
     }
 }
