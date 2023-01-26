@@ -18,7 +18,6 @@ public static class MauiProgram
             .ConfigureMauiHandlers((handlers) =>
             {   
 #if IOS
-
 #endif
             })
             .ConfigureFonts(fonts =>

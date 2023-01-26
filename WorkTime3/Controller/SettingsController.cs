@@ -18,7 +18,7 @@ public class SettingsController : ControllerBase
         SettingSelectedCommand = new Command<string>(canExecute: (string setting) => true,
             execute: async (string setting) =>
             {
-                _settings = await _db.LoadProfileAsync();
+                _settings = Constants.Settings;
                 switch (setting)
                 {
                     case "personal":

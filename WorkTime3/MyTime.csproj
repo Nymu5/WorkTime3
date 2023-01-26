@@ -89,4 +89,8 @@
         <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Renderers" />
+    </ItemGroup>
 </Project>

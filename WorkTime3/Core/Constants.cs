@@ -19,8 +19,6 @@ public static class Constants
     public static string DatabasePath => Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
     public static string ImportDbPath => Path.Combine(FileSystem.AppDataDirectory, ImportDatabaseFilename);
 
-    public static Settings Settings;
-
     public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> source)
     {
         return source.Select((item, index) => (item, index));
@@ -33,6 +31,7 @@ public static class Constants
 
     public static SourceCache<Employer, string> Employers;
     public static SourceCache<Time, string> Times;
+    public static Settings Settings;
     public static MyTimeDatabase Database;
     
     public static SKColor[] Colors = new SKColor[]

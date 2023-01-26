@@ -24,6 +24,10 @@ public partial class InvoiceCreatorPage : ReactiveContentPage<InvoiceCreatorCont
                 .DisposeWith(disposable);
             this.OneWayBind(ViewModel, x => x.Settings.BankDetailString, x => x.BankDetailString.Text)
                 .DisposeWith(disposable);
+            this.Bind(ViewModel, x => x.Start, x => x.StartDate.Date)
+                .DisposeWith(disposable);
+            this.Bind(ViewModel, x => x.End, x => x.EndDate.Date)
+                .DisposeWith(disposable);
         });
     }
 }

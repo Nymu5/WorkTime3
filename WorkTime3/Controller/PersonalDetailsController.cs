@@ -7,14 +7,12 @@ namespace MyTime.Controller;
 [QueryProperty(nameof(Settings), "settings")]
 public class PersonalDetailsController : ControllerBase
 {
-    private MyTimeDatabase db;
-
     public PersonalDetailsController()
     {
-        db = new MyTimeDatabase();
         SaveCommand = new Command(canExecute: () => true, execute: async () =>
         {
-            if (db != null) await db.SaveProfileAsync(Settings);
+            Constants.Settings = _settings;
+            await Constants.Database.SaveProfileAsync(Constants.Settings);
             await Shell.Current.GoToAsync("..");
         });
     }

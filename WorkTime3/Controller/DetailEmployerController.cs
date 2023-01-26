@@ -33,7 +33,7 @@ public class DetailEmployerController : ReactiveObject
             new Dictionary<string, object>
             {
                 { "Employer", Employer },
-                { "Settings", await Constants.Database.LoadProfileAsync()}
+                { "Settings", Constants.Settings}
             }));
     }
 

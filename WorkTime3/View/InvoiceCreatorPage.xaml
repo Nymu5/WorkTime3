@@ -8,78 +8,132 @@
     <ContentPage.BindingContext>
         <controller:InvoiceCreatorController />
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Create" Command="{Binding CreateInvoiceCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}"
-          Padding="10,0,10,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Label Text="Create Invoice" FontFamily="" FontSize="Title"
-               Margin="20,50,20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
+        <ScrollView x:Name="ScrollView">
+            <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}"
+              Padding="10,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Text="Create Invoice" FontFamily="" FontSize="Title"
+                       Margin="20,50,20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
 
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
-                    StrokeShape="RoundRectangle 20,20,20,20"
-                    Margin="5,5,5,5" Padding="10">
-                <Border.Shadow>
-                    <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
-                            Offset="0,30" Radius="40" Opacity="0.8" />
-                </Border.Shadow>
-                <Grid>
-                    <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="FillAndExpand" Spacing="10" >
+                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                            StrokeShape="RoundRectangle 20,20,20,20"
+                            Margin="5,5,5,5" Padding="10">
+                        <Border.Shadow>
+                            <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
+                                    Offset="0,30" Radius="40" Opacity="0.8" />
+                        </Border.Shadow>
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-
-                            </Grid.RowDefinitions>
-                            <DatePicker x:Name="StartDate" Grid.Row="0" Grid.Column="0"/>
-                            <DatePicker x:Name="EndDate" Grid.Row="0" Grid.Column="1"/>
-                        </Grid>
+                            <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="FillAndExpand" Spacing="10" >
+                                <Grid RowSpacing="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" /> 
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Label Margin="0,0,0,5" Text="Service Period" FontFamily="" FontAttributes="Bold"
+                                               Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" />
+                                        <DatePicker x:Name="StartDate" Grid.Row="1" Grid.Column="0"/>
+                                        <DatePicker x:Name="EndDate" Grid.Row="1" Grid.Column="1"/>
+                                    </Grid>
+                            
+                                    <StackLayout Grid.Row="1" Grid.ColumnSpan="2">
+                                        <Label Margin="0,0,0,5" Text="Invoice #" FontFamily="" FontAttributes="Bold" />
+                                        <Entry x:Name="InvoiceNumber" />
+                                    </StackLayout>
+                                    <StackLayout Grid.Row="2" Grid.Column="2">
+                                        <Label Margin="0,0,0,10" Text="Item Description" FontFamily="" FontAttributes="Bold" />
+                                        <Entry x:Name="ItemDescription" />
+                                    </StackLayout>
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
+                                            <Label HorizontalTextAlignment="Center" Text="Time Date: "
+                                                   TextColor="Gray"/>
+                                            <Label HorizontalTextAlignment="Center" Text="%date%"
+                                                   FontFamily="" FontAttributes="Bold"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
+                                            <Label HorizontalTextAlignment="Center" Text="Time Text: "
+                                                   TextColor="Gray"/>
+                                            <Label HorizontalTextAlignment="Center" Text="%text%"
+                                                   FontFamily="" FontAttributes="Bold"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </Grid>
                         
-                    </StackLayout>
+                            </StackLayout>
+                        </Grid>
+                    </Border>
                 </Grid>
-            </Border>
-        </Grid>
-        <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                    BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource White}}"
-                    StrokeShape="RoundRectangle 20,20,20,20"
-                    Margin="5,5,5,5" Padding="10">
-                <Border.Shadow>
-                    <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
-                            Offset="0,30" Radius="40" Opacity="0.8" />
-                </Border.Shadow>
-                <Grid>
-                    <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Start" Spacing="10" >
-                        <Label Text="Employer Details" FontFamily="" FontAttributes="Bold"
-                               FontSize="Medium" TextColor="Black" />
-                        <Label x:Name="EmployerDetailString" TextColor="Black" />
-                        <Label Text="Personal Details" FontFamily="" FontAttributes="Bold"
-                               FontSize="Medium" TextColor="Black" />
-                        <Label x:Name="PersonalDetailString" TextColor="Black" />
-                        <Label Text="Bank Details" FontFamily="" FontAttributes="Bold"
-                               FontSize="Medium" TextColor="Black" />
-                        <Label x:Name="BankDetailString" TextColor="Black" />
-                    </StackLayout>
+                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                            StrokeShape="RoundRectangle 20,20,20,20"
+                            Margin="5,5,5,5" Padding="0">
+                        <Border.Shadow>
+                            <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
+                                    Offset="0,30" Radius="40" Opacity="0.8" />
+                        </Border.Shadow>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Margin="20" Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                                <Label Text="Employer Details" FontFamily="" FontAttributes="Bold"
+                                       FontSize="Medium" />
+                                <Label x:Name="EmployerDetailString" />
+                            </StackLayout>
+                            <StackLayout Margin="20" Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+                                <Label Text="Personal Details" FontFamily="" FontAttributes="Bold"
+                                       FontSize="Medium" />
+                                <Label x:Name="PersonalDetailString" />
+                            </StackLayout>
+                            <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="20" HorizontalOptions="Start" Spacing="10" >
+                                <Label Text="Bank Details" FontFamily="" FontAttributes="Bold"
+                                       FontSize="Medium" />
+                                <Label x:Name="BankDetailString" />
+                            </StackLayout>
+                        </Grid>
+                    </Border>
                 </Grid>
-            </Border>
-        </Grid>
 
-    </Grid>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </rxui:ReactiveContentPage>

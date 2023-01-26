@@ -7,20 +7,6 @@ namespace MyTime.Model;
 
 public class Settings : ReactiveObject
 {
-    public Settings()
-    {
-        _id = String.Empty;
-        _name = String.Empty;
-        _taxId = String.Empty;
-        _addressLine1 = String.Empty;
-        _addressLine2 = String.Empty;
-        _bankName = String.Empty;
-        _bankIban = String.Empty;
-        _bankBic = String.Empty;
-        _lastInvoice = 0;
-        _informationText = String.Empty;
-    }
-
     private string _id;
 
     [PrimaryKey]
@@ -105,6 +91,12 @@ public class Settings : ReactiveObject
     {
         get => _defaultInvoiceDays;
         set => this.RaiseAndSetIfChanged(ref _defaultInvoiceDays, value);
+    }
+    
+    public static string getUUID()
+    {
+        Guid myuuid = Guid.NewGuid();
+        return myuuid.ToString();
     }
 
     [Ignore] public string PersonalDetailString => $"{Name}\n{AddressLine1}\n{AddressLine2}\n\nTax-ID\n{TaxId}";

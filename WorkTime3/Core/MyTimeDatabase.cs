@@ -106,6 +106,25 @@ public class MyTimeDatabase
         }
     }
 
+    public async Task<Settings> GetSettingsAsync(string id)
+    {
+        await Init();
+        return await Database.Table<Settings>().Where(s => s.Id == id).FirstOrDefaultAsync(); 
+    }
+
+    public async Task<List<Settings>> GetSettingsAsync()
+    {
+        await Init();
+        return await Database.GetAllWithChildrenAsync<Settings>(); 
+    }
+
+    public async Task SaveProfileAsync(Settings settings)
+    {
+        await Init();
+        if (await GetSettingsAsync(settings.Id) != null) await Database.UpdateWithChildrenAsync(settings);
+        else await Database.InsertWithChildrenAsync(settings);
+    }
+
     public async Task<List<Employer>> GetEmployersAsync()
     {
         await Init();
@@ -163,38 +182,6 @@ public class MyTimeDatabase
         await Database.DeleteAsync(time);
         //Constants.Times.Remove(time);
         await CleanFetch();
-    }
-
-    public async Task<Settings> LoadProfileByIdAsync(string id)
-    {
-        await Init();
-        return await Database.Table<Settings>().Where(s => s.Id == id).FirstOrDefaultAsync();
-    }
-
-    public async Task<Settings> LoadProfileAsync()
-    {
-        await Init();
-        Settings settings = await Database.Table<Settings>().FirstOrDefaultAsync();
-        if (settings == null)
-        {
-            settings = new Settings();
-            settings.Id = Guid.NewGuid().ToString();
-            await SaveProfileAsync(settings);
-            settings = await Database.Table<Settings>().FirstOrDefaultAsync();
-        }
-
-        return settings;
-    }
-
-    public async Task<int> SaveProfileAsync(Settings settings)
-    {
-        await Init();
-        if (await LoadProfileByIdAsync(settings.Id) != null)
-        {
-            return await Database.UpdateAsync(settings);
-        }
-
-        return await Database.InsertAsync(settings);
     }
 
     public async Task CleanFetch()

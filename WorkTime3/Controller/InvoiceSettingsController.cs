@@ -12,7 +12,8 @@ public class InvoiceSettingsController : ReactiveObject
     {
         SaveCommand = new Command(execute: async () =>
         {
-            await Constants.Database.SaveProfileAsync(Settings);
+            Constants.Settings = _settings;
+            await Constants.Database.SaveProfileAsync(Constants.Settings);
             await Shell.Current.GoToAsync("..");
         });
     }

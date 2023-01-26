@@ -16,7 +16,17 @@ public class ShellController : ReactiveObject
         
         DatabaseSetupCommand = new Command(execute: async () =>
         {
-            Constants.Settings = await Constants.Database.LoadProfileAsync();
+            var settings = await Constants.Database.GetSettingsAsync();
+            if (settings.Count == 0)
+            {
+                Constants.Settings = new Settings
+                {
+                    Id = Settings.getUUID(),
+                };
+                await Constants.Database.SaveProfileAsync(Constants.Settings);
+            }
+            else Constants.Settings = settings[0];
+
             Constants.Employers.AddOrUpdate(await Constants.Database.GetEmployersAsync());
             Constants.Times.AddOrUpdate(await Constants.Database.GetTimesAsync());
             Console.WriteLine("Database loaded successfully");
