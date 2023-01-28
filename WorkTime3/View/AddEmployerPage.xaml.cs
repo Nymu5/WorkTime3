@@ -21,7 +21,7 @@ public partial class AddEmployerPage : ReactiveContentPage<AddEmployerController
                 .DisposeWith(disposable);
             this.Bind(ViewModel, x => x.Employer.AddressLine1, x => x.AddressLine1Label.Text)
                 .DisposeWith(disposable);
-            this.Bind(ViewModel, x => x.Employer.AddressLine1, x => x.AddressLine2Label.Text)
+            this.Bind(ViewModel, x => x.Employer.AddressLine2, x => x.AddressLine2Label.Text)
                 .DisposeWith(disposable);
             this.Bind(ViewModel, x => x.Employer.Description, x => x.DescriptionLabel.Text)
                 .DisposeWith(disposable);

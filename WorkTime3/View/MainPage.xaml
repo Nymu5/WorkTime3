@@ -8,6 +8,7 @@
                           xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
                           xmlns:vms="clr-namespace:MyTime.Resources.Templates"
                           xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
+                          xmlns:sf="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
                           Shell.NavBarIsVisible="False">
     <ContentPage.BindingContext>
         <controller:MainController />

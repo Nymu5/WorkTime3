@@ -67,7 +67,6 @@
                                         <Grid Margin="10">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
-                                                <RowDefinition />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
@@ -76,27 +75,37 @@
                                             <Border
                                                 BackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}, Light={StaticResource Gray100}}"
                                                 HeightRequest="60" WidthRequest="60"
-                                                Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                                Grid.Row="0" Grid.Column="0"
                                                 StrokeShape="RoundRectangle 30,30,30,30"
                                                 Margin="10,0">
-                                                <Image Source="building_icon.png" WidthRequest="40" HeightRequest="40" />
+                                                <Image Source="building_icon.png" WidthRequest="30" HeightRequest="30" />
                                             </Border>
-                                            <Label Text="{Binding Name}"
-                                                   FontAttributes="Bold"
-                                                   FontSize="Medium"
-                                                   Margin="10,2,10,5"
-                                                   Grid.Row="0"
-                                                   Grid.Column="1"
-                                                   VerticalOptions="StartAndExpand" FontFamily=""
-                                                   TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
-                                            <Label Text="{Binding Id}"
-                                                   FontAttributes="Italic"
-                                                   TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"
-                                                   VerticalOptions="End"
-                                                   Margin="10,2,10,2"
-                                                   Grid.Row="1"
-                                                   Grid.Column="1"
-                                                   />
+                                            <Grid Grid.Column="1" Grid.Row="0" VerticalOptions="FillAndExpand" >
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Label Text="{Binding Name}"
+                                                       FontAttributes="Bold"
+                                                       FontSize="Medium"
+                                                       Margin="10,2,10,5"
+                                                       VerticalOptions="StartAndExpand" FontFamily=""
+                                                       TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"
+                                                       Grid.Row="0"/>
+                                                <Label Text="{Binding Id}" FontSize="Micro" Margin="10,2,10,5"
+                                                       VerticalOptions="StartAndExpand"
+                                                       TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"
+                                                       Grid.Row="1"/>
+                                                <StackLayout Orientation="Horizontal" Grid.Row="2" Margin="10,2,10,2" VerticalOptions="End">
+                                                    <Label Text="Salary: "
+                                                       FontAttributes="Bold" FontFamily=""
+                                                       TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                                    <Label Text="{Binding SalaryString}"
+                                                       FontAttributes="Bold" FontFamily=""
+                                                       TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                                </StackLayout>
+                                            </Grid>
                                         </Grid>
                                     </Border>
                                 </Grid>
