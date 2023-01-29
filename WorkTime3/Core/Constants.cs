@@ -1,4 +1,7 @@
 using DynamicData;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
 using SQLite;
 using MyTime.Model;
 using ReactiveUI;
@@ -31,6 +34,7 @@ public static class Constants
 
     public static SourceCache<Employer, string> Employers;
     public static SourceCache<Time, string> Times;
+    public static SourceCache<ChartData, int> Charts;
     public static Settings Settings;
     public static MyTimeDatabase Database;
     
@@ -46,5 +50,30 @@ public static class Constants
         SKColor.Parse("F9CDAD"),
         SKColor.Parse("C8C8A9"),
         SKColor.Parse("83AF9B"),
+    };
+    
+    public static Axis[] XAxes { get; set; } =
+    {
+        new Axis
+        {
+            Labels = new string[]
+                { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+            LabelsRotation = 90,
+            SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+            SeparatorsAtCenter = false,
+            TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
+            TicksAtCenter = true,
+            TextSize = 40,
+        }
+    };
+
+    public static Axis[] YAxes { get; set; } =
+    {
+        new Axis
+        {
+            TextSize = 40,
+            Labeler = Labelers.Currency,
+            MinLimit = 0,
+        }
     };
 }

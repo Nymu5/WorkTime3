@@ -13,6 +13,7 @@ public class ShellController : ReactiveObject
         Constants.Database = new MyTimeDatabase();
         Constants.Employers = new SourceCache<Employer, string>(e => e.Id);
         Constants.Times = new SourceCache<Time, string>(t => t.Id);
+        Constants.Charts = new SourceCache<ChartData, int>(c => c.Year);
         
         DatabaseSetupCommand = new Command(execute: async () =>
         {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Metrics;
+using System.Reactive.Linq;
 using CommunityToolkit.Maui.Core.Extensions;
 using DynamicData;
 using DynamicData.Binding;
@@ -56,6 +57,49 @@ public static class Extensions
         list.Sort();
         if (reversed) list.Reverse();
         return list.ToArray();
+    }
+
+    public static TReturn[] AllChangeValues<TValue, TType, TReturn, TComp>(this Change<TValue, TType>[] array, Func<TValue, TReturn> predicate, Func<TReturn, TComp> comparer)
+    {
+        List<TReturn> list = new List<TReturn>();
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (!list.Any(c => comparer(c).Equals(comparer(predicate(array[i].Current))))) list.Add(predicate(array[i].Current));
+        }
+        list.Sort();
+        return list.ToArray(); 
+    }
+
+    public static List<ChartData> ToChartDataList(this IReadOnlyCollection<Time> collection)
+    {
+        var list = new List<ChartData>();
+        return list;
+    }
+
+    public static List<ChartData> ChartMapper(this IChangeSet<Time, string> times)
+    {
+        var list = new List<ChartData>();
+        var array = times.ToArray();
+
+        var employers = times.ToArray().AllChangeValues(t => t.Employer, e => e.Id);
+        var years = times.ToArray().AllChangeValues(t => t.Start.Year, y => y);
+
+        if (!(employers.Length > 0 && years.Length > 0)) return list;
+
+        var earningsCube = Graph.CreateEarningsCube(times, employers);
+
+        foreach (int year in years)
+        {
+            list.Add(new ChartData
+            {
+                Series = Graph.CreateISeries(year, times, employers, earningsCube),
+                Year = year,
+                XAxes = Constants.XAxes,
+                YAxes = Constants.YAxes
+            });
+        }
+
+        return list;
     }
 
     public static string ToHourString(this TimeSpan time)

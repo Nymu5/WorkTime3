@@ -12,6 +12,7 @@ using MyTime.Core;
 using MyTime.Model;
 using ReactiveUI;
 using SkiaSharp;
+using Extensions = MyTime.Core.Extensions;
 
 namespace MyTime.Controller;
 
@@ -19,6 +20,7 @@ public class MainController : ReactiveObject
 {
     public readonly ReadOnlyObservableCollection<Time> TimesC;
     public readonly ReadOnlyObservableCollection<Employer> EmployersC;
+    public readonly ReadOnlyObservableCollection<ChartData> ChartC;
 
     private readonly ObservableAsPropertyHelper<int> _statsEmployers;
     public int StatsEmployers => _statsEmployers.Value;
@@ -31,6 +33,9 @@ public class MainController : ReactiveObject
     
     private readonly ObservableAsPropertyHelper<int> _statsTimes;
     public int StatsTimes => _statsTimes.Value;
+    
+    private readonly ObservableAsPropertyHelper<List<ChartData>> _chartData;
+    public List<ChartData> ChartData => _chartData.Value;
     
     //private readonly ObservableAsPropertyHelper<ObservableCollection<int>> _years;
     //public ObservableCollection<int> Years => _years.Value;
@@ -58,14 +63,24 @@ public class MainController : ReactiveObject
 
     public MainController()
     {
-        RefreshStats = new Command(execute: () => Refresher = !Refresher );
         Years = Array.Empty<int>();
         Constants.Times
             .Connect()
             .Sort(SortExpressionComparer<Time>.Descending(t => t.Start))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Bind(out TimesC)
-            .Subscribe();
+            .Subscribe(x =>
+            {
+                Constants.Charts.Clear();
+                Constants.Charts.AddOrUpdate(x.ChartMapper());
+            });
+
+        Constants.Charts
+            .Connect()
+            .Sort(SortExpressionComparer<ChartData>.Descending(c => c.Year))
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Bind(out ChartC)
+            .Subscribe(x => Console.WriteLine(x.Count));
 
         Constants.Employers
             .Connect()
@@ -74,6 +89,15 @@ public class MainController : ReactiveObject
             .Bind(out EmployersC)
             .Subscribe();
 
+        //Constants.Times
+        //    .Connect()
+        //    .Select(Graph.ChartMapper)
+        //    .Sort(SortExpressionComparer<ChartData>.Descending(c => c.Year))
+        //    .ObserveOn(RxApp.MainThreadScheduler)
+        //    .Bind(out ChartC)
+        //    .Subscribe();
+
+
         var statsT = TimesC
             .ToObservableChangeSet()
             .ToCollection();
@@ -81,6 +105,10 @@ public class MainController : ReactiveObject
         var statsE = EmployersC
             .ToObservableChangeSet()
             .ToCollection();
+
+        _chartData = statsT
+            .Select(x => x.ToChartDataList())
+            .ToProperty(this, x => x.ChartData);
 
         _statsEmployers = statsE
             .Select(x => x.Count)
@@ -98,20 +126,6 @@ public class MainController : ReactiveObject
             .Select(x => x.Count)
             .ToProperty(this, x => x.StatsTimes);
 
-        //_series = TimesC
-        //    .ToObservableChangeSet()
-        //    .ToCollection()
-        //    .Select(x => CreateGraph())
-        //    .ToProperty(this, x => x.Series);
-
-        this.WhenAnyValue(x => x.YearSelected, 
-                x => x.EmployersC, 
-                x => x.TimesC, 
-                x => x.Refresher,
-                (year, employers, times, refresher) => 
-                    Graph.CreateISeries(year, times, employers))
-            .Subscribe(x => Series = x);
-        
         TimesC
             .ToObservableChangeSet()
             .ToCollection()
@@ -125,63 +139,10 @@ public class MainController : ReactiveObject
                 YearSelected = x.Contains(DateTime.Now.Year) ? DateTime.Now.Year : x.First();
             });
     }
-    
-    
-
-    public Axis[] XAxes { get; set; } =
-    {
-        new Axis
-        {
-            Labels = new string[]
-                { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
-            LabelsRotation = 90,
-            SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
-            SeparatorsAtCenter = false,
-            TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
-            TicksAtCenter = true,
-            TextSize = 40,
-        }
-    };
-
-    public Axis[] YAxes { get; set; } =
-    {
-        new Axis
-        {
-            TextSize = 40,
-            Labeler = Labelers.Currency,
-            MinLimit = 0,
-        }
-    };
 
     // Commands
-    
-    public ICommand RefreshStats { get; }
 
     // Properties
-    
-    private ISeries[] _series;
-    public ISeries[] Series
-    {
-        get => _series;
-        set => this.RaiseAndSetIfChanged(ref _series, value);
-    }
-
-    private double[,,] _earningsCube;
-    public double[,,] EarningsCube
-    {
-        get => _earningsCube;
-        set => this.RaiseAndSetIfChanged(ref _earningsCube, value);
-    }
-
-    private TimeSpan[,,] _timesCube;
-
-    public TimeSpan[,,] TimesCube
-    {
-        get => _timesCube;
-        set => this.RaiseAndSetIfChanged(ref _timesCube, value);
-    }
-
-
 
     // Functions
 

@@ -3,6 +3,7 @@ using System.Reactive.Linq;
 using MyTime.Controller;
 using ReactiveUI;
 using ReactiveUI.Maui;
+using Syncfusion.Maui.Data;
 
 namespace MyTime.View;
 
@@ -22,11 +23,7 @@ public partial class MainPage : ReactiveContentPage<MainController>
                 .DisposeWith(disposable);
             this.OneWayBind(ViewModel, x => x.StatsTimes, x => x.StatsTimes.Text)
                 .DisposeWith(disposable);
-            this.OneWayBind(ViewModel, x => x.Series, x => x.Chart.Series)
-                .DisposeWith(disposable);
-            this.OneWayBind(ViewModel, x => x.Years, x => x.Years.ItemsSource)
-                .DisposeWith(disposable);
-            this.Bind(ViewModel, x => x.YearSelected, x => x.Years.SelectedItem)
+            this.OneWayBind(ViewModel, x => x.ChartC, x => x.TabView.ItemsSource)
                 .DisposeWith(disposable);
         });
     }

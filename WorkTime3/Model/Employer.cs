@@ -6,8 +6,21 @@ using MyTime.Core;
 
 namespace MyTime.Model;
 
-public class Employer : ControllerBase
+public class Employer : ControllerBase, IComparable
 {
+    public int CompareTo(object obj)
+    {
+        if (obj == null) return 1;
+        Employer oEmployer = obj as Employer;
+        if (oEmployer != null) return String.Compare(this.Id, oEmployer.Id, StringComparison.Ordinal);
+        else throw new ArgumentException("Object is not an Employer");
+    }
+
+    public bool Equals(Employer obj)
+    {
+        return String.Equals(this.Id, obj.Id, StringComparison.Ordinal);
+    }
+    
     public Employer()
     {
         _id = String.Empty;
