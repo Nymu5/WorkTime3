@@ -93,6 +93,10 @@ public class AddTimeController : ReactiveObject
         {
             this.RaiseAndSetIfChanged(ref _time, value);
             this.RaisePropertyChanged(nameof(CanDelete));
+            this.RaisePropertyChanged(nameof(StartDate));
+            this.RaisePropertyChanged(nameof(EndDate));
+            this.RaisePropertyChanged(nameof(StartTime));
+            this.RaisePropertyChanged(nameof(EndTime));
         } 
     }
 
@@ -101,9 +105,17 @@ public class AddTimeController : ReactiveObject
         get => Time.Start.Date;
         set
         {
-            Time.Start = Time.Start.AddYears(value.Year - Time.Start.Year);
-            Time.Start = Time.Start.AddMonths(value.Month - Time.Start.Month);
-            Time.Start = Time.Start.AddDays(value.Day - Time.Start.Day);
+            int aYears = value.Year - Time.Start.Year;
+            int aMonths = value.Month - Time.Start.Month;
+            int aDays = value.Day - Time.Start.Day;
+            Time.Start = Time.Start.AddYears(aYears);
+            Time.Start = Time.Start.AddMonths(aMonths);
+            Time.Start = Time.Start.AddDays(aDays);
+            Time.End = Time.End.AddYears(aYears);
+            Time.End = Time.End.AddMonths(aMonths);
+            Time.End = Time.End.AddDays(aDays);
+            this.RaisePropertyChanged(nameof(EndDate));
+            this.RaisePropertyChanged(nameof(CanSave));
         }
     }
 
@@ -115,6 +127,7 @@ public class AddTimeController : ReactiveObject
             Time.End = Time.End.AddYears(value.Year - Time.End.Year);
             Time.End = Time.End.AddMonths(value.Month - Time.End.Month);
             Time.End = Time.End.AddDays(value.Day - Time.End.Day);
+            this.RaisePropertyChanged(nameof(CanSave));
         }
     }
 
@@ -123,8 +136,15 @@ public class AddTimeController : ReactiveObject
         get => Time.Start.TimeOfDay;
         set
         {
-            Time.Start = Time.Start.AddHours(value.Hours - Time.Start.Hour);
-            Time.Start = Time.Start.AddMinutes(value.Minutes - Time.Start.Minute);
+            int aHours = value.Hours - Time.Start.Hour;
+            int aMinutes = value.Minutes - Time.Start.Minute;
+            Time.Start = Time.Start.AddHours(aHours);
+            Time.Start = Time.Start.AddMinutes(aMinutes);
+            Time.End = Time.End.AddHours(aHours);
+            Time.End = Time.End.AddMinutes(aMinutes);
+            this.RaisePropertyChanged(nameof(EndTime));
+            this.RaisePropertyChanged(nameof(EndDate));
+            this.RaisePropertyChanged(nameof(CanSave));
         }
     }
 
@@ -135,10 +155,11 @@ public class AddTimeController : ReactiveObject
         {
             Time.End = Time.End.AddHours(value.Hours - Time.End.Hour);
             Time.End = Time.End.AddMinutes(value.Minutes - Time.End.Minute);
+            this.RaisePropertyChanged(nameof(CanSave));
         }
     }
     
-    public bool CanSave => SelectedEmployer != null;
+    public bool CanSave => SelectedEmployer != null && Time.Start < Time.End;
 
     public bool CanDelete => !String.IsNullOrWhiteSpace(Time.Id);
 

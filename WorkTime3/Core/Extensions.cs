@@ -59,12 +59,13 @@ public static class Extensions
         return list.ToArray();
     }
 
-    public static TReturn[] AllChangeValues<TValue, TType, TReturn, TComp>(this Change<TValue, TType>[] array, Func<TValue, TReturn> predicate, Func<TReturn, TComp> comparer)
+    public static TReturn[] AllChangeValues<TValue, TReturn, TComp>(this IReadOnlyCollection<TValue> array, Func<TValue, TReturn> predicate, Func<TReturn, TComp> comparer)
     {
         List<TReturn> list = new List<TReturn>();
-        for (int i = 0; i < array.Length; i++)
+        var sList = array.ToList();
+        foreach (var t in sList)
         {
-            if (!list.Any(c => comparer(c).Equals(comparer(predicate(array[i].Current))))) list.Add(predicate(array[i].Current));
+            if (!list.Any(c => comparer(c).Equals(comparer(predicate(t))))) list.Add(predicate(t));
         }
         list.Sort();
         return list.ToArray(); 
@@ -73,32 +74,23 @@ public static class Extensions
     public static List<ChartData> ToChartDataList(this IReadOnlyCollection<Time> collection)
     {
         var list = new List<ChartData>();
-        return list;
-    }
-
-    public static List<ChartData> ChartMapper(this IChangeSet<Time, string> times)
-    {
-        var list = new List<ChartData>();
-        var array = times.ToArray();
-
-        var employers = times.ToArray().AllChangeValues(t => t.Employer, e => e.Id);
-        var years = times.ToArray().AllChangeValues(t => t.Start.Year, y => y);
-
+        var employers = collection.AllChangeValues(x => x.Employer, x => x.Id);
+        var years = collection.AllChangeValues(x => x.Start.Year, x => x);
+        var sList = collection.ToList();
         if (!(employers.Length > 0 && years.Length > 0)) return list;
-
-        var earningsCube = Graph.CreateEarningsCube(times, employers);
-
-        foreach (int year in years)
+        var earningsCube = Graph.CreateEarningsCube(sList, employers);
+        
+        foreach (int year in years.Reverse())
         {
             list.Add(new ChartData
             {
-                Series = Graph.CreateISeries(year, times, employers, earningsCube),
+                Series = Graph.CreateISeries(year, sList, employers, earningsCube),
                 Year = year,
                 XAxes = Constants.XAxes,
                 YAxes = Constants.YAxes
             });
         }
-
+        
         return list;
     }
 

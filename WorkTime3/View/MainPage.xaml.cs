@@ -23,7 +23,9 @@ public partial class MainPage : ReactiveContentPage<MainController>
                 .DisposeWith(disposable);
             this.OneWayBind(ViewModel, x => x.StatsTimes, x => x.StatsTimes.Text)
                 .DisposeWith(disposable);
-            this.OneWayBind(ViewModel, x => x.ChartC, x => x.TabView.ItemsSource)
+            this.OneWayBind(ViewModel, x => x.ChartData, x => x.TabView.ItemsSource)
+                .DisposeWith(disposable);
+            this.Bind(ViewModel, x => x.ChartSelectedIndex, x => x.TabView.SelectedIndex)
                 .DisposeWith(disposable);
         });
     }

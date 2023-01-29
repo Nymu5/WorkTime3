@@ -63,17 +63,14 @@ public class MainController : ReactiveObject
 
     public MainController()
     {
+        
         Years = Array.Empty<int>();
         Constants.Times
             .Connect()
             .Sort(SortExpressionComparer<Time>.Descending(t => t.Start))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Bind(out TimesC)
-            .Subscribe(x =>
-            {
-                Constants.Charts.Clear();
-                Constants.Charts.AddOrUpdate(x.ChartMapper());
-            });
+            .Subscribe();
 
         Constants.Charts
             .Connect()
@@ -138,11 +135,21 @@ public class MainController : ReactiveObject
                 if (x.Length <= 0) return;
                 YearSelected = x.Contains(DateTime.Now.Year) ? DateTime.Now.Year : x.First();
             });
+
+        this.WhenAnyValue(x => x.ChartSelectedIndex)
+            .Subscribe(x => ChartSelectedIndex = ChartData != null ? x < ChartData.Count ? x : 0 : 0); 
     }
 
     // Commands
 
     // Properties
+    
+    private int _chartSelectedIndex;
+    public int ChartSelectedIndex
+    {
+        get => _chartSelectedIndex;
+        set => this.RaiseAndSetIfChanged(ref _chartSelectedIndex, value);
+    }
 
     // Functions
 

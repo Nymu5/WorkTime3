@@ -13,9 +13,6 @@
     <ContentPage.BindingContext>
         <controller:MainController />
     </ContentPage.BindingContext>
-    <ContentPage.Behaviors>
-        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding RefreshStats}" />
-    </ContentPage.Behaviors>
     <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}"
           Padding="10,0,10,0">
         <Grid.RowDefinitions>
