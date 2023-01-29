@@ -90,10 +90,6 @@
         <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
       </Compile>
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Renderers" />
-    </ItemGroup>
     <ItemGroup>
       <None Remove="Syncfusion.Maui.Core" />
       <None Remove="Syncfusion.Maui.Inputs" />

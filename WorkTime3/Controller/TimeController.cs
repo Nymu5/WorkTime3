@@ -3,7 +3,6 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 using DynamicData;
 using DynamicData.Binding;
-using DynamicData.PLinq;
 using MyTime.Core;
 using MyTime.Model;
 using MyTime.View;
@@ -15,32 +14,13 @@ public class TimeController : ReactiveObject
 {
     public TimeController()
     {
-        CreateTimeCommand = new Command(execute: async () =>
-        {
-            await Shell.Current.GoToAsync(nameof(AddTimePage));
-        });
-        SelectionChangedCommand = new Command(execute: async () =>
-        {
-            Console.WriteLine("Selection Changed");
-            if (SelectedTime != null)
-            {
-                await Shell.Current.GoToAsync("AddTimePage", new Dictionary<string, object>
-                {
-                    { "Time", SelectedTime },
-                });
-                SelectedTime = null;
-            }
-        });
+        CreateTimeCommand = new Command(execute: CreateTimeTask);
+        SelectionChangedCommand = new Command(execute: SelectionChangedTask);
         DateTime now = DateTime.Today;
         FilterStart = new DateTime(now.Year, 1, 1);
         FilterEnd = new DateTime(now.Year + 1, 1, 1) - TimeSpan.FromMicroseconds(1);
 
-        RefreshCommand = new Command(execute: async () =>
-        {
-            Constants.Times.Clear();
-            Constants.Times.AddOrUpdate(await Constants.Database.GetTimesAsync());
-            IsRefreshing = false;
-        });
+        RefreshCommand = new Command(execute: RefreshTask);
 
         Func<Time, bool> SearchTermFilter(string text) => time => (String.IsNullOrWhiteSpace(text) ||
                                                                    time.Text.ToLower().Contains(text.ToLower()) ||
@@ -74,13 +54,6 @@ public class TimeController : ReactiveObject
             .Bind(out Times)
             .Subscribe();
 
-        Constants.Times
-            .Connect()
-            .Sort(SortExpressionComparer<Time>.Descending(t => t.Start))
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Bind(out AllTimes)
-            .Subscribe();
-
         var stats = Times
             .ToObservableChangeSet()
             .ToCollection();
@@ -89,12 +62,34 @@ public class TimeController : ReactiveObject
             .Select(x => x.Count)
             .ToProperty(this, x => x.FilterWorkedAmount);
         _filterWorkedTotal = stats
-            .Select(x => x.SumDouble(x => x.Earned).ToString("C"))
+            .Select(x => x.SumDouble(time => time.Earned).ToString("C"))
             .ToProperty(this, x => x.FilterWorkedTotal);
         _filterWorkedTime = stats
-            .Select(x => x.SumTimeSpan(x => x.Duration).ToHourString())
+            .Select(x => x.SumTimeSpan(time => time.Duration).ToHourString())
             .ToProperty(this, x => x.FilterWorkedTime);
         
+    }
+
+    private async void RefreshTask()
+    {
+        Constants.Times.Clear();
+        Constants.Times.AddOrUpdate(await Constants.Database.GetTimesAsync());
+        IsRefreshing = false;
+    }
+
+    private async void SelectionChangedTask()
+    {
+        Console.WriteLine("Selection Changed");
+        if (SelectedTime != null)
+        {
+            await Shell.Current.GoToAsync("AddTimePage", new Dictionary<string, object> { { "Time", SelectedTime }, });
+            SelectedTime = null;
+        }
+    }
+
+    private async void CreateTimeTask()
+    {
+        await Shell.Current.GoToAsync(nameof(AddTimePage));
     }
 
     // Commands
@@ -111,7 +106,6 @@ public class TimeController : ReactiveObject
     }
     
     public readonly ReadOnlyObservableCollection<Time> Times;
-    public readonly ReadOnlyObservableCollection<Time> AllTimes;
 
     private bool _isRefreshing;
     public bool IsRefreshing
@@ -136,18 +130,18 @@ public class TimeController : ReactiveObject
     public string FilterWorkedTime => _filterWorkedTime.Value;
 
 
-    private DateTime _filterStart;
+    private readonly DateTime _filterStart;
     public DateTime FilterStart
     {
         get => _filterStart;
-        set => this.RaiseAndSetIfChanged(ref _filterStart, value);
+        private init => this.RaiseAndSetIfChanged(ref _filterStart, value);
     }
     
-    private DateTime _filterEnd;
+    private readonly DateTime _filterEnd;
     public DateTime FilterEnd
     {
         get => _filterEnd;
-        set => this.RaiseAndSetIfChanged(ref _filterEnd, value);
+        private init => this.RaiseAndSetIfChanged(ref _filterEnd, value);
     }
 
     // Functions

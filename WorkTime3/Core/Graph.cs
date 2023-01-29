@@ -1,6 +1,4 @@
-using System.Collections.ObjectModel;
 using DynamicData;
-using DynamicData.Kernel;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
@@ -23,16 +21,16 @@ public static class Graph
 
         for (int i = 0; i < employers.Length; i++)
         {
-            double[] vals = new double[12];
+            double[] values = new double[12];
             for (int j = 0; j < 12; j++)
             {
-                vals[j] = earningsCube[i, year - times.Min(t => t.Start.Year), j];
+                values[j] = earningsCube[i, year - times.Min(t => t.Start.Year), j];
                 iSeries[i] = new StackedColumnSeries<double>
                 {
-                    Values = vals,
+                    Values = values,
                     Name = employers[i].Name,
                     TooltipLabelFormatter = (chartPoint) =>
-                        $"{chartPoint.Context.Series.Name}: {chartPoint.PrimaryValue.ToString("C")}",
+                        $"{chartPoint.Context.Series.Name}: {chartPoint.PrimaryValue:C}",
                     Stroke = null,
                     Fill = new SolidColorPaint(Constants.Colors[i % 10])
                 };
@@ -49,11 +47,10 @@ public static class Graph
         int minYear = times.Min(t => t.Start.Year);
         int maxYear = times.Max(t => t.Start.Year);
         int years = maxYear - minYear + 2;
-        int employersCount = employers.Length + 1;
 
         double[,,] earningsCube = new double[employers.Length + 1, years, 13];
 
-        foreach (var (time, i) in times.WithIndex())
+        foreach (Time time in times)
         {
             int pos1 = employers.IndexOf(employers.FirstOrDefault(e => e.Id == time.Employer.Id));
             int pos2 = time.Start.Year - minYear;

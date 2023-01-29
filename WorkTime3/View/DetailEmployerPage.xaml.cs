@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Disposables;
-using System.Text;
-using System.Threading.Tasks;
-using MyTime.Controller;
 using ReactiveUI;
-using ReactiveUI.Maui;
 
 namespace MyTime.View;
 
-public partial class DetailEmployerPage : ReactiveContentPage<DetailEmployerController>
+public partial class DetailEmployerPage
 {
     public DetailEmployerPage()
     {

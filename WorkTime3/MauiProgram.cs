@@ -16,12 +16,6 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseMauiCompatibility()
-            .ConfigureMauiHandlers((handlers) =>
-            {   
-#if IOS
-                handlers.AddHandler<Entry, EntryHandler>();
-#endif
-            })
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

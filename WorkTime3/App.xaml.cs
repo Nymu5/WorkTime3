@@ -1,9 +1,9 @@
 ﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
-using MyTime.Core;
 
 namespace MyTime;
 
+// ReSharper disable once RedundantExtendsListEntry
 public partial class App : Application
 {
     public App()

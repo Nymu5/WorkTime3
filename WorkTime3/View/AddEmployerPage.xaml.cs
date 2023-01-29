@@ -1,11 +1,9 @@
 using System.Reactive.Disposables;
-using MyTime.Controller;
 using ReactiveUI;
-using ReactiveUI.Maui;
 
 namespace MyTime.View;
 
-public partial class AddEmployerPage : ReactiveContentPage<AddEmployerController>
+public partial class AddEmployerPage
 {
     public AddEmployerPage()
     {

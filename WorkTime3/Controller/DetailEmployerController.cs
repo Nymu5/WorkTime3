@@ -11,30 +11,28 @@ public class DetailEmployerController : ReactiveObject
 {
     public DetailEmployerController()
     {
-        EditEmployerCommand = new Command(execute: async () =>
-        {
-            if (Employer == null) return;
-            await Shell.Current.GoToAsync("AddEmployerPage", new Dictionary<string, object>
-            {
-                { "Employer", Employer },
-            });
-        });
-        DeleteEmployerCommand = new Command(execute: async () =>
-        {
-            var result = await Shell.Current.DisplayActionSheet(
-                $"Are you sure you want to delete {Employer.Name} and ALL OF THE TRACKED HOURS? This operation cannot be undone!",
-                "Cancel", "Yes");
-            if (result != "Yes") return;
-            await Constants.Database.DeleteEmployerAsync(Employer);
-            await Shell.Current.GoToAsync("..");
-        });
-        CreateInvoiceCommand = new Command(
-            execute: async () => await Shell.Current.GoToAsync(nameof(InvoiceCreatorPage),
-            new Dictionary<string, object>
-            {
-                { "Employer", Employer },
-                { "Settings", Constants.Settings}
-            }));
+        EditEmployerCommand = new Command(execute: EditEmployerTask);
+        DeleteEmployerCommand = new Command(execute: DeleteEmployerTask);
+        CreateInvoiceCommand = new Command(execute: CreateInvoiceTask);
+    }
+
+    private async void CreateInvoiceTask()
+    {
+        await Shell.Current.GoToAsync(nameof(InvoiceCreatorPage), new Dictionary<string, object> { { "Employer", Employer }, { "Settings", Constants.Settings } });
+    }
+
+    private async void DeleteEmployerTask()
+    {
+        var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete {Employer.Name} and ALL OF THE TRACKED HOURS? This operation cannot be undone!", "Cancel", "Yes");
+        if (result != "Yes") return;
+        await Constants.Database.DeleteEmployerAsync(Employer);
+        await Shell.Current.GoToAsync("..");
+    }
+
+    private async void EditEmployerTask()
+    {
+        if (Employer == null) return;
+        await Shell.Current.GoToAsync("AddEmployerPage", new Dictionary<string, object> { { "Employer", Employer }, });
     }
 
     private Employer _employer;

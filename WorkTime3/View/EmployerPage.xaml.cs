@@ -1,11 +1,9 @@
 using System.Reactive.Disposables;
-using MyTime.Controller;
 using ReactiveUI;
-using ReactiveUI.Maui;
 
 namespace MyTime.View;
 
-public partial class EmployerPage : ReactiveContentPage<EmployerController>
+public partial class EmployerPage
 {
     public EmployerPage()
     {
@@ -30,9 +28,5 @@ public partial class EmployerPage : ReactiveContentPage<EmployerController>
     {
         base.OnDisappearing();
         Title = String.Empty;
-    }
-
-    void RefreshView_Refreshing(System.Object sender, System.EventArgs e)
-    {
     }
 }

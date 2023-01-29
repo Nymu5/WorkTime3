@@ -1,13 +1,9 @@
 ﻿using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using MyTime.Controller;
 using ReactiveUI;
-using ReactiveUI.Maui;
-using Syncfusion.Maui.Data;
 
 namespace MyTime.View;
 
-public partial class MainPage : ReactiveContentPage<MainController>
+public partial class MainPage
 {
     public MainPage()
     {

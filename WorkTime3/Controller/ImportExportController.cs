@@ -1,26 +1,26 @@
 using System.Windows.Input;
 using MyTime.Core;
+using ReactiveUI;
 
 namespace MyTime.Controller;
 
-public class ImportExportController : ControllerBase
+public class ImportExportController : ReactiveObject
 {
-    private MyTimeDatabase _db;
-
     public ImportExportController()
     {
-        _db = new MyTimeDatabase();
+        Import = new Command(execute: ImportTask);
 
-        Import = new Command(execute: async () => { await PickAndMove(PickOptions.Default); });
+        Export = new Command(execute: ExportTask);
+    }
 
-        Export = new Command(execute: async () =>
-        {
-            await Share.RequestAsync(new ShareFileRequest
-            {
-                Title = "MyTime .db3 Backup",
-                File = new ShareFile(Constants.DatabasePath)
-            });
-        });
+    private async void ExportTask()
+    {
+        await Share.RequestAsync(new ShareFileRequest { Title = "MyTime .db3 Backup", File = new ShareFile(Constants.DatabasePath) });
+    }
+
+    private async void ImportTask()
+    {
+        await PickAndMove();
     }
 
     // Commands
@@ -29,28 +29,23 @@ public class ImportExportController : ControllerBase
 
     // Properties
 
-    private FilePickerFileType _db3FileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-    {
-        { DevicePlatform.iOS, new[] { "application/vnd.sqlite3" } }
-    });
-
     // Functions
 
-    async Task<FileResult> PickAndMove(PickOptions options)
+    async Task PickAndMove()
     {
         try
         {
             var result = await FilePicker.PickAsync(PickOptions.Default);
-            if (result == null) return null;
+            if (result == null) return;
             if (!result.FileName.EndsWith(".db3", StringComparison.OrdinalIgnoreCase))
             {
-                await App.Current.MainPage.DisplayAlert("Alert", "Please select .db3 file!", "Cancel");
-                return null;
+                await Application.Current!.MainPage!.DisplayAlert("Alert", "Please select .db3 file!", "Cancel");
+                return;
             }
 
             var stream = await result.OpenReadAsync();
 
-            using (var fileStream = File.Create(Constants.ImportDbPath))
+            await using (var fileStream = File.Create(Constants.ImportDbPath))
             {
                 stream.Seek(0, SeekOrigin.Begin);
                 await stream.CopyToAsync(fileStream);
@@ -58,14 +53,11 @@ public class ImportExportController : ControllerBase
                 fileStream.Close();
             }
 
-            await _db.Importer(Constants.ImportDbPath);
-
-            return result;
+            await Constants.Database.Importer(Constants.ImportDbPath);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return null;
         }
     }
 }

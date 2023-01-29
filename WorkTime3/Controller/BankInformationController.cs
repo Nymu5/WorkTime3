@@ -1,20 +1,23 @@
 using System.Windows.Input;
 using MyTime.Core;
 using MyTime.Model;
+using ReactiveUI;
 
 namespace MyTime.Controller;
 
 [QueryProperty(nameof(Settings), "settings")]
-public class BankInformationController : ControllerBase
+public class BankInformationController : ReactiveObject
 {
     public BankInformationController()
     {
-        SaveCommand = new Command(canExecute: () => true, execute: async () =>
+        async void SaveTask()
         {
             Constants.Settings = _settings;
             await Constants.Database.SaveProfileAsync(Constants.Settings);
             await Shell.Current.GoToAsync("..");
-        });
+        }
+
+        SaveCommand = new Command(canExecute: () => true, execute: SaveTask);
     }
 
     private Settings _settings;
@@ -22,7 +25,7 @@ public class BankInformationController : ControllerBase
     public Settings Settings
     {
         get => _settings;
-        set => SetProperty(ref _settings, value);
+        set => this.RaiseAndSetIfChanged(ref _settings, value);
     }
 
     public ICommand SaveCommand { get; set; }

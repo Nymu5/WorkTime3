@@ -1,18 +1,16 @@
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
-using MyTime.Core;
+using ReactiveUI;
 
 namespace MyTime.Model;
 
-public class Employer : ControllerBase, IComparable
+public class Employer : ReactiveObject, IComparable
 {
     public int CompareTo(object obj)
     {
         if (obj == null) return 1;
-        Employer oEmployer = obj as Employer;
-        if (oEmployer != null) return String.Compare(this.Id, oEmployer.Id, StringComparison.Ordinal);
+        if (obj is Employer oEmployer) return String.Compare(this.Id, oEmployer.Id, StringComparison.Ordinal);
         else throw new ArgumentException("Object is not an Employer");
     }
 
@@ -33,106 +31,76 @@ public class Employer : ControllerBase, IComparable
         _times = new List<Time>();
     }
 
-    public bool istString(double a)
-    {
-        return true;
-    }
-
-    public bool istString(int b, double c)
-    {
-        return false;
-    }
-
-    public bool istString(int b, float c)
-    {
-        return false;
-    }
-
-
-    public Employer(string id, string name, long employerNb = 0, string description = "", float salary = 0,
-        string addressLine1 = "", string addressLine2 = "")
-    {
-        _id = id;
-        _name = name;
-        _employerNb = employerNb;
-        _description = description;
-        _salary = salary;
-        _addressLine1 = addressLine1;
-        _addressLine2 = addressLine2;
-        _times = new List<Time>();
-    }
-
-    [Key] private string _id;
+    [Key] private readonly string _id;
 
     [PrimaryKey]
     public string Id
     {
         get => _id;
-        set => SetProperty(ref _id, value);
+        init => this.RaiseAndSetIfChanged(ref _id, value);
     }
 
-    private string _name;
+    private readonly string _name;
 
     public string Name
     {
         get => _name;
-        set => SetProperty(ref _name, String.IsNullOrWhiteSpace(value) ? null : value);
+        init => this.RaiseAndSetIfChanged(ref _name, String.IsNullOrWhiteSpace(value) ? null : value);
     }
 
-    private long _employerNb;
+    private readonly long _employerNb;
 
     public long EmployerNb
     {
         get => _employerNb;
-        set => SetProperty(ref _employerNb, value);
+        init => this.RaiseAndSetIfChanged(ref _employerNb, value);
     }
 
-    private string _description;
+    private readonly string _description;
 
     public string Description
     {
         get => _description;
-        set => SetProperty(ref _description, value);
+        init => this.RaiseAndSetIfChanged(ref _description, value);
     }
 
-    private double _salary;
+    private readonly double _salary;
 
     public double Salary
     {
         get => _salary;
-        set => SetProperty(ref _salary, (float)Math.Round(value, 2));
+        init => this.RaiseAndSetIfChanged(ref _salary, (float)Math.Round(value, 2));
     }
 
     public string SalaryString => Salary.ToString("C");
-    private string _addressLine1;
+    private readonly string _addressLine1;
 
     public string AddressLine1
     {
         get => _addressLine1;
-        set => SetProperty(ref _addressLine1, value);
+        init => this.RaiseAndSetIfChanged(ref _addressLine1, value);
     }
 
-    private string _addressLine2;
+    private readonly string _addressLine2;
 
     public string AddressLine2
     {
         get => _addressLine2;
-        set => SetProperty(ref _addressLine2, value);
+        init => this.RaiseAndSetIfChanged(ref _addressLine2, value);
     }
 
-    public static string getUUID()
+    public static string GetUuid()
     {
-        Guid myuuid = Guid.NewGuid();
-        return myuuid.ToString();
+        return Guid.NewGuid().ToString();
     }
 
-    private List<Time> _times;
+    private readonly List<Time> _times;
 
     [OneToMany(CascadeOperations = CascadeOperation.CascadeDelete)]
     public List<Time> Times
     {
         get => _times;
-        set => SetProperty(ref _times, value);
+        init => this.RaiseAndSetIfChanged(ref _times, value);
     }
 
     [Ignore] public string EmployerDetailString => $"{Name}\n{AddressLine1}\n{AddressLine2}\n\nEmployer #\n{EmployerNb}";

@@ -6,7 +6,8 @@
                           xmlns:controller="clr-namespace:MyTime.Controller"
                           xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                           xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
-                          Shell.NavBarIsVisible="False">
+                          Shell.NavBarIsVisible="False"
+                          xmlns:model="clr-namespace:MyTime.Model">
     <ContentPage.BindingContext>
         <controller:TimeController />
     </ContentPage.BindingContext>
@@ -93,13 +94,12 @@
 
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="model:Time">
                                 <Grid>
                                     <Border
                                         BackgroundColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Gray600}}"
                                         StrokeShape="RoundRectangle 20,20,20,20"
                                         Margin="20,10,20,0" Padding="10" StrokeThickness="2" ZIndex="0">
-                                        <Border.Behaviors></Border.Behaviors>
                                         <Border.Shadow>
                                             <Shadow
                                                 Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"

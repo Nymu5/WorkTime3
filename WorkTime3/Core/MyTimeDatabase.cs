@@ -1,8 +1,6 @@
 using DynamicData;
 using SQLite;
-using SQLiteNetExtensions.Extensions;
 using MyTime.Model;
-using MyTime.Core;
 using SQLiteNetExtensionsAsync.Extensions;
 using Employer = MyTime.Model.Employer;
 using Item = MyTime.Model.Time;
@@ -12,35 +10,29 @@ namespace MyTime.Core;
 
 public class MyTimeDatabase
 {
-    private SQLiteAsyncConnection Database;
-    private SQLiteConnection DatabaseSync;
-    private SQLiteAsyncConnection ImportDatabase;
-
-    public MyTimeDatabase()
-    {
-    }
+    private SQLiteAsyncConnection _database;
+    private SQLiteAsyncConnection _importDatabase;
 
     async Task Init()
     {
-        if (Database is not null) return;
+        if (_database is not null) return;
 
-        Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-        DatabaseSync = new SQLiteConnection(Constants.DatabasePath, Constants.Flags);
+        _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
 
-        await Database.CreateTableAsync<Employer>();
-        await Database.CreateTableAsync<Time>();
-        await Database.CreateTableAsync<Settings>();
+        await _database.CreateTableAsync<Employer>();
+        await _database.CreateTableAsync<Time>();
+        await _database.CreateTableAsync<Settings>();
     }
 
-    public async Task<Dictionary<string, object>> Importer(string path)
+    public async Task Importer(string path)
     {
         await Init();
-        if (ImportDatabase is null) ImportDatabase = new SQLiteAsyncConnection(path, Constants.Flags);
+        _importDatabase ??= new SQLiteAsyncConnection(path, Constants.Flags);
 
         try
         {
             List<MyTime.Core.WT3Core.Employer> importEmployers =
-                await ImportDatabase.GetAllWithChildrenAsync<MyTime.Core.WT3Core.Employer>();
+                await _importDatabase.GetAllWithChildrenAsync<MyTime.Core.WT3Core.Employer>();
             foreach (MyTime.Core.WT3Core.Employer oldEmployer in importEmployers)
             {
                 Employer employer = new Employer
@@ -53,20 +45,20 @@ public class MyTimeDatabase
                         : oldEmployer.Address.Split("\n")[1],
                     Description = oldEmployer.Description,
                     EmployerNb = long.Parse(oldEmployer.EmployerNumber),
-                    Id = Employer.getUUID(),
+                    Id = Employer.GetUuid(),
                     Name = oldEmployer.Name,
                     Salary = (float)oldEmployer.Salary,
                     Times = new List<Time>()
                 };
                 await this.SaveEmployerAsync(employer, true);
                 List<MyTime.Core.WT3Core.Item> itemsOld =
-                    await ImportDatabase.GetAllWithChildrenAsync<MyTime.Core.WT3Core.Item>(i =>
+                    await _importDatabase.GetAllWithChildrenAsync<MyTime.Core.WT3Core.Item>(i =>
                         i.EmployerId == oldEmployer.Id);
                 foreach (MyTime.Core.WT3Core.Item itemOld in itemsOld)
                 {
                     Time time = new Time
                     {
-                        Id = Time.getUUID(),
+                        Id = Time.GetUuid(),
                         Description = itemOld.Description,
                         Employer = employer,
                         Start = new DateTime(itemOld.StartDate.Year, itemOld.StartDate.Month, itemOld.StartDate.Day,
@@ -84,64 +76,54 @@ public class MyTimeDatabase
                 Console.WriteLine($"{oldEmployer.Name}: {itemsOld.Count}");
             }
 
-            await ImportDatabase.CloseAsync();
+            await _importDatabase.CloseAsync();
             File.Delete(path);
-            CleanFetch();
-            return new Dictionary<string, object>
-            {
-                { "code", 0 },
-                { "message", "import successful" }
-            };
+            await CleanFetch();
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            await ImportDatabase.CloseAsync();
+            await _importDatabase.CloseAsync();
             File.Delete(path);
-            return new Dictionary<string, object>
-            {
-                { "code", -1 },
-                { "message", e }
-            };
         }
     }
 
-    public async Task<Settings> GetSettingsAsync(string id)
+    private async Task<Settings> GetSettingsAsync(string id)
     {
         await Init();
-        return await Database.Table<Settings>().Where(s => s.Id == id).FirstOrDefaultAsync(); 
+        return await _database.Table<Settings>().Where(s => s.Id == id).FirstOrDefaultAsync(); 
     }
 
     public async Task<List<Settings>> GetSettingsAsync()
     {
         await Init();
-        return await Database.GetAllWithChildrenAsync<Settings>(); 
+        return await _database.GetAllWithChildrenAsync<Settings>(); 
     }
 
     public async Task SaveProfileAsync(Settings settings)
     {
         await Init();
-        if (await GetSettingsAsync(settings.Id) != null) await Database.UpdateWithChildrenAsync(settings);
-        else await Database.InsertWithChildrenAsync(settings);
+        if (await GetSettingsAsync(settings.Id) != null) await _database.UpdateWithChildrenAsync(settings);
+        else await _database.InsertWithChildrenAsync(settings);
     }
 
     public async Task<List<Employer>> GetEmployersAsync()
     {
         await Init();
-        return (await Database.GetAllWithChildrenAsync<Employer>()).OrderBy(e => e.Name).ToList();
+        return (await _database.GetAllWithChildrenAsync<Employer>()).OrderBy(e => e.Name).ToList();
     }
 
-    public async Task<Employer> GetEmployerAsync(string id)
+    private async Task<Employer> GetEmployerAsync(string id)
     {
         await Init();
-        return (await Database.GetAllWithChildrenAsync<Employer>(e => e.Id == id)).FirstOrDefault();
+        return (await _database.GetAllWithChildrenAsync<Employer>(e => e.Id == id)).FirstOrDefault();
     }
 
     public async Task SaveEmployerAsync(Employer employer, bool skip = false)
     {
         await Init();
-        if (await GetEmployerAsync(employer.Id) != null) await Database.UpdateWithChildrenAsync(employer);
-        else await Database.InsertWithChildrenAsync(employer);
+        if (await GetEmployerAsync(employer.Id) != null) await _database.UpdateWithChildrenAsync(employer);
+        else await _database.InsertWithChildrenAsync(employer);
         //Constants.Employers.AddOrUpdate(employer);
         if (!skip) await CleanFetch();
     }
@@ -149,7 +131,7 @@ public class MyTimeDatabase
     public async Task DeleteEmployerAsync(Employer employer)
     {
         await Init();
-        await Database.DeleteAsync(employer, recursive: true);
+        await _database.DeleteAsync(employer, recursive: true);
         //Constants.Times.RemoveWhere(t => t.Employer.Id == employer.Id);
         //Constants.Employers.Remove(Constants.Employers.Lookup(employer.Id).Value);
         await CleanFetch();
@@ -158,20 +140,20 @@ public class MyTimeDatabase
     public async Task<List<Time>> GetTimesAsync()
     {
         await Init();
-        return (await Database.GetAllWithChildrenAsync<Time>()).OrderByDescending(t => t.Start).ToList();
+        return (await _database.GetAllWithChildrenAsync<Time>()).OrderByDescending(t => t.Start).ToList();
     }
 
-    public async Task<Time> GetTimeAsync(string id)
+    private async Task<Time> GetTimeAsync(string id)
     {
         await Init();
-        return (await Database.GetAllWithChildrenAsync<Time>(t => t.Id == id)).FirstOrDefault();
+        return (await _database.GetAllWithChildrenAsync<Time>(t => t.Id == id)).FirstOrDefault();
     }
 
     public async Task SaveTimeAsync(Time time, bool skip = false)
     {
         await Init();
-        if (await GetTimeAsync(time.Id) != null) await Database.UpdateAsync(time);
-        else await Database.InsertAsync(time);
+        if (await GetTimeAsync(time.Id) != null) await _database.UpdateAsync(time);
+        else await _database.InsertAsync(time);
         //Constants.Times.AddOrUpdate(time);
         if (!skip) await CleanFetch();
     }
@@ -179,12 +161,12 @@ public class MyTimeDatabase
     public async Task DeleteTimeAsync(Time time)
     {
         await Init();
-        await Database.DeleteAsync(time);
+        await _database.DeleteAsync(time);
         //Constants.Times.Remove(time);
         await CleanFetch();
     }
 
-    public async Task CleanFetch()
+    private async Task CleanFetch()
     {
         Constants.Employers.Clear();
         Constants.Employers.AddOrUpdate(await GetEmployersAsync());

@@ -1,10 +1,10 @@
 using SQLite;
 using SQLiteNetExtensions.Attributes;
-using MyTime.Core;
+using ReactiveUI;
 
 namespace MyTime.Model;
 
-public class Time : ControllerBase
+public class Time : ReactiveObject
 {
     public Time()
     {
@@ -19,7 +19,7 @@ public class Time : ControllerBase
     public string Id
     {
         get => _id;
-        set => SetProperty(ref _id, value);
+        set => this.RaiseAndSetIfChanged(ref _id, value);
     }
 
     private string _employerId;
@@ -28,7 +28,7 @@ public class Time : ControllerBase
     public string EmployerId
     {
         get => _employerId;
-        set => SetProperty(ref _employerId, value);
+        set => this.RaiseAndSetIfChanged(ref _employerId, value);
     }
 
 
@@ -38,7 +38,7 @@ public class Time : ControllerBase
     public Employer Employer
     {
         get => _employer;
-        set => SetProperty(ref _employer, value);
+        set => this.RaiseAndSetIfChanged(ref _employer, value);
     }
 
     private string _text;
@@ -46,7 +46,7 @@ public class Time : ControllerBase
     public string Text
     {
         get => _text;
-        set => SetProperty(ref _text, String.IsNullOrWhiteSpace(value) ? null : value);
+        set => this.RaiseAndSetIfChanged(ref _text, String.IsNullOrWhiteSpace(value) ? null : value);
     }
 
     private string _description;
@@ -54,7 +54,7 @@ public class Time : ControllerBase
     public string Description
     {
         get => _description;
-        set => SetProperty(ref _description, value);
+        set => this.RaiseAndSetIfChanged(ref _description, value);
     }
 
     private DateTime _start;
@@ -62,7 +62,7 @@ public class Time : ControllerBase
     public DateTime Start
     {
         get => _start;
-        set => SetProperty(ref _start, value);
+        set => this.RaiseAndSetIfChanged(ref _start, value);
     }
 
     private DateTime _end;
@@ -70,7 +70,7 @@ public class Time : ControllerBase
     public DateTime End
     {
         get => _end;
-        set => SetProperty(ref _end, value);
+        set => this.RaiseAndSetIfChanged(ref _end, value);
     }
 
     private double _salary;
@@ -78,23 +78,22 @@ public class Time : ControllerBase
     public double Salary
     {
         get => _salary;
-        set => SetProperty(ref _salary, (float)Math.Round(value, 2));
+        set => this.RaiseAndSetIfChanged(ref _salary, (float)Math.Round(value, 2));
     }
 
     [Ignore] public string SalaryFloat => Salary.ToString("C");
     [Ignore] public string EarnedString => (Salary * Duration.TotalHours).ToString("C");
 
-    public static string getUUID()
+    public static string GetUuid()
     {
-        Guid myuuid = Guid.NewGuid();
-        return myuuid.ToString();
+        return Guid.NewGuid().ToString();
     }
 
     [Ignore] public TimeSpan Duration => End - Start;
-    [Ignore] public string DurationString => $"{(int)Duration.TotalHours}:{Duration.Minutes.ToString("00")} h";
-    [Ignore] public string TimeString => $"{Start.ToString("dd.MM.yyyy HH:mm")} - {End.ToString("dd.MM.yyyy HH:mm")}";
-    [Ignore] public string TimeStartString => $"{Start.ToString("dd.MM.yyyy HH:mm")}";
-    [Ignore] public string TimeEndString => $"{End.ToString("dd.MM.yyyy HH:mm")}";
+    [Ignore] public string DurationString => $"{(int)Duration.TotalHours}:{Duration.Minutes:00} h";
+    [Ignore] public string TimeString => $"{Start:dd.MM.yyyy HH:mm} - {End:dd.MM.yyyy HH:mm}";
+    [Ignore] public string TimeStartString => $"{Start:dd.MM.yyyy HH:mm}";
+    [Ignore] public string TimeEndString => $"{End:dd.MM.yyyy HH:mm}";
 
     [Ignore] public double Earned => Duration.TotalHours * Salary;
     
@@ -103,6 +102,6 @@ public class Time : ControllerBase
     public bool IsVisible
     {
         get => _isVisible;
-        set => SetProperty(ref _isVisible, value);
+        set => this.RaiseAndSetIfChanged(ref _isVisible, value);
     }
 }

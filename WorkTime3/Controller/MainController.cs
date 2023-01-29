@@ -1,27 +1,14 @@
-using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using System.Windows.Input;
-using CommunityToolkit.Maui.Core.Extensions;
 using DynamicData;
 using DynamicData.Binding;
-using LiveChartsCore;
-using LiveChartsCore.Drawing;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Painting;
 using MyTime.Core;
 using MyTime.Model;
 using ReactiveUI;
-using SkiaSharp;
-using Extensions = MyTime.Core.Extensions;
 
 namespace MyTime.Controller;
 
 public class MainController : ReactiveObject
 {
-    public readonly ReadOnlyObservableCollection<Time> TimesC;
-    public readonly ReadOnlyObservableCollection<Employer> EmployersC;
-    public readonly ReadOnlyObservableCollection<ChartData> ChartC;
-
     private readonly ObservableAsPropertyHelper<int> _statsEmployers;
     public int StatsEmployers => _statsEmployers.Value;
     
@@ -39,67 +26,28 @@ public class MainController : ReactiveObject
     
     //private readonly ObservableAsPropertyHelper<ObservableCollection<int>> _years;
     //public ObservableCollection<int> Years => _years.Value;
-    
-    private int[] _years;
-    public int[] Years
-    {
-        get => _years;
-        set => this.RaiseAndSetIfChanged(ref _years, value);
-    }
-    
-    private bool _refresher = false;
-    public bool Refresher
-    {
-        get => _refresher;
-        set => this.RaiseAndSetIfChanged(ref _refresher, value);
-    }
-    
-    private int _yearSelected;
-    public int YearSelected
-    {
-        get => _yearSelected;
-        set => this.RaiseAndSetIfChanged(ref _yearSelected, value);
-    }
 
     public MainController()
     {
-        
-        Years = Array.Empty<int>();
         Constants.Times
             .Connect()
             .Sort(SortExpressionComparer<Time>.Descending(t => t.Start))
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Bind(out TimesC)
+            .Bind(out var timesC)
             .Subscribe();
-
-        Constants.Charts
-            .Connect()
-            .Sort(SortExpressionComparer<ChartData>.Descending(c => c.Year))
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Bind(out ChartC)
-            .Subscribe(x => Console.WriteLine(x.Count));
 
         Constants.Employers
             .Connect()
             .Sort(SortExpressionComparer<Employer>.Ascending(e => e.Name))
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Bind(out EmployersC)
+            .Bind(out var employersC)
             .Subscribe();
 
-        //Constants.Times
-        //    .Connect()
-        //    .Select(Graph.ChartMapper)
-        //    .Sort(SortExpressionComparer<ChartData>.Descending(c => c.Year))
-        //    .ObserveOn(RxApp.MainThreadScheduler)
-        //    .Bind(out ChartC)
-        //    .Subscribe();
-
-
-        var statsT = TimesC
+        var statsT = timesC
             .ToObservableChangeSet()
             .ToCollection();
         
-        var statsE = EmployersC
+        var statsE = employersC
             .ToObservableChangeSet()
             .ToCollection();
 
@@ -123,19 +71,6 @@ public class MainController : ReactiveObject
             .Select(x => x.Count)
             .ToProperty(this, x => x.StatsTimes);
 
-        TimesC
-            .ToObservableChangeSet()
-            .ToCollection()
-            .Select(x => x.AllValues(t => t.Start.Year, true))
-            .Subscribe(x => Years = x);
-
-        this.WhenAnyValue(x => x.Years)
-            .Subscribe(x =>
-            {
-                if (x.Length <= 0) return;
-                YearSelected = x.Contains(DateTime.Now.Year) ? DateTime.Now.Year : x.First();
-            });
-
         this.WhenAnyValue(x => x.ChartSelectedIndex)
             .Subscribe(x => ChartSelectedIndex = ChartData != null ? x < ChartData.Count ? x : 0 : 0); 
     }
@@ -148,7 +83,7 @@ public class MainController : ReactiveObject
     public int ChartSelectedIndex
     {
         get => _chartSelectedIndex;
-        set => this.RaiseAndSetIfChanged(ref _chartSelectedIndex, value);
+        private set => this.RaiseAndSetIfChanged(ref _chartSelectedIndex, value);
     }
 
     // Functions

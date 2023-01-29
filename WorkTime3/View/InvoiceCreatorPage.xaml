@@ -28,7 +28,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Border Grid.Row="0" Grid.Column="0"
                             BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                             StrokeShape="RoundRectangle 20,20,20,20"
                             Margin="5,5,5,5" Padding="10">
@@ -64,7 +64,7 @@
                                         <Label Margin="0,0,0,5" Text="Invoice #" FontFamily="" FontAttributes="Bold" />
                                         <Entry x:Name="InvoiceNumber" />
                                     </StackLayout>
-                                    <StackLayout Grid.Row="2" Grid.Column="2">
+                                    <StackLayout Grid.Row="2">
                                         <Label Margin="0,0,0,10" Text="Item Description" FontFamily="" FontAttributes="Bold" />
                                         <Entry x:Name="ItemDescription" />
                                     </StackLayout>
@@ -97,7 +97,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Border Grid.Row="0" Grid.Column="0"
                             BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
                             StrokeShape="RoundRectangle 20,20,20,20"
                             Margin="5,5,5,5" Padding="0">

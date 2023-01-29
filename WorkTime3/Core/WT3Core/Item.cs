@@ -1,14 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using MyTime.Core;
+﻿using ReactiveUI;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
+// ReSharper disable All
 
 namespace MyTime.Core.WT3Core
 {
     [Preserve(AllMembers = true)]
     [Table("Item")]
-    public class Item : ControllerBase
+    public class Item : ReactiveObject
     {
         [PrimaryKey, Column("_id")] public string Id { get; set; }
         [ForeignKey(typeof(Employer))] public string EmployerId { get; set; }
@@ -18,7 +17,7 @@ namespace MyTime.Core.WT3Core
         public Employer Employer
         {
             get => employer;
-            set => SetProperty(ref employer, value);
+            set => this.RaiseAndSetIfChanged(ref employer, value);
         }
 
         private string employerString;
@@ -26,7 +25,7 @@ namespace MyTime.Core.WT3Core
         public string EmployerString
         {
             get => employerString;
-            set => SetProperty(ref employerString, value);
+            set => this.RaiseAndSetIfChanged(ref employerString, value);
         }
 
         [Ignore]
@@ -40,7 +39,7 @@ namespace MyTime.Core.WT3Core
         public string Text
         {
             get => text;
-            set => SetProperty(ref text, value);
+            set => this.RaiseAndSetIfChanged(ref text, value);
         }
 
         private string description;
@@ -48,7 +47,7 @@ namespace MyTime.Core.WT3Core
         public string Description
         {
             get => description;
-            set => SetProperty(ref description, value);
+            set => this.RaiseAndSetIfChanged(ref description, value);
         }
 
         private DateTime startDate;
@@ -56,7 +55,7 @@ namespace MyTime.Core.WT3Core
         public DateTime StartDate
         {
             get => startDate;
-            set { SetProperty(ref startDate, value); }
+            set { this.RaiseAndSetIfChanged(ref startDate, value); }
         }
 
         public TimeSpan StartTime
@@ -64,7 +63,7 @@ namespace MyTime.Core.WT3Core
             get => new TimeSpan(StartDate.Hour, StartDate.Minute, 0);
             set
             {
-                SetProperty(ref startDate,
+                this.RaiseAndSetIfChanged(ref startDate,
                     new DateTime(startDate.Year, startDate.Month, startDate.Day, value.Hours, value.Minutes, 0));
             }
         }
@@ -76,8 +75,8 @@ namespace MyTime.Core.WT3Core
             get => endDate;
             set
             {
-                SetProperty(ref endDate, value);
-                OnPropertyChanged(nameof(EndDateStr));
+                this.RaiseAndSetIfChanged(ref endDate, value);
+                this.RaisePropertyChanged(nameof(EndDateStr));
             }
         }
 
@@ -86,7 +85,7 @@ namespace MyTime.Core.WT3Core
             get => new TimeSpan(EndDate.Hour, EndDate.Minute, 0);
             set
             {
-                SetProperty(ref endDate,
+                this.RaiseAndSetIfChanged(ref endDate,
                     new DateTime(endDate.Year, endDate.Month, endDate.Day, value.Hours, value.Minutes, 0));
             }
         }
@@ -101,7 +100,7 @@ namespace MyTime.Core.WT3Core
         public double Salary
         {
             get => salary;
-            set => SetProperty(ref salary, Math.Round(value, 2));
+            set => this.RaiseAndSetIfChanged(ref salary, Math.Round(value, 2));
         }
 
         private bool _onInvoice;
@@ -109,7 +108,7 @@ namespace MyTime.Core.WT3Core
         public bool OnInvoice
         {
             get => _onInvoice;
-            set => SetProperty(ref _onInvoice, value);
+            set => this.RaiseAndSetIfChanged(ref _onInvoice, value);
         }
     }
 }

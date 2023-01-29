@@ -21,9 +21,9 @@ public class AddTimeController : ReactiveObject
             if (Time.Employer != null) SelectedEmployer = Constants.Employers.Lookup(Time.Employer.Id).Value;
         });
 
-        SaveTimeCommand = new Command<bool>(execute: async (canSave) =>
+        async void SaveTimeTask(bool canSave)
         {
-            Time.Id ??= Time.getUUID();
+            Time.Id ??= Time.GetUuid();
             //if (Time.Id == null) Time.Id = Time.getUUID();
             Employer employer = Constants.Employers.Lookup(SelectedEmployer.Id).Value;
             Time.Employer = employer;
@@ -31,17 +31,19 @@ public class AddTimeController : ReactiveObject
             employer.Times.Add(Time);
             await Constants.Database.SaveEmployerAsync(Time.Employer);
             await Shell.Current.GoToAsync("..");
-        }, canExecute: (canSave) => canSave);
+        }
 
-        var canDelete = this.WhenAnyValue(x => x.CanDelete);
-        DeleteTimeCommand = new Command<bool>(execute: async (canDelete) =>
+        SaveTimeCommand = new Command<bool>(execute: SaveTimeTask, canExecute: (canSave) => canSave);
+        
+        async void DeleteTimeTask(bool canDelete)
         {
-            var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete this entry?",
-                "Cancel", "Yes");
+            var result = await Shell.Current.DisplayActionSheet($"Are you sure you want to delete this entry?", "Cancel", "Yes");
             if (result != "Yes") return;
             await Constants.Database.DeleteTimeAsync(Time);
             await Shell.Current.GoToAsync("..");
-        }, canExecute: (canDelete) => canDelete);
+        }
+
+        DeleteTimeCommand = new Command<bool>(execute: DeleteTimeTask, canExecute: (canDelete) => canDelete);
 
         UpdateSalaryCommand = new Command(execute: () =>
         {
@@ -56,7 +58,7 @@ public class AddTimeController : ReactiveObject
             }
         });
 
-        var disposable = Constants.Employers
+        Constants.Employers
             .Connect()
             .Sort(SortExpressionComparer<Employer>.Ascending(e => e.Name))
             .ObserveOn(RxApp.MainThreadScheduler)
@@ -72,7 +74,7 @@ public class AddTimeController : ReactiveObject
     public ICommand PickerChangedCommand { get; }
 
     // Properties
-    public ReadOnlyObservableCollection<Employer> Employers;
+    public readonly ReadOnlyObservableCollection<Employer> Employers;
 
     private Employer _selectedEmployer;
     public Employer SelectedEmployer
@@ -85,11 +87,11 @@ public class AddTimeController : ReactiveObject
         } 
     }
 
-    private Time _time;
+    private readonly Time _time;
     public Time Time
     {
         get => _time;
-        set
+        init
         {
             this.RaiseAndSetIfChanged(ref _time, value);
             this.RaisePropertyChanged(nameof(CanDelete));

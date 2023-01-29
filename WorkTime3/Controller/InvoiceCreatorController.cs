@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Windows.Input;
@@ -12,8 +13,8 @@ using Syncfusion.DocIO.DLS;
 using Syncfusion.DocIORenderer;
 using Syncfusion.Pdf;
 using Extensions = MyTime.Core.Extensions;
-using HorizontalAlignment = Microsoft.Maui.Graphics.HorizontalAlignment;
 using Settings = MyTime.Model.Settings;
+// ReSharper disable All
 
 namespace MyTime.Controller;
 
@@ -28,12 +29,12 @@ public class InvoiceCreatorController : ReactiveObject
         DateTime reference = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0, 0, 0);
         DateTime last = new DateTime((reference - TimeSpan.FromDays(1)).Year, (reference - TimeSpan.FromDays(1)).Month,
             1, 0, 0, 0, 0, 0);
-        Console.WriteLine(reference.ToString());
-        Console.WriteLine(last.ToString());
+        Console.WriteLine(reference.ToString(CultureInfo.CurrentCulture));
+        Console.WriteLine(last.ToString(CultureInfo.CurrentCulture));
         Start = last;
         End = reference - TimeSpan.FromDays(1);
 
-        CreateInvoiceCommand = new Command(execute: async () => CreateInvoice());
+        CreateInvoiceCommand = new Command(execute: CreateInvoice);
 
         Func<Time, bool> StartFilter(DateTime date) => time => time.Start >= Start;
         var startPredicate = this.WhenAnyValue(x => x.Start)
@@ -117,7 +118,6 @@ public class InvoiceCreatorController : ReactiveObject
     public async void CreateInvoice()
     {
         object oMissing = System.Reflection.Missing.Value;
-        object oEndOfDoc = "\\endofdoc";
 
         Assembly assembly = typeof(App).GetTypeInfo().Assembly;
         WordDocument document = new WordDocument();

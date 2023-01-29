@@ -1,7 +1,6 @@
 using System.Windows.Input;
 using MyTime.Core;
 using MyTime.Model;
-using MyTime.View;
 using ReactiveUI;
 
 namespace MyTime.Controller;
@@ -12,14 +11,18 @@ public class AddEmployerController : ReactiveObject
 
     public AddEmployerController()
     { 
-        Employer = new Employer();
-        Employer.Id = Employer.getUUID();
+        Employer = new Employer
+        {
+            Id = Employer.GetUuid()
+        };
 
-        SaveEmployerCommand = new Command<bool>(execute: async (canSave) =>
+        async void SaveEmployerTask(bool canSave)
         {
             await Constants.Database.SaveEmployerAsync(Employer);
             await Shell.Current.GoToAsync("..");
-        }, canExecute: (canSave) => canSave);
+        }
+
+        SaveEmployerCommand = new Command<bool>(execute: SaveEmployerTask, canExecute: (canSave) => canSave);
 
         EmployerNameChangedCommand = new Command(execute: () => this.RaisePropertyChanged(nameof(CanSave)));
     }
@@ -29,12 +32,11 @@ public class AddEmployerController : ReactiveObject
     public ICommand EmployerNameChangedCommand { get; }
 
     // Properties
-    private Employer _employer;
-
+    private readonly Employer _employer;
     public Employer Employer
     {
         get => _employer;
-        set => this.RaiseAndSetIfChanged(ref _employer, value);
+        init => this.RaiseAndSetIfChanged(ref _employer, value);
     }
     
     public bool CanSave => !String.IsNullOrWhiteSpace(Employer.Name);

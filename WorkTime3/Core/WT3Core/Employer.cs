@@ -1,14 +1,12 @@
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using MyTime.Core;
+using ReactiveUI;
 using SQLite;
+// ReSharper disable All
 
 namespace MyTime.Core.WT3Core
 {
     [Preserve(AllMembers = true)]
     [Table("Employers")]
-    public class Employer : ControllerBase
+    public class Employer : ReactiveObject
     {
         [PrimaryKey, Column("_id")] public string Id { get; set; }
 
@@ -17,7 +15,7 @@ namespace MyTime.Core.WT3Core
         public string Name
         {
             get => name;
-            set => SetProperty(ref name, value);
+            set => this.RaiseAndSetIfChanged(ref name, value);
         }
 
         private string address;
@@ -25,7 +23,7 @@ namespace MyTime.Core.WT3Core
         public string Address
         {
             get => address;
-            set => SetProperty(ref address, value);
+            set => this.RaiseAndSetIfChanged(ref address, value);
         }
 
         private string description;
@@ -33,7 +31,7 @@ namespace MyTime.Core.WT3Core
         public string Description
         {
             get => description;
-            set => SetProperty(ref description, value);
+            set => this.RaiseAndSetIfChanged(ref description, value);
         }
 
         private double salary = 10.45;
@@ -41,7 +39,7 @@ namespace MyTime.Core.WT3Core
         public double Salary
         {
             get => salary;
-            set => SetProperty(ref salary, value);
+            set => this.RaiseAndSetIfChanged(ref salary, value);
         }
 
         private string _employerNumber;
@@ -49,7 +47,7 @@ namespace MyTime.Core.WT3Core
         public string EmployerNumber
         {
             get => _employerNumber;
-            set => SetProperty(ref _employerNumber, value);
+            set => this.RaiseAndSetIfChanged(ref _employerNumber, value);
         }
 
         public DateTime DateCreated { get; set; }

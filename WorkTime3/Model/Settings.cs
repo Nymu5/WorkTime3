@@ -1,19 +1,17 @@
 using SQLite;
-using SQLiteNetExtensions.Attributes;
-using MyTime.Core;
 using ReactiveUI;
 
 namespace MyTime.Model;
 
 public class Settings : ReactiveObject
 {
-    private string _id;
+    private readonly string _id;
 
     [PrimaryKey]
     public string Id
     {
         get => _id;
-        set => this.RaiseAndSetIfChanged(ref _id, value);
+        init => this.RaiseAndSetIfChanged(ref _id, value);
     }
 
     private string _name;
@@ -93,10 +91,9 @@ public class Settings : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _defaultInvoiceDays, value);
     }
     
-    public static string getUUID()
+    public static string GetUuid()
     {
-        Guid myuuid = Guid.NewGuid();
-        return myuuid.ToString();
+        return Guid.NewGuid().ToString();
     }
 
     [Ignore] public string PersonalDetailString => $"{Name}\n{AddressLine1}\n{AddressLine2}\n\nTax-ID\n{TaxId}";

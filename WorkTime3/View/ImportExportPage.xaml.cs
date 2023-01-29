@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace MyTime.View;
 
-public partial class ImportExportPage : ContentPage
+public partial class ImportExportPage
 {
     public ImportExportPage()
     {

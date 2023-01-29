@@ -1,28 +1,9 @@
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.Diagnostics.Metrics;
-using System.Reactive.Linq;
-using CommunityToolkit.Maui.Core.Extensions;
-using DynamicData;
-using DynamicData.Binding;
 using MyTime.Model;
 
 namespace MyTime.Core;
 
 public static class Extensions
 {
-    public static void RemoveWhere<TValue, TKey>(this SourceCache<TValue, TKey> cache, Func<TValue, bool> predicate)
-    {
-        List<KeyValuePair<TKey, TValue>> forRemoval = cache.KeyValues.ToList();
-        foreach (KeyValuePair<TKey,TValue> pair in forRemoval)
-        {
-            if (predicate(pair.Value))
-            {
-                cache.RemoveKey(pair.Key);
-            }
-        }
-    }
-
     public static TimeSpan SumTimeSpan<TValue>(this IReadOnlyCollection<TValue> collection,
         Func<TValue, TimeSpan> predicate)
     {
@@ -59,7 +40,7 @@ public static class Extensions
         return list.ToArray();
     }
 
-    public static TReturn[] AllChangeValues<TValue, TReturn, TComp>(this IReadOnlyCollection<TValue> array, Func<TValue, TReturn> predicate, Func<TReturn, TComp> comparer)
+    private static TReturn[] AllChangeValues<TValue, TReturn, TComp>(this IReadOnlyCollection<TValue> array, Func<TValue, TReturn> predicate, Func<TReturn, TComp> comparer)
     {
         List<TReturn> list = new List<TReturn>();
         var sList = array.ToList();
@@ -96,6 +77,6 @@ public static class Extensions
 
     public static string ToHourString(this TimeSpan time)
     {
-        return $"{(int)time.TotalHours}:{time.Minutes.ToString("00")} h";
+        return $"{(int)time.TotalHours}:{time.Minutes:00} h";
     }
 }
