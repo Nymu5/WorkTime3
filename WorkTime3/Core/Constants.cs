@@ -65,7 +65,7 @@ public static class Constants
         new Axis
         {
             TextSize = 40,
-            Labeler = Labelers.Currency,
+            //Labeler = Labelers.Currency,
             MinLimit = 0,
         }
     };

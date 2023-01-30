@@ -108,7 +108,7 @@
                     <Shadow Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
                             Offset="0,30" Radius="40" Opacity="0.8" />
                 </Border.Shadow>
-                <sf:SfTabView x:Name="TabView">
+                <sf:SfTabView x:Name="TabView" IndicatorBackground="#F67280">
                     <sf:SfTabView.HeaderItemTemplate>
                         <DataTemplate x:DataType="model:ChartData">
                             <Label Padding="15" Text="{Binding Year}" />
@@ -119,8 +119,7 @@
                     <sf:SfTabView.ContentItemTemplate>
                         <DataTemplate x:DataType="model:ChartData">
                             <Grid Padding="10">
-                                <lvc:CartesianChart x:Name="Chart" Series="{Binding Series}"
-                                        TooltipTextSize="60" XAxes="{Binding XAxes}"
+                                <lvc:CartesianChart x:Name="Chart" Series="{Binding Series}" XAxes="{Binding XAxes}" TooltipPosition="Bottom"
                                         YAxes="{Binding YAxes}"
                                         AnimationsSpeed="0">
                                     <lvc:CartesianChart.Tooltip>

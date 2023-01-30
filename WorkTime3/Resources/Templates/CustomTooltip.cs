@@ -31,7 +31,7 @@ public class CustomTooltip : IChartTooltip<SkiaSharpDrawingContext>, IImageContr
             Orientation = ContainerOrientation.Vertical,
             HorizontalAlignment = Align.Start,
             VerticalAlignment = Align.Middle,
-            BackgroundPaint = _backgroundPaint,
+            BackgroundPaint = _backgroundPaint
         };
 
         // clear the previous elements.
@@ -51,7 +51,7 @@ public class CustomTooltip : IChartTooltip<SkiaSharpDrawingContext>, IImageContr
                 Text = point.AsTooltipString,
                 Paint = _fontPaint,
                 TextSize = 40,
-                Padding = new Padding(25, 10, 0, 10),
+                Padding = new Padding(8, 0, 0, 0),
                 VerticalAlignment = Align.Start,
                 HorizontalAlignment = Align.Start
             };
