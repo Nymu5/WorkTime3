@@ -65,10 +65,8 @@ public static class Extensions
         {
             list.Add(new ChartData
             {
-                Series = Graph.CreateISeries(year, sList, employers, earningsCube),
                 Year = year,
-                XAxes = Constants.XAxes,
-                YAxes = Constants.YAxes
+                HtmlElement = Graph.BuildEarningsHtml(year, sList, employers, earningsCube),
             });
         }
         

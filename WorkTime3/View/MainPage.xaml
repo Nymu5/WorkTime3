@@ -4,8 +4,6 @@
                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                           xmlns:controller="clr-namespace:MyTime.Controller"
                           x:Class="MyTime.View.MainPage"
-                          xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
-                          xmlns:vms="clr-namespace:MyTime.Resources.Templates"
                           xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
                           xmlns:sf="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
                           Shell.NavBarIsVisible="False"
@@ -111,7 +109,7 @@
                 <sf:SfTabView x:Name="TabView" IndicatorBackground="#F67280">
                     <sf:SfTabView.HeaderItemTemplate>
                         <DataTemplate x:DataType="model:ChartData">
-                            <Label Padding="15" Text="{Binding Year}" />
+                            <Label Padding="15" Text="{Binding Year}" TextColor="Black" />
 
                         </DataTemplate>
 
@@ -119,14 +117,11 @@
                     <sf:SfTabView.ContentItemTemplate>
                         <DataTemplate x:DataType="model:ChartData">
                             <Grid Padding="10">
-                                <lvc:CartesianChart x:Name="Chart" Series="{Binding Series}" XAxes="{Binding XAxes}" TooltipPosition="Bottom"
-                                        YAxes="{Binding YAxes}"
-                                        AnimationsSpeed="0">
-                                    <lvc:CartesianChart.Tooltip>
-                                        <vms:CustomTooltip />
-                                    </lvc:CartesianChart.Tooltip>
-                                </lvc:CartesianChart>
-
+                                <WebView VerticalOptions="FillAndExpand">
+                                    <WebView.Source>
+                                        <HtmlWebViewSource Html="{Binding HtmlElement}" />
+                                    </WebView.Source>
+                                </WebView>
                             </Grid>
                             
 

@@ -1,7 +1,4 @@
-﻿using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
-
-namespace MyTime;
+﻿namespace MyTime;
 
 // ReSharper disable once RedundantExtendsListEntry
 public partial class App : Application
@@ -13,13 +10,5 @@ public partial class App : Application
         InitializeComponent();
 
         MainPage = new AppShell();
-
-        LiveCharts.Configure(config =>
-        {
-            config
-                .AddSkiaSharp()
-                .AddDefaultMappers()
-                .AddLightTheme();
-        });
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Windows.Input;
@@ -29,8 +28,6 @@ public class InvoiceCreatorController : ReactiveObject
         DateTime reference = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0, 0, 0);
         DateTime last = new DateTime((reference - TimeSpan.FromDays(1)).Year, (reference - TimeSpan.FromDays(1)).Month,
             1, 0, 0, 0, 0, 0);
-        Console.WriteLine(reference.ToString(CultureInfo.CurrentCulture));
-        Console.WriteLine(last.ToString(CultureInfo.CurrentCulture));
         Start = last;
         End = reference - TimeSpan.FromDays(1);
 

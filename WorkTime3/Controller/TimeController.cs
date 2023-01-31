@@ -79,7 +79,6 @@ public class TimeController : ReactiveObject
 
     private async void SelectionChangedTask()
     {
-        Console.WriteLine("Selection Changed");
         if (SelectedTime != null)
         {
             await Shell.Current.GoToAsync("AddTimePage", new Dictionary<string, object> { { "Time", SelectedTime }, });

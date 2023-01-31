@@ -1,44 +1,151 @@
 using DynamicData;
-using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Painting;
 using MyTime.Model;
+using Newtonsoft.Json;
 
 namespace MyTime.Core;
 
 public static class Graph
-{
-    public static ISeries[] CreateISeries(int year, List<Time> times,
+{ 
+    public static string BuildEarningsHtml(int year, List<Time> times,
         Employer[] employers, double[,,] earningsCube)
     {
-        ISeries[] iSeries = new ISeries[employers.Length];
-    
-        if (!(employers.Length > 0 && times.Count > 0)) return iSeries;
-            
+        var chartConfigScript = GetChartScript(year, times, employers, earningsCube);
+        var html = GetHtmlWithChartConfig(chartConfigScript);
+        return html;
+    }
+
+    private static string GetHtmlWithChartConfig(string chartConfig)
+    {
+        var inlineStyle = "style=\"width:100%;height:100%;overflow-y:hidden;\"";
+        var chartConfigJsScript = $"<script>{chartConfig}</script>";
+        var chartContent = $@"
+<div id=""chart-container"" {inlineStyle}>
+  <canvas id=""chart"" />
+</div>";
+        var document = $@"
+<html style=""width:97%;height:100%;overflow-y:hidden;"">
+  <head></head>
+  <body {inlineStyle}>
+    {chartContent}
+    {chartConfigJsScript}
+  </body>
+</html>";
+        return document;
+    }
+
+    private static string GetChartScript(int year, List<Time> times,
+        Employer[] employers, double[,,] earningsCube)
+    {
+        var chartConfig = GetEarningsChartConfig(year, times, employers, earningsCube);
+        var script = $@"
+var config = {chartConfig};
+config.options.plugins = {{
+    tooltip: {{
+        callbacks: {{
+            label: function(context) {{
+                let label = context.dataset.label || '';
+
+                if (label) {{
+                    label += ': ';
+                }}
+                if (context.parsed.y !== null) {{
+                    label += new Intl.NumberFormat('{Constants.LanguageSymbol}', {{ style: 'currency', currency: '{Constants.CurrencySymbol}' }}).format(context.parsed.y);
+                }}
+                return label;
+            }}
+        }}
+    }}
+}}
+config.options.scales.y.ticks = {{
+    beginAtZero: true,
+    callback: function(value, index, values) {{
+        return new Intl.NumberFormat('{Constants.LanguageSymbol}', {{ style: 'currency', currency: '{Constants.CurrencySymbol}', maximumFractionDigits: 0 }}).format(value.toFixed());
+    }}
+}}
+window.onload = function() {{
+  {Constants.ChartJs}
+  Chart.defaults.font.size = 30;
+  Chart.defaults.plugins.legend.labels.padding = 50
+  var canvasContext = document.getElementById(""chart"").getContext(""2d"");
+  new Chart(canvasContext, config);
+}};";
+        return script;
+    }
+
+    private static object GetBarChartData(int year, List<Time> times,
+        Employer[] employers, double[,,] earningsCube)
+    {
+        if (!(employers.Length > 0 && times.Count > 0)) return String.Empty;
         if (times.Max(t => t.Start.Year) < year || times.Min(t => t.Start.Year) > year)
             year = times.Max(t => t.Start.Year);
-        Console.WriteLine("new graph");
-
+        var dataList = new List<object>();
+        var colors = Constants.GetDefaultColors();
         for (int i = 0; i < employers.Length; i++)
         {
             double[] values = new double[12];
             for (int j = 0; j < 12; j++)
             {
                 values[j] = earningsCube[i, year - times.Min(t => t.Start.Year), j];
-                iSeries[i] = new StackedColumnSeries<double>
-                {
-                    Values = values,
-                    Name = employers[i].Name,
-                    TooltipLabelFormatter = (chartPoint) =>
-                        $"{chartPoint.Context.Series.Name}: {chartPoint.PrimaryValue:C}",
-                    Stroke = null,
-                    Fill = new SolidColorPaint(Constants.Colors[i % 10])
-                };
             }
+            dataList.Add(new
+            {
+                label = $"{employers[i].Name}",
+                data = values.ToArray(),
+                backgroundColor = $"rgb({colors[i%10].Item1},{colors[i%10].Item2},{colors[i%10].Item3})"
+            });
         }
-
-        return iSeries;
+        
+        
+        var labels = Constants.Months;
+        var data = new
+        {
+            datasets = dataList,
+            labels
+        };
+        return data;
     }
+
+    private static string GetEarningsChartConfig(int year, List<Time> times,
+        Employer[] employers, double[,,] earningsCube)
+    {
+        var config = new
+        {
+            type = "bar",
+            data = GetBarChartData(year, times, employers, earningsCube),
+            options = new
+            {
+                responsive = true,
+                maintainAspectRatio = false,
+                legend = new
+                {
+                    position = "top"
+                },
+                animation = false,
+                scales = new
+                {
+                    x = new
+                    {
+                        stacked = true,
+                        ticks = new
+                        {
+                            padding = 20,
+                        }
+                    },
+                    y = new
+                    {
+                        stacked = true,
+                        ticks = new
+                        {
+                            padding = 20,
+                        }
+                    }
+                }
+            }
+        };
+        var jsonConfig = JsonConvert.SerializeObject(config);
+        Console.WriteLine(jsonConfig);
+        return jsonConfig;
+    } 
 
     public static double[,,] CreateEarningsCube(List<Time> times,
         Employer[] employers)
@@ -68,4 +175,6 @@ public static class Graph
 
         return earningsCube;
     }
+    
+    
 }

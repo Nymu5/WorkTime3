@@ -31,6 +31,8 @@ public class ShellController : ReactiveObject
         Constants.Employers.AddOrUpdate(await Constants.Database.GetEmployersAsync());
         Constants.Times.AddOrUpdate(await Constants.Database.GetTimesAsync());
         Console.WriteLine("Database loaded successfully");
+        Console.WriteLine(Constants.CurrencySymbol);
+        Console.WriteLine(Constants.LanguageSymbol);
     }
 
     public ICommand DatabaseSetupCommand { get; set; }
