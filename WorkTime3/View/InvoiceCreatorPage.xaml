@@ -69,15 +69,21 @@
                                         <Entry x:Name="ItemDescription" />
                                     </StackLayout>
                                     <Grid Grid.Row="3">
+                                        <Grid.Triggers>
+                                            <DataTrigger TargetType="Grid" Binding="{Binding Path=IsChecked, Source={x:Reference OneElementCheckbox}}" Value="True">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </Grid.Triggers>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
-                                            <Label HorizontalTextAlignment="Center" Text="Time Date: "
-                                                   TextColor="Gray"/>
-                                            <Label HorizontalTextAlignment="Center" Text="%date%"
+                                            <Label HorizontalTextAlignment="Center" Text="%date%: "
                                                    FontFamily="" FontAttributes="Bold"/>
+                                            <Label HorizontalTextAlignment="Center" Text="Time Date"
+                                                   TextColor="Gray"/>
+                                            
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
                                             <Label HorizontalTextAlignment="Center" Text="Time Text: "
@@ -87,7 +93,14 @@
                                         </StackLayout>
                                     </Grid>
                                 </Grid>
-                        
+                                <StackLayout Orientation="Horizontal" Margin="0" Padding="0">
+                                    <CheckBox x:Name="OneElementCheckbox" Margin="-12,0,0,0"  />
+                                    <Label Text="Combine to one item" VerticalOptions="Center" >
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ToggleCheckedCommand}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
                             </StackLayout>
                         </Grid>
                     </Border>

@@ -27,4 +27,20 @@ public partial class AddTimePage
         base.OnDisappearing();
         Title = String.Empty;
     }
+    
+    private void Entry_Focused(object sender, FocusEventArgs e)
+    {
+        //if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
+        //{
+        //    NStackLayout.TranslateTo(0, -200, 50);
+        //}
+    }
+
+    private void Entry_Unfocused(object sender, FocusEventArgs e)
+    {
+        //if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
+        //{
+        //    NStackLayout.TranslateTo(0, 0, 50);
+        //}
+    }
 }

@@ -21,7 +21,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Picker SelectedItem=""></Picker>
             <Label x:Name="NameLabel" FontFamily="" FontSize="Title"
                    Margin="20, 50" Grid.Row="0" HorizontalTextAlignment="Center" />
             <StackLayout Grid.Row="1" Orientation="Vertical">

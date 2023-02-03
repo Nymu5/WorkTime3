@@ -6,7 +6,8 @@
                           xmlns:controller="clr-namespace:MyTime.Controller"
                           xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                           xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
-                          xmlns:sf="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core">
+                          xmlns:sf="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+                          xmlns:controls="clr-namespace:MyTime.Controls">
     <ContentPage.BindingContext>
         <controller:AddTimeController />
     </ContentPage.BindingContext>
@@ -27,73 +28,86 @@
                 </Grid.RowDefinitions>
                 <Label Text="Add Time" FontFamily="" FontSize="Title"
                        Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
-                <StackLayout Orientation="Vertical" Grid.Row="1">
-                    <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
-                            StrokeShape="RoundRectangle 20,20,20,20"
-                            Margin="20,10,20,10" Padding="10">
-                        <Border.Shadow>
-                            <Shadow
-                                Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
-                                Offset="0,30" Radius="40" Opacity="0.8" />
-                        </Border.Shadow>
-                        <Grid>
-                            <StackLayout Orientation="Vertical" Margin="10,10,10,10">
-                                <Label Text="Employer" FontFamily="" FontAttributes="Bold" FontSize="Header" />
-                                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                <Picker x:Name="EmployerPicker" Margin="0, 5, 0, 10"
-                                        ItemDisplayBinding="{Binding Name}" 
-                                        SelectedItem="{Binding SelectedEmployer}">
-                                    <Picker.Behaviors>
-                                        <toolkit:EventToCommandBehavior Command="{Binding PickerChangedCommand}" EventName="PropertyChanged"/>
-                                        <toolkit:EventToCommandBehavior Command="{Binding UpdateSalaryCommand}" x:Name="UpdateSalaryBehavior" EventName="SelectedIndexChanged"/>
-                                    </Picker.Behaviors>
-                                </Picker>
+                <controls:KeyboardContentView Grid.Row="1" x:Name="Kcv" MoveForKeyboard="False">
+                    <controls:KeyboardContentView.Triggers>
+                        <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference TextEntry}}" Value="True">
+                            <Setter Property="MoveForKeyboard" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference SalaryEntry}}" Value="True">
+                            <Setter Property="MoveForKeyboard" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference DescriptionEntry}}" Value="True">
+                            <Setter Property="MoveForKeyboard" Value="True" />
+                        </DataTrigger>
+                    </controls:KeyboardContentView.Triggers>
+                    <StackLayout Orientation="Vertical" Grid.Row="1">
+                        <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                                StrokeShape="RoundRectangle 20,20,20,20"
+                                Margin="20,10,20,10" Padding="10">
+                            <Border.Shadow>
+                                <Shadow
+                                    Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                                    Offset="0,30" Radius="40" Opacity="0.8" />
+                            </Border.Shadow>
+                            <Grid>
+                                <StackLayout Orientation="Vertical" Margin="10,10,10,10" x:Name="NStackLayout">
+                                    <Label Text="Employer" FontFamily="" FontAttributes="Bold" FontSize="Header" />
+                                    <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                    <Picker x:Name="EmployerPicker" Margin="0, 5, 0, 10"
+                                            ItemDisplayBinding="{Binding Name}" 
+                                            SelectedItem="{Binding SelectedEmployer}">
+                                        <Picker.Behaviors>
+                                            <toolkit:EventToCommandBehavior Command="{Binding PickerChangedCommand}" EventName="PropertyChanged"/>
+                                            <toolkit:EventToCommandBehavior Command="{Binding UpdateSalaryCommand}" x:Name="UpdateSalaryBehavior" EventName="SelectedIndexChanged"/>
+                                        </Picker.Behaviors>
+                                    </Picker>
 
-                                <Grid ColumnSpacing="10" RowSpacing="10" Margin="0,0,0,10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Start" FontFamily=""
-                                           FontAttributes="Bold" FontSize="Header" />
-                                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="End" FontFamily=""
-                                           FontAttributes="Bold" FontSize="Header" />
-                                    <DatePicker Grid.Row="1" Grid.Column="0" Date="{Binding StartDate}" />
-                                    <TimePicker Grid.Row="1" Grid.Column="1" Time="{Binding StartTime}" />
-                                    <DatePicker Grid.Row="3" Grid.Column="0" Date="{Binding EndDate}" />
-                                    <TimePicker Grid.Row="3" Grid.Column="1" Time="{Binding EndTime}" />
-                                </Grid>
+                                    <Grid ColumnSpacing="10" RowSpacing="10" Margin="0,0,0,10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Start" FontFamily=""
+                                               FontAttributes="Bold" FontSize="Header" />
+                                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="End" FontFamily=""
+                                               FontAttributes="Bold" FontSize="Header" />
+                                        <DatePicker Grid.Row="1" Grid.Column="0" Date="{Binding StartDate}" />
+                                        <TimePicker Grid.Row="1" Grid.Column="1" Time="{Binding StartTime}" />
+                                        <DatePicker Grid.Row="3" Grid.Column="0" Date="{Binding EndDate}" />
+                                        <TimePicker Grid.Row="3" Grid.Column="1" Time="{Binding EndTime}" />
+                                    </Grid>
 
-                                <sf:SfTextInputLayout Hint="Text" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                    <sf:SfTextInputLayout.HintLabelStyle>
-                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                    </sf:SfTextInputLayout.HintLabelStyle>
-                                    <Entry Text="{Binding Time.Text}" />
-                                </sf:SfTextInputLayout>
+                                    <sf:SfTextInputLayout Hint="Text" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry x:Name="TextEntry" Text="{Binding Time.Text}"/>
+                                    </sf:SfTextInputLayout>
 
-                                
-                                <sf:SfTextInputLayout Hint="Salary" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                    <sf:SfTextInputLayout.HintLabelStyle>
-                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                    </sf:SfTextInputLayout.HintLabelStyle>
-                                    <Entry Text="{Binding Time.Salary}" Keyboard="Numeric" />
-                                </sf:SfTextInputLayout>
-                                <sf:SfTextInputLayout Hint="Description" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                    <sf:SfTextInputLayout.HintLabelStyle>
-                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                    </sf:SfTextInputLayout.HintLabelStyle>
-                                    <Editor Text="{Binding Time.Description}" AutoSize="TextChanges"/>
-                                </sf:SfTextInputLayout>
-                            </StackLayout>
-                        </Grid>
-                    </Border>
-                </StackLayout>
+                                    
+                                    <sf:SfTextInputLayout Hint="Salary" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry x:Name="SalaryEntry" Text="{Binding Time.Salary}" Keyboard="Numeric" />
+                                    </sf:SfTextInputLayout>
+                                    <sf:SfTextInputLayout Hint="Description" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Editor x:Name="DescriptionEntry" Text="{Binding Time.Description}" AutoSize="TextChanges" />
+                                    </sf:SfTextInputLayout>
+                                </StackLayout>
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+                </controls:KeyboardContentView>
             </Grid>
         </ScrollView>
     </ContentPage.Content>

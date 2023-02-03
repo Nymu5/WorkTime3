@@ -1,3 +1,4 @@
+#nullable enable
 using MyTime.Model;
 
 namespace MyTime.Core;
@@ -76,5 +77,32 @@ public static class Extensions
     public static string ToHourString(this TimeSpan time)
     {
         return $"{(int)time.TotalHours}:{time.Minutes:00} h";
+    }
+    
+    public static Microsoft.Maui.Controls.View? GetFocusedView(this Microsoft.Maui.Controls.View control)
+    {
+        Microsoft.Maui.Controls.View? view = null;
+        if (control.IsFocused) return control;
+        var result = control.GetScreenCoords();
+        var type = Convert.ChangeType(control, control.GetType());
+
+        Console.WriteLine(control.ToString());
+        return view;
+    }
+    
+    /// <summary>
+    /// A view's default X- and Y-coordinates are LOCAL with respect to the boundaries of its parent,
+    /// and NOT with respect to the screen. This method calculates the SCREEN coordinates of a view.
+    /// The coordinates returned refer to the top left corner of the view.
+    /// </summary>
+    public static Point GetScreenCoords(this VisualElement view)
+    {
+        var result = new Point(view.X, view.Y);
+        while (view.Parent is VisualElement parent)
+        {
+            result = result.Offset(parent.X, parent.Y);
+            view = parent;
+        }
+        return result;
     }
 }

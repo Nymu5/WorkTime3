@@ -24,7 +24,7 @@ public class MyTimeDatabase
         await _database.CreateTableAsync<Settings>();
     }
 
-    public async Task Importer(string path)
+    public async Task ImporterWorkTime(string path)
     {
         await Init();
         _importDatabase ??= new SQLiteAsyncConnection(path, Constants.Flags);
@@ -74,6 +74,40 @@ public class MyTimeDatabase
                 }
 
                 Console.WriteLine($"{oldEmployer.Name}: {itemsOld.Count}");
+            }
+
+            await _importDatabase.CloseAsync();
+            File.Delete(path);
+            await CleanFetch();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await _importDatabase.CloseAsync();
+            await ImporterMyTime(path);
+        }
+    }
+    
+    public async Task ImporterMyTime (string path)
+    {
+        await Init();
+        _importDatabase ??= new SQLiteAsyncConnection(path, Constants.Flags);
+
+        try
+        {
+            List<Employer> importEmployers = await _importDatabase.GetAllWithChildrenAsync<Employer>();
+            foreach (Employer oEmployer in importEmployers)
+            {
+                await this.SaveEmployerAsync(oEmployer, true);
+                List<Time> importTimes =
+                    await _importDatabase.GetAllWithChildrenAsync<Time>(i => i.EmployerId == oEmployer.Id);
+                foreach (Time oTime in importTimes)
+                {
+                    oEmployer.Times.Add(oTime);
+                    await this.SaveTimeAsync(oTime, true);
+                    await this.SaveEmployerAsync(oEmployer, true);
+                }
+                Console.WriteLine($"{oEmployer.Name}: {importTimes.Count}");
             }
 
             await _importDatabase.CloseAsync();

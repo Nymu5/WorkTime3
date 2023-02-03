@@ -32,6 +32,7 @@ public class InvoiceCreatorController : ReactiveObject
         End = reference - TimeSpan.FromDays(1);
 
         CreateInvoiceCommand = new Command(execute: CreateInvoice);
+        ToggleCheckedCommand = new Command(execute: ToggleChecked);
 
         Func<Time, bool> StartFilter(DateTime date) => time => time.Start >= Start;
         var startPredicate = this.WhenAnyValue(x => x.Start)
@@ -64,6 +65,7 @@ public class InvoiceCreatorController : ReactiveObject
     
     // Commands
     public ICommand CreateInvoiceCommand { get; }
+    public ICommand ToggleCheckedCommand { get; }
     
     // Properties
 
@@ -111,7 +113,19 @@ public class InvoiceCreatorController : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _invoiceNumber, value);
     }
     
+    private bool _oneItem;
+    public bool OneItem
+    {
+        get => _oneItem;
+        set => this.RaiseAndSetIfChanged(ref _oneItem, value);
+    }
+    
     // Functions
+    public void ToggleChecked()
+    {
+        OneItem = !OneItem; 
+    }
+    
     public async void CreateInvoice()
     {
         object oMissing = System.Reflection.Missing.Value;
@@ -204,7 +218,8 @@ public class InvoiceCreatorController : ReactiveObject
         textRange = paragraph.AppendText($"\n\n") as WTextRange;
         
         table = section.AddTable();
-        table.ResetCells(Times.Count()+1,5);
+        //table.ResetCells(!OneItem ? Times.Count()+1 : 2,5);
+        table.ResetCells(Times.Count() == 0 ? 1 : (OneItem ? 2 : Times.Count() + 1), 5);
         iwTextRange = table[0, 0].AddParagraph().AppendText("Pos.\n");
         iwTextRange.CharacterFormat.FontName = "Arial";
         iwTextRange.CharacterFormat.FontSize = 11f;
@@ -229,9 +244,15 @@ public class InvoiceCreatorController : ReactiveObject
         iwTextRange.CharacterFormat.Bold = true;
         iwTextRange.OwnerParagraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
         double total = 0; 
+        TimeSpan time = TimeSpan.Zero;
         int spacingBottom = 4;
+
+
+        TimeSpan duration = TimeSpan.Zero;
         for (var i = 0; i < Times.Count(); i++)
         {
+            time += Times[i].Duration;
+            if (OneItem) continue;
             iwTextRange = table[i+1, 0].AddParagraph().AppendText($"{i+1}");
             iwTextRange.CharacterFormat.FontName = "Arial";
             iwTextRange.CharacterFormat.FontSize = 11f;
@@ -253,10 +274,33 @@ public class InvoiceCreatorController : ReactiveObject
             iwTextRange.OwnerParagraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
             total += Times[i].Earned;
         }
+
+        if (OneItem && Times.Count() > 0)
+        {
+            iwTextRange = table[1, 0].AddParagraph().AppendText($"1");
+            iwTextRange.CharacterFormat.FontName = "Arial";
+            iwTextRange.CharacterFormat.FontSize = 11f;
+            iwTextRange.OwnerParagraph.ParagraphFormat.AfterSpacing = spacingBottom;
+            iwTextRange = table[1, 1].AddParagraph().AppendText($"{ItemDescription}");
+            iwTextRange.CharacterFormat.FontName = "Arial";
+            iwTextRange.CharacterFormat.FontSize = 11f;
+            iwTextRange = table[1, 2].AddParagraph().AppendText($"{time.ToHourString()}");
+            iwTextRange.CharacterFormat.FontName = "Arial";
+            iwTextRange.CharacterFormat.FontSize = 11f;
+            iwTextRange.OwnerParagraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+            iwTextRange = table[1, 3].AddParagraph().AppendText($"{Employer.Salary:C}");
+            iwTextRange.CharacterFormat.FontName = "Arial";
+            iwTextRange.CharacterFormat.FontSize = 11f;
+            iwTextRange.OwnerParagraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+            iwTextRange = table[1, 4].AddParagraph().AppendText($"{(Employer.Salary*time.TotalHours):C}");
+            iwTextRange.CharacterFormat.FontName = "Arial";
+            iwTextRange.CharacterFormat.FontSize = 11f;
+            iwTextRange.OwnerParagraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+        }
         foreach (WTableRow wTableRow in table.Rows)
         {
             BorderStyle bottomBorder =
-                wTableRow.GetRowIndex() == Times.Count() ? BorderStyle.Thick : BorderStyle.Cleared;
+                wTableRow.GetRowIndex() == table.Rows.Count-1 ? BorderStyle.Thick : BorderStyle.Cleared;
             foreach (WTableCell wTableCell in wTableRow.Cells)
             {
                 wTableCell.CellFormat.Borders.BorderType = BorderStyle.Cleared;
@@ -272,7 +316,7 @@ public class InvoiceCreatorController : ReactiveObject
         paragraph = section.AddParagraph();
         paragraph.ApplyStyle("Normal");
         paragraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
-        textRange = paragraph.AppendText($"Rechnungsbetrag:    {total:C}") as WTextRange;
+        textRange = paragraph.AppendText($"Rechnungsbetrag:    {(OneItem ? ((Employer.Salary*time.TotalHours).ToString("C")) : total.ToString("C"))}") as WTextRange;
         textRange.CharacterFormat.Bold = true;
         textRange.OwnerParagraph.ParagraphFormat.BeforeSpacing = 8;
 
@@ -280,7 +324,7 @@ public class InvoiceCreatorController : ReactiveObject
         paragraph.ApplyStyle("Normal");
         textRange = paragraph.AppendText($"\n\n") as WTextRange;
         
-        string[] informationText = Utility.StringReplacerProfile(Constants.Settings.InformationText, Constants.Settings).Split("%".ToCharArray());
+        string[] informationText = Utility.StringReplacerProfile(Constants.Settings.InformationText).Split("%".ToCharArray());
         //string[] InformationText = Profile.InformationText
         //    .Replace("%timespan%", Profile.DefaultInvoiceDays.ToString()).Split("%".ToCharArray());
         var counter = 0;
@@ -308,7 +352,7 @@ public class InvoiceCreatorController : ReactiveObject
         iwTextRange.OwnerParagraph.ParagraphFormat.BeforeSpacing = 5;
         iwTextRange.OwnerParagraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
         iwTextRange = table[1, 0].AddParagraph()
-            .AppendText($"{Constants.Settings.BankName}\nKontohinhaber: {Constants.Settings.Name}\nIBAN: {Constants.Settings.BankIban}\nBIC: {Constants.Settings.BankBic}");
+            .AppendText($"{Constants.Settings.BankName}\nKontoinhaber: {Constants.Settings.Name}\nIBAN: {Constants.Settings.BankIban}\nBIC: {Constants.Settings.BankBic}");
         iwTextRange.CharacterFormat.FontName = "Arial";
         iwTextRange.CharacterFormat.FontSize = 9f;
         iwTextRange.CharacterFormat.Bold = false;

@@ -22,7 +22,20 @@ public class ShellController : ReactiveObject
         var settings = await Constants.Database.GetSettingsAsync();
         if (settings.Count == 0)
         {
-            Constants.Settings = new Settings { Id = Settings.GetUuid(), };
+            Constants.Settings = new Settings
+            {
+                Id = Settings.GetUuid(),
+                DefaultInvoiceDays = 10,
+                InformationText = "%Nach § 19 Abs. 1. UStG wird keine Umsatzsteuer berechnet.%\n\nZahlung innerhalb von %due% Tagen ab Rechnungseingang ohne Abzüge an die unten angegebene Bankverbindung.\n\nBank: %bname%\nIBAN: %biban%\nBIC: %bbic%\nKontoinhaber: %name%\n\nMit freundlichen Grüßen\n%name%",
+                AddressLine1 = String.Empty,
+                AddressLine2 = String.Empty,
+                BankBic = String.Empty,
+                BankIban = String.Empty,
+                BankName = String.Empty,
+                LastInvoice = 0,
+                Name = String.Empty,
+                TaxId = String.Empty,
+            };
             await Constants.Database.SaveProfileAsync(Constants.Settings);
         }
         else

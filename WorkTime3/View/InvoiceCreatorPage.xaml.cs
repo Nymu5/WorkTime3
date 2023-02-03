@@ -21,6 +21,12 @@ public partial class InvoiceCreatorPage
                 .DisposeWith(disposable);
             this.Bind(ViewModel, x => x.End, x => x.EndDate.Date)
                 .DisposeWith(disposable);
+            this.Bind(ViewModel, x => x.OneItem, x => x.OneElementCheckbox.IsChecked)
+                .DisposeWith(disposable);
+            this.Bind(ViewModel, x => x.InvoiceNumber, x => x.InvoiceNumber.Text)
+                .DisposeWith(disposable);
+            this.Bind(ViewModel, x => x.ItemDescription, x => x.ItemDescription.Text)
+                .DisposeWith(disposable);
         });
     }
 }

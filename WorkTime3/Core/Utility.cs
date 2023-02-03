@@ -18,9 +18,9 @@ public static class Utility
         });
     }
 
-    public static string StringReplacerProfile(string value, Settings settings)
+    public static string StringReplacerProfile(string value)
     {
-        return string.IsNullOrWhiteSpace(value) ? string.Empty : value.Replace("%timespan%", Constants.Settings.DefaultInvoiceDays.ToString())
+        return string.IsNullOrWhiteSpace(value) ? string.Empty : value.Replace("%due%", Constants.Settings.DefaultInvoiceDays.ToString())
             .Replace("%name%", Constants.Settings.Name.Trim())
             .Replace("%address%", $"{Constants.Settings.AddressLine1.Trim()}\n{Constants.Settings.AddressLine2.Trim()}")
             .Replace("%taxid%", Constants.Settings.TaxId.Trim())

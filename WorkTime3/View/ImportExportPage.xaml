@@ -3,7 +3,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyTime.View.ImportExportPage"
-             xmlns:controller="clr-namespace:MyTime.Controller">
+             xmlns:controller="clr-namespace:MyTime.Controller"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core">
     <ContentPage.BindingContext>
         <controller:ImportExportController />
     </ContentPage.BindingContext>
@@ -31,6 +32,7 @@
                             <Label FontSize="Medium" FontFamily="" FontAttributes="Bold"
                                    Text="Supported Import Operations" />
                             <Label Text="- Importing from N5 WorkTime" />
+                            <Label Text="- Importing from N5 MyTime" />
                             <Button Command="{Binding Import}" Text="Import" Margin="0,30,0,0" />
                         </StackLayout>
                     </Grid>

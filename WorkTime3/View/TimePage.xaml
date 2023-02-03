@@ -113,18 +113,12 @@
                                             </Grid.ColumnDefinitions>
                                             <Grid Grid.Column="0" ZIndex="100">
                                                 <StackLayout Orientation="Vertical">
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <Label Text="{Binding Employer.Name}" FontAttributes="Bold"
-                                                               FontFamily="" FontSize="Medium"
-                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
-                                                        <Label Text=": " FontAttributes="Bold" FontFamily=""
-                                                               FontSize="Medium"
-                                                               IsVisible="{Binding Text, Converter={StaticResource NullOrEmptyConverter}}"
-                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
-                                                        <Label Text="{Binding Text}" FontFamily="" FontSize="Medium"
-                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
-                                                    </StackLayout>
-                                                    <Grid ColumnSpacing="20">
+                                                    <Label Text="{Binding Employer.Name}" FontAttributes="Bold"
+                                                           FontFamily="" FontSize="Medium" LineBreakMode="TailTruncation"
+                                                           TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                                    <Label Text="{Binding Text}" FontFamily=""
+                                                           TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                                    <Grid ColumnSpacing="20" Margin="0,10,0,0">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
                                                             <ColumnDefinition Width="Auto" />

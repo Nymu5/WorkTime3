@@ -53,7 +53,7 @@ public class ImportExportController : ReactiveObject
                 fileStream.Close();
             }
 
-            await Constants.Database.Importer(Constants.ImportDbPath);
+            await Constants.Database.ImporterWorkTime(Constants.ImportDbPath);
         }
         catch (Exception e)
         {

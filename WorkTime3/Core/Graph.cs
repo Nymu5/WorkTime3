@@ -16,14 +16,16 @@ public static class Graph
 
     private static string GetHtmlWithChartConfig(string chartConfig)
     {
-        var inlineStyle = "style=\"width:100%;height:100%;overflow-y:hidden;\"";
+        var inlineStyle = "style=\"width:100%;height:100%;overflow:hidden;\"";
         var chartConfigJsScript = $"<script>{chartConfig}</script>";
         var chartContent = $@"
-<div id=""chart-container"" {inlineStyle}>
-  <canvas id=""chart"" />
+<div style=""position: fixed; height: 100%; width: 100%"">
+    <div id=""chart-container"" {inlineStyle}>
+      <canvas id=""chart"" />
+    </div>
 </div>";
         var document = $@"
-<html style=""width:97%;height:100%;overflow-y:hidden;"">
+<html style=""width:97%;height:100%;overflow:hidden;"">
   <head></head>
   <body {inlineStyle}>
     {chartContent}
@@ -39,32 +41,28 @@ public static class Graph
         var chartConfig = GetEarningsChartConfig(year, times, employers, earningsCube);
         var script = $@"
 var config = {chartConfig};
-config.options.plugins = {{
-    tooltip: {{
-        callbacks: {{
-            label: function(context) {{
-                let label = context.dataset.label || '';
+config.options.plugins.tooltip.callbacks.label = function(context) {{
+    let label = context.dataset.label || '';
 
-                if (label) {{
-                    label += ': ';
-                }}
-                if (context.parsed.y !== null) {{
-                    label += new Intl.NumberFormat('{Constants.LanguageSymbol}', {{ style: 'currency', currency: '{Constants.CurrencySymbol}' }}).format(context.parsed.y);
-                }}
-                return label;
-            }}
-        }}
-    }}
+    if (label) label += ': ';
+    if (context.parsed.y !== null) label += new Intl.NumberFormat('{Constants.LanguageSymbol}', {{ style: 'currency', currency: '{Constants.CurrencySymbol}' }}).format(context.parsed.y);
+    return label;
 }}
-config.options.scales.y.ticks = {{
-    beginAtZero: true,
-    callback: function(value, index, values) {{
-        return new Intl.NumberFormat('{Constants.LanguageSymbol}', {{ style: 'currency', currency: '{Constants.CurrencySymbol}', maximumFractionDigits: 0 }}).format(value.toFixed());
-    }}
+config.options.scales.y.ticks.callback = function(value, index, values) {{
+    return new Intl.NumberFormat('{Constants.LanguageSymbol}', {{ style: 'currency', currency: '{Constants.CurrencySymbol}', maximumFractionDigits: 0 }}).format(value.toFixed());
 }}
 window.onload = function() {{
   {Constants.ChartJs}
-  Chart.defaults.font.size = 30;
+  config.plugins = [{{
+    beforeInit: function(chart) {{
+      const originalFit = chart.legend.fit;
+      chart.legend.fit = function fit() {{
+          originalFit.bind(chart.legend)();
+          this.height += 50;
+      }}
+    }}
+  }}]
+  Chart.defaults.font.size = 40;
   Chart.defaults.plugins.legend.labels.padding = 50
   var canvasContext = document.getElementById(""chart"").getContext(""2d"");
   new Chart(canvasContext, config);
@@ -114,6 +112,26 @@ window.onload = function() {{
             data = GetBarChartData(year, times, employers, earningsCube),
             options = new
             {
+                plugins = new
+                {
+                    tooltip = new
+                    {
+                        callbacks = new
+                        {
+                            
+                        }
+                    },
+                    legend = new
+                    {
+                        labels = new
+                        {
+                            font = new
+                            {
+                                size = 40,
+                            }
+                        }
+                    }
+                },
                 responsive = true,
                 maintainAspectRatio = false,
                 legend = new
@@ -136,8 +154,16 @@ window.onload = function() {{
                         stacked = true,
                         ticks = new
                         {
-                            padding = 20,
+                            beginAtZero = true,
+                            padding = 0,
                         }
+                    }
+                },
+                layout = new
+                {
+                    padding = new
+                    {
+                        top = -40
                     }
                 }
             }
