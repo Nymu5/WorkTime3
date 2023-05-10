@@ -92,7 +92,7 @@ namespace MyTime.Core.WT3Core
 
         public string EndDateStr
         {
-            get => endDate.ToString("dd.MM.yyyy HH:mm");
+            get => $"{endDate:d} {endDate:t}";
         }
 
         private double salary;

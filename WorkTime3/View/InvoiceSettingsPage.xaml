@@ -14,7 +14,6 @@
         <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-
         <ScrollView>
             <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
             <Grid.RowDefinitions>
@@ -23,98 +22,153 @@
             </Grid.RowDefinitions>
             <Label Text="Invoice Settings" FontFamily="" FontSize="Title"
                    Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
-            <StackLayout Orientation="Vertical" Grid.Row="1">
-                <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
-                        StrokeShape="RoundRectangle 20,20,20,20"
-                        Margin="20,10,20,10" Padding="10">
-                    <Border.Shadow>
-                        <Shadow
-                            Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
-                            Offset="0,30" Radius="40" Opacity="0.8" />
-                    </Border.Shadow>
-                    <Grid>
-                        <StackLayout Orientation="Vertical" Margin="10,10,10,10">
-                            <sf:SfTextInputLayout Hint="Information Text" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                <sf:SfTextInputLayout.HintLabelStyle>
-                                    <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                </sf:SfTextInputLayout.HintLabelStyle>
-                                <Editor x:Name="InformationTextEditor" Text="{Binding Settings.InformationText}" AutoSize="TextChanges"/>
-                            </sf:SfTextInputLayout>
-                            <Grid Margin="0,0,0,15">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <StackLayout Orientation="Vertical" Grid.Column="0">
+            <controls:KeyboardContentView Grid.Row="1">
+                <controls:KeyboardContentView.Triggers>
+                    <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference AddressLine2Entry}}" Value="True">
+                        <Setter Property="MoveForKeyboard" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference TaxIdEntry}}" Value="True">
+                        <Setter Property="MoveForKeyboard" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference IntroductionTextEditor}}" Value="True">
+                        <Setter Property="MoveForKeyboard" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference InformationTextEditor}}" Value="True">
+                        <Setter Property="MoveForKeyboard" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference DefaultInvoiceDaysEntry}}" Value="True">
+                        <Setter Property="MoveForKeyboard" Value="True" />
+                    </DataTrigger>
+                </controls:KeyboardContentView.Triggers>
+                <StackLayout Orientation="Vertical" Grid.Row="1">
+                    <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                            StrokeShape="RoundRectangle 20,20,20,20"
+                            Margin="20,10,20,10" Padding="10">
+                        <Border.Shadow>
+                            <Shadow
+                                Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                                Offset="0,30" Radius="40" Opacity="0.8" />
+                        </Border.Shadow>
+                        <Grid>
+                            <StackLayout Orientation="Vertical" Margin="10,10,10,10">
+                                <sf:SfTextInputLayout Hint="Company Name" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                    <sf:SfTextInputLayout.HintLabelStyle>
+                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                    </sf:SfTextInputLayout.HintLabelStyle>
+                                    <Entry x:Name="CompanyNameEntry" Text="{Binding Settings.CompanyName}"/>
+                                </sf:SfTextInputLayout>
+                                <sf:SfTextInputLayout Hint="Company Managing Director" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                    <sf:SfTextInputLayout.HintLabelStyle>
+                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                    </sf:SfTextInputLayout.HintLabelStyle>
+                                    <Entry x:Name="CompanyManagingDirectorEntry" Text="{Binding Settings.ManagingDirector}"/>
+                                </sf:SfTextInputLayout>
+                                <sf:SfTextInputLayout Hint="Address Line 1" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                    <sf:SfTextInputLayout.HintLabelStyle>
+                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                    </sf:SfTextInputLayout.HintLabelStyle>
+                                    <Entry x:Name="AddressLine1Entry" Text="{Binding Settings.AddressLine1}"/>
+                                </sf:SfTextInputLayout>
+                                <sf:SfTextInputLayout Hint="Address Line 2" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                    <sf:SfTextInputLayout.HintLabelStyle>
+                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                    </sf:SfTextInputLayout.HintLabelStyle>
+                                    <Entry x:Name="AddressLine2Entry" Text="{Binding Settings.AddressLine2}"/>
+                                </sf:SfTextInputLayout>
+                                <sf:SfTextInputLayout Hint="Tax ID" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                    <sf:SfTextInputLayout.HintLabelStyle>
+                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                    </sf:SfTextInputLayout.HintLabelStyle>
+                                    <Entry x:Name="TaxIdEntry" Text="{Binding Settings.TaxId}"/>
+                                </sf:SfTextInputLayout>
+                                <sf:SfTextInputLayout Hint="Introduction Text" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                    <sf:SfTextInputLayout.HintLabelStyle>
+                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                    </sf:SfTextInputLayout.HintLabelStyle>
+                                    <Editor x:Name="IntroductionTextEditor" Text="{Binding Settings.IntroductionText}" AutoSize="TextChanges"/>
+                                </sf:SfTextInputLayout>
+                                <sf:SfTextInputLayout Hint="Information Text" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                    <sf:SfTextInputLayout.HintLabelStyle>
+                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                    </sf:SfTextInputLayout.HintLabelStyle>
+                                    <Editor x:Name="InformationTextEditor" Text="{Binding Settings.InformationText}" AutoSize="TextChanges"/>
+                                </sf:SfTextInputLayout>
+                                <Grid Margin="0,0,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Orientation="Vertical" Grid.Column="0">
+                                        
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
+                                            <Label HorizontalTextAlignment="Center" Text="%name%: "
+                                                    FontFamily="" FontAttributes="Bold"/>
+                                            <Label HorizontalTextAlignment="Center" Text="Name"
+                                                    TextColor="Gray"/>
+                                            
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
+                                            <Label HorizontalTextAlignment="Center" Text="%address%: "
+                                                    FontFamily="" FontAttributes="Bold"/>
+                                            <Label HorizontalTextAlignment="Center" Text="Address"
+                                                    TextColor="Gray"/>
+                                            
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
+                                            <Label HorizontalTextAlignment="Center" Text="%taxid%: "
+                                                    FontFamily="" FontAttributes="Bold"/>
+                                            <Label HorizontalTextAlignment="Center" Text="Tax ID"
+                                                    TextColor="Gray"/>
+                                            
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
+                                            <Label HorizontalTextAlignment="Center" Text="%due%: "
+                                                    FontFamily="" FontAttributes="Bold"/>
+                                            <Label HorizontalTextAlignment="Center" Text="Default Days"
+                                                    TextColor="Gray"/>
+                                            
+                                        </StackLayout>
+                                    </StackLayout>
                                     
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
-                                        <Label HorizontalTextAlignment="Center" Text="%name%: "
-                                                FontFamily="" FontAttributes="Bold"/>
-                                        <Label HorizontalTextAlignment="Center" Text="Name"
-                                                TextColor="Gray"/>
-                                        
+                                    <StackLayout Orientation="Vertical" Grid.Column="1">
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
+                                            <Label HorizontalTextAlignment="Center" Text="Bank Name: "
+                                                    TextColor="Gray"/>
+                                            <Label HorizontalTextAlignment="Center" Text="%bname%"
+                                                    FontFamily="" FontAttributes="Bold"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
+                                            <Label HorizontalTextAlignment="Center" Text="Bank IBAN: "
+                                                    TextColor="Gray"/>
+                                            <Label HorizontalTextAlignment="Center" Text="%biban%"
+                                                    FontFamily="" FontAttributes="Bold"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
+                                            <Label HorizontalTextAlignment="Center" Text="Bank BIC: "
+                                                    TextColor="Gray"/>
+                                            <Label HorizontalTextAlignment="Center" Text="%bbic%"
+                                                    FontFamily="" FontAttributes="Bold"/>
+                                        </StackLayout>
                                     </StackLayout>
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
-                                        <Label HorizontalTextAlignment="Center" Text="%address%: "
-                                                FontFamily="" FontAttributes="Bold"/>
-                                        <Label HorizontalTextAlignment="Center" Text="Address"
-                                                TextColor="Gray"/>
-                                        
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
-                                        <Label HorizontalTextAlignment="Center" Text="%taxid%: "
-                                                FontFamily="" FontAttributes="Bold"/>
-                                        <Label HorizontalTextAlignment="Center" Text="Tax ID"
-                                                TextColor="Gray"/>
-                                        
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
-                                        <Label HorizontalTextAlignment="Center" Text="%due%: "
-                                                FontFamily="" FontAttributes="Bold"/>
-                                        <Label HorizontalTextAlignment="Center" Text="Default Days"
-                                                TextColor="Gray"/>
-                                        
-                                    </StackLayout>
-                                </StackLayout>
-                                
-                                <StackLayout Orientation="Vertical" Grid.Column="1">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
-                                        <Label HorizontalTextAlignment="Center" Text="Bank Name: "
-                                                TextColor="Gray"/>
-                                        <Label HorizontalTextAlignment="Center" Text="%bname%"
-                                                FontFamily="" FontAttributes="Bold"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
-                                        <Label HorizontalTextAlignment="Center" Text="Bank IBAN: "
-                                                TextColor="Gray"/>
-                                        <Label HorizontalTextAlignment="Center" Text="%biban%"
-                                                FontFamily="" FontAttributes="Bold"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
-                                        <Label HorizontalTextAlignment="Center" Text="Bank BIC: "
-                                                TextColor="Gray"/>
-                                        <Label HorizontalTextAlignment="Center" Text="%bbic%"
-                                                FontFamily="" FontAttributes="Bold"/>
-                                    </StackLayout>
-                                </StackLayout>
-                                
-                            </Grid>
-                            <sf:SfTextInputLayout Hint="Default Invoice Days" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                <sf:SfTextInputLayout.HintLabelStyle>
-                                    <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                </sf:SfTextInputLayout.HintLabelStyle>
-                                <Entry x:Name="DefaultInvoiceDaysEntry" Text="{Binding Settings.DefaultInvoiceDays}" Keyboard="Numeric"/>
-                            </sf:SfTextInputLayout>
-                            <sf:SfTextInputLayout Hint="Last Invoice Number" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                <sf:SfTextInputLayout.HintLabelStyle>
-                                    <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                </sf:SfTextInputLayout.HintLabelStyle>
-                                <Entry x:Name="LastInvoiceNumberEntry" IsEnabled="False" Text="{Binding Settings.LastInvoice}"/>
-                            </sf:SfTextInputLayout>
-                        </StackLayout>
-                    </Grid>
-                </Border>
-            </StackLayout>
+                                    
+                                </Grid>
+                                <sf:SfTextInputLayout Hint="Default Invoice Days" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                    <sf:SfTextInputLayout.HintLabelStyle>
+                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                    </sf:SfTextInputLayout.HintLabelStyle>
+                                    <Entry x:Name="DefaultInvoiceDaysEntry" Text="{Binding Settings.DefaultInvoiceDays}" Keyboard="Numeric"/>
+                                </sf:SfTextInputLayout>
+                                <sf:SfTextInputLayout Hint="Last Invoice Number" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                    <sf:SfTextInputLayout.HintLabelStyle>
+                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                    </sf:SfTextInputLayout.HintLabelStyle>
+                                    <Entry x:Name="LastInvoiceNumberEntry" IsEnabled="False" Text="{Binding Settings.LastInvoice}"/>
+                                </sf:SfTextInputLayout>
+                            </StackLayout>
+                        </Grid>
+                    </Border>
+                </StackLayout>
+            </controls:KeyboardContentView>
         </Grid>
 
         </ScrollView>

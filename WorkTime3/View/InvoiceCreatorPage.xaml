@@ -4,149 +4,198 @@
                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                           xmlns:controller="clr-namespace:MyTime.Controller"
                           xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
-                          x:Class="MyTime.View.InvoiceCreatorPage">
+                          x:Class="MyTime.View.InvoiceCreatorPage"
+                          xmlns:sf="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
+                          xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                          xmlns:controls="clr-namespace:MyTime.Controls">
     <ContentPage.BindingContext>
         <controller:InvoiceCreatorController />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Create" Command="{Binding CreateInvoiceCommand}" />
+        <controls:BindableToolbarItem x:Name="CreateToolbarItemR" Text="Create" Command="{Binding CreateInvoiceCommand}" />
+        <controls:BindableToolbarItem x:Name="SaveToolbarItemR" Text="Save" Command="{Binding SaveInvoiceCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ScrollView x:Name="ScrollView">
-            <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}"
-              Padding="10,0,10,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Label Text="Create Invoice" FontFamily="" FontSize="Title"
-                       Margin="20,50,20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
-
-                <Grid Grid.Row="1">
+        <Grid>
+            <Grid IsVisible="False">
+                <Switch x:Name="ToolbarHelper" Toggled="ToolbarHelper_OnToggled" />
+            </Grid>
+            <ScrollView x:Name="PdfGrid">
+                <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}"
+                      Padding="10,0,10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
+                    <Label Text="Create Invoice" FontFamily="" FontSize="Title"
+                           Margin="20,50,20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
+                    <controls:KeyboardContentView Grid.Row="1">
+                        <controls:KeyboardContentView.Triggers>
+                            <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference VatEntry}}" Value="True">
+                                <Setter Property="MoveForKeyboard" Value="True" />
+                            </DataTrigger>
+                        </controls:KeyboardContentView.Triggers>
+                        <StackLayout Orientation="Vertical">
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0" Grid.Column="0"
-                            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
-                            StrokeShape="RoundRectangle 20,20,20,20"
-                            Margin="5,5,5,5" Padding="10">
-                        <Border.Shadow>
-                            <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
-                                    Offset="0,30" Radius="40" Opacity="0.8" />
-                        </Border.Shadow>
-                        <Grid>
-                            <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="FillAndExpand" Spacing="10" >
-                                <Grid RowSpacing="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0"
+                                        BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                                        StrokeShape="RoundRectangle 20,20,20,20"
+                                        Margin="5,5,5,5" Padding="10">
+                                    <Border.Shadow>
+                                        <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
+                                                Offset="0,30" Radius="40" Opacity="0.8" />
+                                    </Border.Shadow>
+                                    <Grid>
+                                        <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="FillAndExpand" Spacing="10" >
+                                            <Grid RowSpacing="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid Grid.Row="0" ColumnSpacing="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" /> 
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Label Margin="0,0,0,5" Text="Service Period" FontFamily="" FontAttributes="Bold"
+                                                           Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" />
+                                                    <DatePicker x:Name="StartDate" Grid.Row="1" Grid.Column="0"/>
+                                                    <DatePicker x:Name="EndDate" Grid.Row="1" Grid.Column="1"/>
+                                                </Grid>
+                                        
+                                                <StackLayout Grid.Row="1" Grid.ColumnSpan="2">
+                                                    <Label Margin="0,0,0,5" Text="Invoice #" FontFamily="" FontAttributes="Bold" />
+                                                    <Entry x:Name="InvoiceNumber" />
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Label Text="Last Invoice: " TextColor="Gray" FontSize="Micro" />
+                                                        <Label x:Name="LastInvoiceLabel"  TextColor="Gray" FontSize="Micro" />
+                                                    </StackLayout>
+                                                    
+                                                </StackLayout>
+                                                <StackLayout Grid.Row="2">
+                                                    <Label Margin="0,0,0,10" Text="Item Description" FontFamily="" FontAttributes="Bold" />
+                                                    <Entry x:Name="ItemDescription" />
+                                                </StackLayout>
+                                                <Grid Grid.Row="3">
+                                                    <Grid.Triggers>
+                                                        <DataTrigger TargetType="Grid" Binding="{Binding Path=IsChecked, Source={x:Reference OneElementCheckbox}}" Value="True">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                        </DataTrigger>
+                                                    </Grid.Triggers>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
+                                                        <Label HorizontalTextAlignment="Center" Text="%date%: "
+                                                               FontFamily="" FontAttributes="Bold"/>
+                                                        <Label HorizontalTextAlignment="Center" Text="Time Date"
+                                                               TextColor="Gray"/>
+                                                    </StackLayout>
+                                                    <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
+                                                        <Label HorizontalTextAlignment="Center" Text="Time Text: "
+                                                               TextColor="Gray"/>
+                                                        <Label HorizontalTextAlignment="Center" Text="%text%"
+                                                               FontFamily="" FontAttributes="Bold"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </Grid>
+                                            <StackLayout Orientation="Horizontal" Margin="0,-10" Padding="0">
+                                                <CheckBox x:Name="OneElementCheckbox" Margin="-12,0,0,0"  />
+                                                <Label Text="Combine to one item" VerticalOptions="Center" >
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ToggleCheckedCommand}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal" Margin="0,-10" Padding="0">
+                                                <CheckBox x:Name="VatCheckbox" Margin="-12,0,0,0"  />
+                                                <Label Text="Include VAT" VerticalOptions="Center" >
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ToggleVatCommand}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </StackLayout>
+                                            <StackLayout IsVisible="False">
+                                                <StackLayout.Triggers>
+                                                    <DataTrigger TargetType="StackLayout" Binding="{Binding IsChecked, Source={x:Reference VatCheckbox}}" Value="True">
+                                                        <Setter Property="IsVisible" Value="True" />
+                                                    </DataTrigger>
+                                                </StackLayout.Triggers>
+                                                <Label Margin="0,0,0,10" Text="Item Description" FontFamily="" FontAttributes="Bold" />
+                                                <Grid>
+                                                    <Label Text="%" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontSize="Large" Margin="0,0,10,0" IsEnabled="False" FontFamily="" FontAttributes="Bold" />
+                                                    <Entry x:Name="VatEntry" Placeholder="19" Keyboard="Numeric" />
+                                                </Grid>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal" Margin="0,-10" Padding="0">
+                                                <CheckBox x:Name="ContactNameCheckbox" Margin="-12,0,0,0"  />
+                                                <Label Text="Include Contact Name" VerticalOptions="Center" >
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ToggleContactNameCommand}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0" Grid.Column="0"
+                                        BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                                        StrokeShape="RoundRectangle 20,20,20,20"
+                                        Margin="5,5,5,5" Padding="0">
+                                    <Border.Shadow>
+                                        <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
+                                                Offset="0,30" Radius="40" Opacity="0.8" />
+                                    </Border.Shadow>
+                                    <Grid>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" /> 
+                                            <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <Label Margin="0,0,0,5" Text="Service Period" FontFamily="" FontAttributes="Bold"
-                                               Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" />
-                                        <DatePicker x:Name="StartDate" Grid.Row="1" Grid.Column="0"/>
-                                        <DatePicker x:Name="EndDate" Grid.Row="1" Grid.Column="1"/>
-                                    </Grid>
-                            
-                                    <StackLayout Grid.Row="1" Grid.ColumnSpan="2">
-                                        <Label Margin="0,0,0,5" Text="Invoice #" FontFamily="" FontAttributes="Bold" />
-                                        <Entry x:Name="InvoiceNumber" />
-                                    </StackLayout>
-                                    <StackLayout Grid.Row="2">
-                                        <Label Margin="0,0,0,10" Text="Item Description" FontFamily="" FontAttributes="Bold" />
-                                        <Entry x:Name="ItemDescription" />
-                                    </StackLayout>
-                                    <Grid Grid.Row="3">
-                                        <Grid.Triggers>
-                                            <DataTrigger TargetType="Grid" Binding="{Binding Path=IsChecked, Source={x:Reference OneElementCheckbox}}" Value="True">
-                                                <Setter Property="IsVisible" Value="False" />
-                                            </DataTrigger>
-                                        </Grid.Triggers>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Column="0">
-                                            <Label HorizontalTextAlignment="Center" Text="%date%: "
-                                                   FontFamily="" FontAttributes="Bold"/>
-                                            <Label HorizontalTextAlignment="Center" Text="Time Date"
-                                                   TextColor="Gray"/>
-                                            
+                                        <StackLayout Margin="20" Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                                            <Label Text="Employer Details" FontFamily="" FontAttributes="Bold"
+                                                   FontSize="Medium" />
+                                            <Label x:Name="EmployerDetailString" />
                                         </StackLayout>
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Column="1">
-                                            <Label HorizontalTextAlignment="Center" Text="Time Text: "
-                                                   TextColor="Gray"/>
-                                            <Label HorizontalTextAlignment="Center" Text="%text%"
-                                                   FontFamily="" FontAttributes="Bold"/>
+                                        <StackLayout Margin="20" Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+                                            <Label Text="Personal Details" FontFamily="" FontAttributes="Bold"
+                                                   FontSize="Medium" />
+                                            <Label x:Name="PersonalDetailString" />
+                                        </StackLayout>
+                                        <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="20" HorizontalOptions="Start" Spacing="10" >
+                                            <Label Text="Bank Details" FontFamily="" FontAttributes="Bold"
+                                                   FontSize="Medium" />
+                                            <Label x:Name="BankDetailString" />
                                         </StackLayout>
                                     </Grid>
-                                </Grid>
-                                <StackLayout Orientation="Horizontal" Margin="0" Padding="0">
-                                    <CheckBox x:Name="OneElementCheckbox" Margin="-12,0,0,0"  />
-                                    <Label Text="Combine to one item" VerticalOptions="Center" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ToggleCheckedCommand}" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout>
-                            </StackLayout>
-                        </Grid>
-                    </Border>
+                                </Border>
+                            </Grid>
+                        </StackLayout>
+                    </controls:KeyboardContentView>
                 </Grid>
-                <Grid Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <Border Grid.Row="0" Grid.Column="0"
-                            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
-                            StrokeShape="RoundRectangle 20,20,20,20"
-                            Margin="5,5,5,5" Padding="0">
-                        <Border.Shadow>
-                            <Shadow Brush="{AppThemeBinding Dark=Transparent, Light={StaticResource ShadowLight}}"
-                                    Offset="0,30" Radius="40" Opacity="0.8" />
-                        </Border.Shadow>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <StackLayout Margin="20" Grid.Row="0" Grid.Column="0" Orientation="Vertical">
-                                <Label Text="Employer Details" FontFamily="" FontAttributes="Bold"
-                                       FontSize="Medium" />
-                                <Label x:Name="EmployerDetailString" />
-                            </StackLayout>
-                            <StackLayout Margin="20" Grid.Row="0" Grid.Column="1" Orientation="Vertical">
-                                <Label Text="Personal Details" FontFamily="" FontAttributes="Bold"
-                                       FontSize="Medium" />
-                                <Label x:Name="PersonalDetailString" />
-                            </StackLayout>
-                            <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="20" HorizontalOptions="Start" Spacing="10" >
-                                <Label Text="Bank Details" FontFamily="" FontAttributes="Bold"
-                                       FontSize="Medium" />
-                                <Label x:Name="BankDetailString" />
-                            </StackLayout>
-                        </Grid>
-                    </Border>
-                </Grid>
-
-            </Grid>
-        </ScrollView>
+            </ScrollView>
+            <sf:SfPdfViewer x:Name="PdfViewer" ShowScrollHead="False"  />
+        </Grid>
     </ContentPage.Content>
 </rxui:ReactiveContentPage>

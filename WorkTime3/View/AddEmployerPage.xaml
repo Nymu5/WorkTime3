@@ -7,7 +7,8 @@
                           x:Class="MyTime.View.AddEmployerPage"
                           xmlns:rxui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
                           Title="Add Employer"
-                          xmlns:sf="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core">
+                          xmlns:sf="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+                          xmlns:controls="clr-namespace:MyTime.Controls">
     <ContentPage.BindingContext>
         <controller:AddEmployerController />
     </ContentPage.BindingContext>
@@ -24,61 +25,74 @@
                 </Grid.RowDefinitions>
                 <Label x:Name="HeaderLabel" FontFamily="" FontSize="Title"
                        Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
-                <StackLayout Orientation="Vertical" Grid.Row="1">
-                    <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
-                            StrokeShape="RoundRectangle 20,20,20,20"
-                            Margin="20,10,20,10" Padding="10">
-                        <Border.Shadow>
-                            <Shadow
-                                Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
-                                Offset="0,30" Radius="40" Opacity="0.8" />
-                        </Border.Shadow>
-                        <Grid>
-                            <StackLayout Orientation="Vertical" Margin="10,10,10,10">
-                                <sf:SfTextInputLayout Hint="Name" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                    <sf:SfTextInputLayout.HintLabelStyle>
-                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                    </sf:SfTextInputLayout.HintLabelStyle>
-                                    <Entry Margin="0, 5, 0, 10" x:Name="NameLabel">
-                                        <Entry.Behaviors>
-                                            <toolkit:EventToCommandBehavior Command="{Binding EmployerNameChangedCommand}" EventName="TextChanged" />
-                                        </Entry.Behaviors>
-                                    </Entry>      
-                                </sf:SfTextInputLayout>                   
-                                <sf:SfTextInputLayout Hint="Employer #" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                    <sf:SfTextInputLayout.HintLabelStyle>
-                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                    </sf:SfTextInputLayout.HintLabelStyle>
-                                    <Entry x:Name="EmployerNumberLabel" />
-                                </sf:SfTextInputLayout>
-                                <sf:SfTextInputLayout Hint="Salary" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                    <sf:SfTextInputLayout.HintLabelStyle>
-                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                    </sf:SfTextInputLayout.HintLabelStyle>
-                                    <Entry x:Name="SalaryLabel" Keyboard="Numeric" />
-                                </sf:SfTextInputLayout>
-                                <sf:SfTextInputLayout Hint="Address Line 1" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                    <sf:SfTextInputLayout.HintLabelStyle>
-                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                    </sf:SfTextInputLayout.HintLabelStyle>
-                                    <Entry x:Name="AddressLine1Label" />
-                                </sf:SfTextInputLayout>
-                                <sf:SfTextInputLayout Hint="Address Line 2" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                    <sf:SfTextInputLayout.HintLabelStyle>
-                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                    </sf:SfTextInputLayout.HintLabelStyle>
-                                    <Entry x:Name="AddressLine2Label" />
-                                </sf:SfTextInputLayout>
-                                <sf:SfTextInputLayout Hint="Description" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                    <sf:SfTextInputLayout.HintLabelStyle>
-                                        <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                    </sf:SfTextInputLayout.HintLabelStyle>
-                                    <Editor x:Name="DescriptionLabel" AutoSize="TextChanges"/>
-                                </sf:SfTextInputLayout>
-                            </StackLayout>
-                        </Grid>
-                    </Border>
-                </StackLayout>
+                <controls:KeyboardContentView Grid.Row="1">
+                    <controls:KeyboardContentView.Triggers>
+                        <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference AddressLine1Label}}" Value="True">
+                            <Setter Property="MoveForKeyboard" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference AddressLine2Label}}" Value="True">
+                            <Setter Property="MoveForKeyboard" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="controls:KeyboardContentView" Binding="{Binding Path=IsFocused, Source={x:Reference DescriptionLabel}}" Value="True">
+                            <Setter Property="MoveForKeyboard" Value="True" />
+                        </DataTrigger>
+                    </controls:KeyboardContentView.Triggers>
+                    <StackLayout Orientation="Vertical">
+                        <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                                StrokeShape="RoundRectangle 20,20,20,20"
+                                Margin="20,10,20,10" Padding="10">
+                            <Border.Shadow>
+                                <Shadow
+                                    Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                                    Offset="0,30" Radius="40" Opacity="0.8" />
+                            </Border.Shadow>
+                            <Grid>
+                                <StackLayout Orientation="Vertical" Margin="10,10,10,10">
+                                    <sf:SfTextInputLayout Hint="Name" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry Margin="0, 5, 0, 10" x:Name="NameLabel">
+                                            <Entry.Behaviors>
+                                                <toolkit:EventToCommandBehavior Command="{Binding EmployerNameChangedCommand}" EventName="TextChanged" />
+                                            </Entry.Behaviors>
+                                        </Entry>      
+                                    </sf:SfTextInputLayout>                   
+                                    <sf:SfTextInputLayout Hint="Employer #" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry x:Name="EmployerNumberLabel" />
+                                    </sf:SfTextInputLayout>
+                                    <sf:SfTextInputLayout Hint="Salary" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry x:Name="SalaryLabel" Keyboard="Numeric" />
+                                    </sf:SfTextInputLayout>
+                                    <sf:SfTextInputLayout Hint="Address Line 1" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry x:Name="AddressLine1Label" />
+                                    </sf:SfTextInputLayout>
+                                    <sf:SfTextInputLayout Hint="Address Line 2" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry x:Name="AddressLine2Label" />
+                                    </sf:SfTextInputLayout>
+                                    <sf:SfTextInputLayout Hint="Description" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Editor x:Name="DescriptionLabel" AutoSize="TextChanges"/>
+                                    </sf:SfTextInputLayout>
+                                </StackLayout>
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+                </controls:KeyboardContentView>
             </Grid>
         </ScrollView>
     </ContentPage.Content>

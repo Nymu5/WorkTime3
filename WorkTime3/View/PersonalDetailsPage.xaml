@@ -4,7 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyTime.View.PersonalDetailsPage"
              xmlns:controller="clr-namespace:MyTime.Controller"
-             xmlns:sf="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core">
+             xmlns:sf="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:controls="clr-namespace:MyTime.Controls">
     <ContentPage.BindingContext>
         <controller:PersonalDetailsController />
     </ContentPage.BindingContext>
@@ -12,52 +13,50 @@
         <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label Text="Personal Details" FontFamily="" FontSize="Title"
-                   Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
-            <StackLayout Orientation="Vertical" Grid.Row="1">
-                <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
-                        StrokeShape="RoundRectangle 20,20,20,20"
-                        Margin="20,10,20,10" Padding="10">
-                    <Border.Shadow>
-                        <Shadow
-                            Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
-                            Offset="0,30" Radius="40" Opacity="0.8" />
-                    </Border.Shadow>
-                    <Grid>
-                        <StackLayout Orientation="Vertical" Margin="10,10,10,10">
-                            <sf:SfTextInputLayout Hint="Name" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                <sf:SfTextInputLayout.HintLabelStyle>
-                                    <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                </sf:SfTextInputLayout.HintLabelStyle>
-                                <Entry x:Name="NameEntry" Text="{Binding Settings.Name}"/>
-                            </sf:SfTextInputLayout>
-                            <sf:SfTextInputLayout Hint="Tax ID" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                <sf:SfTextInputLayout.HintLabelStyle>
-                                    <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                </sf:SfTextInputLayout.HintLabelStyle>
-                                <Entry x:Name="TaxIdEntry" Text="{Binding Settings.TaxId}"/>
-                            </sf:SfTextInputLayout>
-                            <sf:SfTextInputLayout Hint="Address Line 1" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                <sf:SfTextInputLayout.HintLabelStyle>
-                                    <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                </sf:SfTextInputLayout.HintLabelStyle>
-                                <Entry x:Name="AddressLine1Entry" Text="{Binding Settings.AddressLine1}"/>
-                            </sf:SfTextInputLayout>
-                            <sf:SfTextInputLayout Hint="Address Line 2" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
-                                <sf:SfTextInputLayout.HintLabelStyle>
-                                    <sf:LabelStyle FontSize="10" TextColor="Gray" />
-                                </sf:SfTextInputLayout.HintLabelStyle>
-                                <Entry x:Name="AddressLine2Entry" Text="{Binding Settings.AddressLine2}"/>
-                            </sf:SfTextInputLayout>
-                        </StackLayout>
-                    </Grid>
-                </Border>
-            </StackLayout>
-        </Grid>
+        <ScrollView>
+            <Grid Background="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource BackgroundLight}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Text="Personal Details" FontFamily="" FontSize="Title"
+                       Margin="20,50" Grid.Row="0" HorizontalTextAlignment="Center" />
+                <controls:KeyboardContentView Grid.Row="1">
+                    <StackLayout Orientation="Vertical" Grid.Row="1">
+                        <Border BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}, Light={StaticResource White}}"
+                                StrokeShape="RoundRectangle 20,20,20,20"
+                                Margin="20,10,20,10" Padding="10">
+                            <Border.Shadow>
+                                <Shadow
+                                    Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
+                                    Offset="0,30" Radius="40" Opacity="0.8" />
+                            </Border.Shadow>
+                            <Grid>
+                                <StackLayout Orientation="Vertical" Margin="10,10,10,10">
+                                    <sf:SfTextInputLayout Hint="Name" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry x:Name="NameEntry" Text="{Binding Settings.Name}"/>
+                                    </sf:SfTextInputLayout>
+                                    <sf:SfTextInputLayout Hint="Phone Number" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry x:Name="PhoneNumberEntry" Text="{Binding Settings.PhoneNumber}"/>
+                                    </sf:SfTextInputLayout>
+                                    <sf:SfTextInputLayout Hint="Email Address" ContainerType="Outlined" OutlineCornerRadius="8" InputViewPadding="15,0,15,0" ContainerBackground="Transparent">
+                                        <sf:SfTextInputLayout.HintLabelStyle>
+                                            <sf:LabelStyle FontSize="10" TextColor="Gray" />
+                                        </sf:SfTextInputLayout.HintLabelStyle>
+                                        <Entry x:Name="EmailAddressEntry" Text="{Binding Settings.EmailAddress}"/>
+                                    </sf:SfTextInputLayout>
+                                </StackLayout>
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+                </controls:KeyboardContentView>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

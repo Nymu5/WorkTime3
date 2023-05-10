@@ -32,9 +32,15 @@ public class ShellController : ReactiveObject
                 BankBic = String.Empty,
                 BankIban = String.Empty,
                 BankName = String.Empty,
-                LastInvoice = 0,
+                LastInvoice = String.Empty,
                 Name = String.Empty,
                 TaxId = String.Empty,
+                CompanyName = String.Empty,
+                PhoneNumber = String.Empty,
+                EmailAddress = String.Empty,
+                ContactName = String.Empty,
+                ManagingDirector = String.Empty,
+                IntroductionText = String.Empty,
             };
             await Constants.Database.SaveProfileAsync(Constants.Settings);
         }

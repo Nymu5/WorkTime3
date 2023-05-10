@@ -91,9 +91,8 @@ public class Time : ReactiveObject
 
     [Ignore] public TimeSpan Duration => End - Start;
     [Ignore] public string DurationString => $"{(int)Duration.TotalHours}:{Duration.Minutes:00} h";
-    [Ignore] public string TimeString => $"{Start:dd.MM.yyyy HH:mm} - {End:dd.MM.yyyy HH:mm}";
-    [Ignore] public string TimeStartString => $"{Start:dd.MM.yyyy HH:mm}";
-    [Ignore] public string TimeEndString => $"{End:dd.MM.yyyy HH:mm}";
+    [Ignore] public string TimeStartString => $"{Start:d} {Start:t}";
+    [Ignore] public string TimeEndString => $"{End:d} {End:t}";
 
     [Ignore] public double Earned => Duration.TotalHours * Salary;
     

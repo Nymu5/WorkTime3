@@ -11,10 +11,35 @@ public static class Utility
         await using var fileStream = File.Create(path);
         stream.Seek(0, SeekOrigin.Begin);
         await stream.CopyToAsync(fileStream);
-        await Share.RequestAsync(new ShareFileRequest
+        await Microsoft.Maui.ApplicationModel.DataTransfer.Share.RequestAsync(new ShareFileRequest
         {
             Title = "Share Data",
             File = new ShareFile(path)
+        });
+    }
+
+    public static async Task<string> Save(string documentName, MemoryStream stream)
+    {
+        var directory = documentName.Split("/");
+        var workingPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        for (int i = 0; i < directory.Length - 1; i++)
+        {
+            workingPath += $"/{directory[i]}";
+            if (!Directory.Exists(workingPath)) Directory.CreateDirectory(workingPath);
+        }
+        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), documentName);
+        await using var fileStrem = File.Create(path);
+        stream.Seek(0, SeekOrigin.Begin);
+        await stream.CopyToAsync(fileStrem);
+        return path;
+    }
+
+    public static async Task Share(string path)
+    {
+        await Microsoft.Maui.ApplicationModel.DataTransfer.Share.RequestAsync(new ShareFileRequest
+        {
+            Title = "Share Data",
+            File = new ShareFile(path),
         });
     }
 
@@ -31,7 +56,7 @@ public static class Utility
     
     public static string StringReplacerItem(String value, Time time)
     {
-        return string.IsNullOrWhiteSpace(value) ? string.Empty : value.Replace("%date%", time.Start.ToString("dd.MM.yyyy"))
+        return string.IsNullOrWhiteSpace(value) ? string.Empty : value.Replace("%date%", time.Start.ToString("d"))
             .Replace("%text%", string.IsNullOrWhiteSpace(time.Text) ? string.Empty : time.Text.Trim());
     }
 }

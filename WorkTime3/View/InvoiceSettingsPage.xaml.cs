@@ -8,9 +8,9 @@ public partial class InvoiceSettingsPage
     {
         InitializeComponent();
 
-        this.WhenActivated(_ =>
+        this.WhenActivated(disposable =>
         {
-
+            
         });
     }
 }
