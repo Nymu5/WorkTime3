@@ -79,7 +79,7 @@
             </ImageButton>
             <RefreshView x:Name="RefreshView" Grid.Row="1" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
                 <ContentView>
-                    <CollectionView x:Name="TimesCollection" SelectionMode="Single" 
+                    <CollectionView x:Name="TimesCollection" SelectionMode="Single"
                                     SelectionChangedCommand="{Binding SelectionChangedCommand}"
                                     SelectedItem="{Binding SelectedTime}">
                         <CollectionView.EmptyView>
@@ -99,14 +99,45 @@
                                     <Border
                                         BackgroundColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Gray600}}"
                                         StrokeShape="RoundRectangle 20,20,20,20"
-                                        Margin="20,10,20,0" Padding="10" StrokeThickness="2" ZIndex="0">
+                                        Margin="20,10,20,0" Padding="0" StrokeThickness="2" ZIndex="0">
                                         <Border.Shadow>
                                             <Shadow
                                                 Brush="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource ShadowLight}}"
                                                 Offset="0,5" Radius="10" Opacity="0.8" />
 
                                         </Border.Shadow>
-                                        <Grid Padding="10,2,10,2">
+                                        <Grid Padding="20,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" Source="icon_arrow_right_sm.png" HeightRequest="20" />
+                                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Employer.Name}" FontAttributes="Bold"
+                                                           FontFamily="" FontSize="Medium" LineBreakMode="TailTruncation"
+                                                           TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Text}" FontFamily=""
+                                                    TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}" Padding="0,0,0,10"/>
+                                            <Label Grid.Row="2" Grid.Column="0"
+                                                               Text="{Binding TimeStartString}"
+                                                               TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                            <Label Grid.Row="3" Grid.Column="0"
+                                                    Text="{Binding TimeEndString}"
+                                                    TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                            <Label Grid.Row="2" Grid.Column="1"
+                                                    Text="{Binding DurationString}"
+                                                    TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                            <Label Grid.Row="3" Grid.Column="1"
+                                                    Text="{Binding EarnedString}"
+                                                    TextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+                                        </Grid>
+                                        <!--<Grid Padding="10,2,10,2">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="Auto" />
@@ -143,7 +174,7 @@
                                                 </StackLayout>
                                             </Grid>
                                             <Image Grid.Column="1" Source="icon_arrow_right_sm.png" HeightRequest="20" />
-                                        </Grid>
+                                        </Grid>-->
                                     </Border>
                                 </Grid>
                             </DataTemplate>
